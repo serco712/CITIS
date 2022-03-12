@@ -5,8 +5,8 @@ public class SubwayStation extends Station {
 	private static int subwayStationCounter;
 	private static final TransportType TYPE = TransportType.SUBWAY;
 
-	SubwayStation(String id, String name, int x, int y) {
-		super(id, name, x, y, TYPE);
+	SubwayStation(String id, String name, int x, int y, Line l) {
+		super(id, name, x, y, TYPE, l);
 	}
 	
 	public void onEnter() {

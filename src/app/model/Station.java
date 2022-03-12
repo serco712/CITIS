@@ -3,12 +3,16 @@ package app.model;
 public abstract class Station extends CITISObject {
 	
 	private String name;
+	
 	private int xCoor, yCoor;
+	
 	TransportType transport;
 
 	Station(String id, String name, int x, int y,
-			TransportType transport) {
+			TransportType transport, Line l) {
 		super(id);
+		if (l.getTransport().equals(transport))
+			throw new IllegalArgumentException("The types doesn't match");
 		this.name = name;
 		xCoor = x;
 		yCoor = y;
