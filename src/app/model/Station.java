@@ -7,10 +7,9 @@ public abstract class Station extends CITISObject {
 	private String name;
 	private int xCoor, yCoor;
 	TransportType transport;
+	private List<Line> lines;
 	
-	List<Line> lines;
-	
-	Station(String id, String name, int x, int y,
+	public Station(String id, String name, int x, int y,
 			TransportType transport, List<Line> l) {
 		super(id);
 		this.name = name;
@@ -18,11 +17,10 @@ public abstract class Station extends CITISObject {
 		yCoor = y;
 		this.transport = transport;
 		lines = l;
+		for(Line li : lines)
+			li.addToLine(this);
 	}
 	
-	public abstract void onEnter();
-	public abstract void onDelete();
-	public abstract int getAmount();
 	
 	public String getName() {
 		return name;

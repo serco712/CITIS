@@ -21,10 +21,12 @@ public class Line extends CITISObject {
 		return stops.size();
 	}
 	
-	public int getNumLines() {
+	@Override
+	public int getAmount() {
 		return numLines;
 	}
 	
+	@Override
 	public void onEnter() {
 		numLines++;
 	}

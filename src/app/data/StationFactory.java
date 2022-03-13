@@ -1,6 +1,6 @@
 package app.data;
 
-import app.model.CITISObject;
+import app.model.CITISMap;
 import app.model.Station;
 
 public abstract class StationFactory extends Factory {
@@ -9,10 +9,10 @@ public abstract class StationFactory extends Factory {
 		super(type);
 	}
 
-	@Override
-	protected CITISObject createObject(String[] para) {
-		return createStation(para);
+
+	protected void createObject(String[] para, CITISMap cm) {
+		cm.addStation(createStation(para, cm));
 	}
 	
-	protected abstract Station createStation (String[] para);
+	protected abstract Station createStation (String[] para, CITISMap cm);
 }

@@ -1,6 +1,8 @@
 package app.data;
 
-import app.model.CITISObject;
+
+
+import app.model.CITISMap;
 import app.model.Line;
 import app.model.TransportType;
 
@@ -13,8 +15,8 @@ public class LineFactory extends Factory {
 	}
 
 	@Override
-	protected CITISObject createObject(String[] para) {
-		// Format: id num_stops stops transp_type
-		return new Line (para[1], TransportType.valueOf(para[2]));
+	protected void createObject(String[] para, CITISMap cm) {
+		// Format: id transp_type
+		cm.addLine(new Line (para[1], TransportType.valueOf(para[2])));
 	}
 }

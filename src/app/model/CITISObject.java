@@ -14,4 +14,8 @@ public abstract class CITISObject {
 	public String getId() {
 		return _id;
 	}
+	
+	public abstract void onEnter();
+	public abstract void onDelete();
+	public abstract int getAmount();
 }

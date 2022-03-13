@@ -25,5 +25,4 @@ public class SubwayStation extends Station {
 	public int getAmount() {
 		return subwayStationCounter;
 	}
-
 }

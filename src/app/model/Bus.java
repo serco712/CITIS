@@ -1,27 +1,27 @@
 package app.model;
 
-public class Train extends Transport {
+public class Bus extends Transport {
 	
-	private static int numTrains;
+	private static int numBuses;
 	
 	private static final TransportType TYPE = TransportType.TRAIN;
 	
-	public Train(String id, Line line, int time) {
+	public Bus(String id, Line line, int time) {
 		super(id, line, time, TYPE);
 	}
 		
 	@Override
 	public int getAmount() {
-		return numTrains;
+		return numBuses;
 	}
 	
 	@Override
 	public void onEnter() {
-		numTrains++;
+		numBuses++;
 	}
 	
 	@Override
 	public void onDelete() {
-		numTrains--;
+		numBuses--;
 	}	
 }
