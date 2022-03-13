@@ -1,8 +1,9 @@
 package app.data;
 
 import app.model.CITISObject;
+import app.model.Station;
 
-public class StationFactory extends Factory {
+public abstract class StationFactory extends Factory {
 	
 	public StationFactory(String type) {
 		super(type);
@@ -10,7 +11,8 @@ public class StationFactory extends Factory {
 
 	@Override
 	protected CITISObject createObject(String[] para) {
-		return null;
+		return createStation(para);
 	}
-
+	
+	protected abstract Station createStation (String[] para);
 }

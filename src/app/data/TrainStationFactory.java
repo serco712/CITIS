@@ -6,12 +6,13 @@ import java.util.List;
 import app.model.BusStation;
 import app.model.Line;
 import app.model.Station;
+import app.model.TrainStation;
 
-public class BusStationFactory extends StationFactory {
+public class TrainStationFactory extends StationFactory {
 	
-	private static final String FACT_NAME = "bus_station";
+	private static final String FACT_NAME = "train_station";
 	
-	public BusStationFactory() {
+	public TrainStationFactory() {
 		super(FACT_NAME);
 	}
 
@@ -22,8 +23,7 @@ public class BusStationFactory extends StationFactory {
 		for(int i = 0; i < Integer.parseInt(para[6]); i++)
 			l.add(para[7 + i]);
 		List<Line> ll = new ArrayList<>();
-		return new BusStation(para[1], para[2], Integer.parseInt(para[3]), Integer.parseInt(para[4]),
+		return new TrainStation(para[1], para[2], Integer.parseInt(para[3]), Integer.parseInt(para[4]),
 				ll);
 	}
-	
 }

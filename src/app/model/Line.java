@@ -1,5 +1,6 @@
 package app.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Line extends CITISObject {
@@ -10,9 +11,9 @@ public class Line extends CITISObject {
 	
 	private TransportType transp;
 	
-	public Line (String id, List<Station> ls, TransportType t) {
+	public Line (String id, TransportType t) {
 		super(id);
-		stops = ls;
+		stops = new ArrayList<>();
 		transp = t;
 	}
 	
@@ -30,6 +31,10 @@ public class Line extends CITISObject {
 	
 	public void onDelete() {
 		numLines--;
+	}
+	
+	public void addToLine(Station s) {
+		stops.add(s);
 	}
 	
 	public boolean isInLine(Station s) {
