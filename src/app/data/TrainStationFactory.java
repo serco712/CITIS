@@ -3,7 +3,6 @@ package app.data;
 import java.util.ArrayList;
 import java.util.List;
 
-import app.model.BusStation;
 import app.model.CITISMap;
 import app.model.Line;
 import app.model.Station;

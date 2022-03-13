@@ -9,11 +9,14 @@ public class Line extends CITISObject {
 	
 	private List<Station> stops;
 	
+	private List<Transport> transports;
+	
 	private TransportType transp;
 	
 	public Line (String id, TransportType t) {
 		super(id);
 		stops = new ArrayList<>();
+		transports = new ArrayList<>();
 		transp = t;
 	}
 	
@@ -45,5 +48,9 @@ public class Line extends CITISObject {
 	
 	public TransportType getTransport() {
 		return transp;
+	}
+
+	public void addToLine(Transport t) {
+		transports.add(t);
 	}
 }

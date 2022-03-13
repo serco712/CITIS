@@ -1,13 +1,15 @@
 package app.model;
 
+import java.util.List;
+
 public class Bus extends Transport {
 	
 	private static int numBuses;
 	
 	private static final TransportType TYPE = TransportType.TRAIN;
 	
-	public Bus(String id, Line line, int time) {
-		super(id, line, time, TYPE);
+	public Bus(String id, int time, List<Line> line) {
+		super(id, time, TYPE, line);
 	}
 		
 	@Override
