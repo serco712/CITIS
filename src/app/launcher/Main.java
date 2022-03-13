@@ -5,6 +5,7 @@ import java.util.Scanner;
 import app.data.DataFile;
 import app.data.MainFactory;
 import app.model.CITISMap;
+import app.model.Line;
 
 public class Main {
 	
@@ -51,6 +52,12 @@ public class Main {
 		}
 	}
 	
+	public static void showLines() {
+		// TODO a header for the chart
+		for(Line l : cm.getLines())
+			System.out.println(l.toString());
+	}
+	
 	public static void main(String[] args) {
 		int option;
 		System.out.println(WELCOME_MSG);
@@ -59,7 +66,7 @@ public class Main {
 		while (option != 0) {
 			switch(option) {
 			case 1:
-				// TODO show available lines
+				showLines();
 				break;
 			case 2:
 				// TODO show available stops.
@@ -73,5 +80,3 @@ public class Main {
 		}
 		System.out.println(ENDING_MSG);
 	}
-
-}

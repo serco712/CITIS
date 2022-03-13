@@ -10,7 +10,7 @@ import app.model.Transport;
 
 public class SubwayFactory extends TransportFactory {
 
-	private static final String FACT_NAME = "train";
+	private static final String FACT_NAME = "subway";
 	
 	public SubwayFactory() {
 		super(FACT_NAME);

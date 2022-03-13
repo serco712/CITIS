@@ -5,7 +5,10 @@ public class MainFactory {
 		new LineFactory(),
 		new BusStationFactory(),
 		new SubwayStationFactory(),
-		new TrainStationFactory()
+		new TrainStationFactory(),
+		new BusFactory(),
+		new SubwayFactory(),
+		new TrainFactory()
 	};
 	
 	public Factory searchFactory(String s) {
