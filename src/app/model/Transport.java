@@ -43,4 +43,13 @@ public abstract class Transport extends CITISObject {
 	public int getTime() {
 		return time;
 	}
+	
+	@Override
+	public String toString() {
+		StringBuilder str = new StringBuilder();
+		str.append(_id + ' ' + time + ' ' + type.toString());
+		for(Line l : lines)
+			str.append(l.getId() + ' ');
+		return str.toString();
+	}
 }

@@ -53,4 +53,15 @@ public class Line extends CITISObject {
 	public void addToLine(Transport t) {
 		transports.add(t);
 	}
+	
+	@Override
+	public String toString() {
+		StringBuilder str = new StringBuilder();
+		str.append(_id + ' ' + transp.toString() + ' ');
+		for(Station s : stops)
+			str.append('(' + s.getId() + ',' + s.getName() + ") ");
+		for(Transport t : transports)
+			str.append(t.getId());
+		return str.toString();
+	}
 }

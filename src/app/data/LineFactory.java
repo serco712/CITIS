@@ -1,7 +1,5 @@
 package app.data;
 
-
-
 import app.model.CITISMap;
 import app.model.Line;
 import app.model.TransportType;

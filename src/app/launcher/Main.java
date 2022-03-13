@@ -6,12 +6,14 @@ import app.data.DataFile;
 import app.data.MainFactory;
 import app.model.CITISMap;
 import app.model.Line;
+import app.model.Station;
+import app.model.Transport;
 
 public class Main {
 	
 	private static final int MIN_OPTION = 0;
 	
-	private static final int MAX_OPTION = 4;
+	private static final int MAX_OPTION = 6;
 	
 	private static final String WELCOME_MSG = "Bienvenido a CITIS";
 	
@@ -23,17 +25,19 @@ public class Main {
 	
 	public static int menu() {
 		int option = -1;
-		Scanner sc = new Scanner(System.in);
 		do {
 			StringBuilder str = new StringBuilder();
 			str.append("Seleccione una de las siguientes opciones: " + '\n');
 			str.append("1 - Consultar lineas disponibles" + '\n');
 			str.append("2 - Consultar paradas disponibles" + '\n');
-			str.append("3 - Anadir nueva linea" + '\n');
-			str.append("4 - Anadir nueva parada" + '\n');
+			str.append("3 - Consultar transportes disponibles" + '\n');
+			str.append("4 - Anadir nueva linea" + '\n');
+			str.append("5 - Anadir nueva parada" + '\n');
+			str.append("6 - Anadir nuevo transporte" + '\n');
 			str.append("0 - Salir" + '\n');
 			str.append("Seleccione una opcion: ");
 			System.out.println(str.toString());
+			Scanner sc = new Scanner(System.in);
 			option = Integer.parseInt(sc.nextLine());
 		}
 		while (option < MIN_OPTION && option > MAX_OPTION);
@@ -58,6 +62,19 @@ public class Main {
 			System.out.println(l.toString());
 	}
 	
+	
+	public static void showStations() {
+		// TODO a header for the chart
+		for(Station s : cm.getStations())
+			System.out.println(s.toString());
+	}
+	
+	public static void showTransports() {
+		// TODO a header for the chart
+		for(Transport t : cm.getTransports())
+			System.out.println(t.toString());
+	}
+	
 	public static void main(String[] args) {
 		int option;
 		System.out.println(WELCOME_MSG);
@@ -69,14 +86,21 @@ public class Main {
 				showLines();
 				break;
 			case 2:
-				// TODO show available stops.
+				showStations();
 				break;
 			case 3:
-				// TODO add new line.
+				showTransports();
 				break;
 			case 4:
+				// TODO add new line.
+				break;
+			case 5:
 				// TODO add new stop.
+				break;
+			case 6:
+				// TODO add new transport.
 			}
 		}
 		System.out.println(ENDING_MSG);
 	}
+}
