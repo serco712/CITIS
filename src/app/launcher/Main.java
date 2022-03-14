@@ -14,7 +14,7 @@ public class Main {
 	
 	private static final int MIN_OPTION = 0;
 	
-	private static final int MAX_OPTION = 6;
+	private static final int MAX_OPTION = 4;
 	
 	private static final String WELCOME_MSG = "Bienvenido a CITIS";
 	
@@ -23,6 +23,8 @@ public class Main {
 	private static MainFactory ft;
 	
 	private static CITISMap cm;
+	
+	private static DataFile df;
 	
 	public static int menu() {
 		int option = -1;
@@ -46,9 +48,10 @@ public class Main {
 	
 	public static void start() {
 		try {
+			System.out.println(WELCOME_MSG);
 			ft = new MainFactory();
 			cm = new CITISMap();
-			DataFile df = new DataFile(ft, cm);
+			df = new DataFile(ft, cm);
 			df.loadData();
 		} 
 		catch (Exception e) {
@@ -56,6 +59,15 @@ public class Main {
 		}
 	}
 	
+	public static void endExecution() {
+		try {
+			System.out.println(ENDING_MSG);
+			df.saveData();
+		} 
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 	public static void showLines() {
 		System.out.println("-----------------------------------");
 		System.out.println("LISTADO DE LINEAS");
@@ -90,15 +102,18 @@ public class Main {
 	
 	public static void createNewCITISObject() {
 		Scanner sc = new Scanner(System.in);
+		System.out.println("Inserte los datos del nuevo objeto que desee crear: ");
 		String[] str = sc.nextLine().trim().split(" ");
 		Factory f = ft.searchFactory(str[0]);
-		if(f != null)
+		if(f != null) {
 			f.createObject(str, cm);
+			System.out.println("El objeto se ha creado correctamente");
+		}
+			
 	}
 	
 	public static void main(String[] args) {
 		int option;
-		System.out.println(WELCOME_MSG);
 		start();
 		option = menu();
 		while (option != 0) {
@@ -118,6 +133,6 @@ public class Main {
 			}
 			option = menu();
 		}
-		System.out.println(ENDING_MSG);
+		endExecution();
 	}
 }

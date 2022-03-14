@@ -1,11 +1,15 @@
 package app.data;
 
 import java.io.BufferedReader;
-
+import java.io.BufferedWriter;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 
 import app.model.CITISMap;
+import app.model.Line;
+import app.model.Station;
+import app.model.Transport;
 
 public class DataFile {
 	
@@ -35,6 +39,36 @@ public class DataFile {
 		}
 		catch (IOException ie) {
 			throw new Exception(ie.getMessage());
+		}
+	}
+	
+	public void saveData() throws Exception {
+		try (BufferedWriter br = new BufferedWriter(new FileWriter(FILE_NAME))) {
+			for(Line l : ct.getLines()) {
+				StringBuilder str = new StringBuilder();
+				str.append(l.getTypeId() + ' ' + l.getId() + ' ' + l.getTransport().toString());
+				br.append(str.toString() + '\n');
+			}
+			
+			for(Station s : ct.getStations()) {
+				StringBuilder str = new StringBuilder();
+				str.append(s.getTypeId() + ' ' + s.getId() + ' ' + s.getName() + ' ' + s.getX() + ' ' + s.getY() + ' ' + s.getNumLines());
+				for(Line l : s.getLines())
+					str.append(' ' + l.getId());
+				br.append(str.toString() + '\n');
+			}
+			
+			for(Transport t : ct.getTransports()) {
+				StringBuilder str = new StringBuilder();
+				str.append(t.getTypeId() + ' ' + t.getId() + ' ' + t.getTime() + ' ' + t.getNumLines());
+				for(Line l : t.getLines())
+					str.append(' ' + l.getId());
+				br.append(str.toString() + '\n');
+			}
+			br.close();
+		}
+		catch (IOException e) {
+			throw new Exception(e.getMessage());
 		}
 	}
 }

@@ -9,7 +9,7 @@ public abstract class TransportFactory extends Factory {
 		super(type);
 	}
 	
-	protected void createObject(String[] para, CITISMap cm) {
+	public void createObject(String[] para, CITISMap cm) {
 		cm.addTransport(createTransport(para, cm));
 	}
 	

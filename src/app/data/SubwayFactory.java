@@ -18,10 +18,10 @@ public class SubwayFactory extends TransportFactory {
 
 	@Override
 	protected Transport createTransport(String[] para, CITISMap cm) {
-		// Format: id  time line
+		// Format: id  time num_Lines line
 		List<String> l = new ArrayList<>();
-		for(int i = 0; i < Integer.parseInt(para[4]); i++)
-			l.add(para[5 + i]);
+		for(int i = 0; i < Integer.parseInt(para[3]); i++)
+			l.add(para[4 + i]);
 		List<Line> ll = new ArrayList<>();
 		for(String s: l)
 			ll.add(cm.searchLine(s));

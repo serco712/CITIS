@@ -1,5 +1,6 @@
 package app.model;
 
+import java.util.Collections;
 import java.util.List;
 
 public abstract class Transport extends CITISObject {
@@ -44,10 +45,18 @@ public abstract class Transport extends CITISObject {
 		return time;
 	}
 	
+	public int getNumLines() {
+		return lines.size();
+	}
+	
+	public List<Line> getLines(){
+		return Collections.unmodifiableList(lines);
+	}
+	
 	@Override
 	public String toString() {
 		StringBuilder str = new StringBuilder();
-		str.append(_id + ' ' + time + ' ' + type.toString());
+		str.append(_id + ' ' + time + ' ' + type.toString() + ' ');
 		for(Line l : lines)
 			str.append(l.getId() + ' ');
 		return str.toString();

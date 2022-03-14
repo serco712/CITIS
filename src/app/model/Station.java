@@ -1,5 +1,6 @@
 package app.model;
 
+import java.util.Collections;
 import java.util.List;
 
 public abstract class Station extends CITISObject {
@@ -36,6 +37,14 @@ public abstract class Station extends CITISObject {
 	
 	public TransportType getTransport() {
 		return transport;
+	}
+	
+	public int getNumLines () {
+		return lines.size();
+	}
+	
+	public List<Line> getLines() {
+		return Collections.unmodifiableList(lines);
 	}
 	
 	@Override

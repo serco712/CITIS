@@ -8,6 +8,8 @@ public class Bus extends Transport {
 	
 	private static final TransportType TYPE = TransportType.BUS;
 	
+	private static final String TYPE_ID = "bus";
+	
 	public Bus(String id, int time, List<Line> line) {
 		super(id, time, TYPE, line);
 	}
@@ -25,5 +27,10 @@ public class Bus extends Transport {
 	@Override
 	public void onDelete() {
 		numBuses--;
+	}
+
+	@Override
+	public String getTypeId() {
+		return TYPE_ID;
 	}	
 }

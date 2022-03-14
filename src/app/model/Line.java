@@ -13,6 +13,8 @@ public class Line extends CITISObject {
 	
 	private TransportType transp;
 	
+	private static final String TYPE_ID = "line";
+	
 	public Line (String id, TransportType t) {
 		super(id);
 		stops = new ArrayList<>();
@@ -63,5 +65,10 @@ public class Line extends CITISObject {
 		for(Transport t : transports)
 			str.append(t.getId());
 		return str.toString();
+	}
+
+	@Override
+	public String getTypeId() {
+		return TYPE_ID;
 	}
 }

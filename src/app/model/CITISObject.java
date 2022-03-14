@@ -18,4 +18,5 @@ public abstract class CITISObject {
 	public abstract void onEnter();
 	public abstract void onDelete();
 	public abstract int getAmount();
+	public abstract String getTypeId();
 }

@@ -6,7 +6,9 @@ public class Subway extends Transport {
 	
 	private static int numSubways;
 	
-	private static final TransportType TYPE = TransportType.SUBWAY;
+	private static final TransportType TYPE = TransportType.TRAIN;
+	
+	private static final String TYPE_ID = "subway";
 	
 	public Subway(String id, int time, List<Line> line) {
 		super(id, time, TYPE, line);
@@ -25,5 +27,10 @@ public class Subway extends Transport {
 	@Override
 	public void onDelete() {
 		numSubways--;
+	}
+
+	@Override
+	public String getTypeId() {
+		return TYPE_ID;
 	}	
 }
