@@ -6,7 +6,7 @@ public class Bus extends Transport {
 	
 	private static int numBuses;
 	
-	private static final TransportType TYPE = TransportType.TRAIN;
+	private static final TransportType TYPE = TransportType.BUS;
 	
 	public Bus(String id, int time, List<Line> line) {
 		super(id, time, TYPE, line);
