@@ -6,8 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javafx.util.Pair;
-
 public class CITISMap {
 	
 	private Map<String, Station> stations_map;

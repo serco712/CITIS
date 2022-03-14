@@ -15,6 +15,6 @@ public class LineFactory extends Factory {
 	@Override
 	protected void createObject(String[] para, CITISMap cm) {
 		// Format: id transp_type
-		cm.addLine(new Line (para[1], TransportType.valueOf(para[2])));
+		cm.addLine(new Line(para[1], TransportType.valueOf(para[2])));
 	}
 }

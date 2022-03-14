@@ -37,6 +37,7 @@ public class Main {
 			str.append("0 - Salir" + '\n');
 			str.append("Seleccione una opcion: ");
 			System.out.println(str.toString());
+			System.out.println("");
 			Scanner sc = new Scanner(System.in);
 			option = Integer.parseInt(sc.nextLine());
 		}
@@ -57,22 +58,35 @@ public class Main {
 	}
 	
 	public static void showLines() {
-		// TODO a header for the chart
+		System.out.println("-----------------------------------");
+		System.out.println("LISTADO DE LINEAS");
+		System.out.println("-----------------------------------");
 		for(Line l : cm.getLines())
 			System.out.println(l.toString());
+		System.out.println("-----------------------------------");
+		System.out.println("");
 	}
 	
 	
 	public static void showStations() {
-		// TODO a header for the chart
+		System.out.println("-----------------------------------");
+		System.out.println("LISTADO DE ESTACIONES");
+		System.out.println("-----------------------------------");
 		for(Station s : cm.getStations())
 			System.out.println(s.toString());
+		System.out.println("-----------------------------------");
+		System.out.println("");
 	}
 	
 	public static void showTransports() {
-		// TODO a header for the chart
+		System.out.println("-----------------------------------");
+		System.out.println("LISTADO DE TRANSPORTES");
+		System.out.println("-----------------------------------");
 		for(Transport t : cm.getTransports())
 			System.out.println(t.toString());
+		System.out.println("-----------------------------------");
+		System.out.println("");
+		
 	}
 	
 	public static void main(String[] args) {
@@ -100,6 +114,7 @@ public class Main {
 			case 6:
 				// TODO add new transport.
 			}
+			option = menu();
 		}
 		System.out.println(ENDING_MSG);
 	}

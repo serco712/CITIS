@@ -41,7 +41,7 @@ public abstract class Station extends CITISObject {
 	@Override
 	public String toString() {
 		StringBuilder str = new StringBuilder();
-		str.append(_id + ' ' + name + ' ' + transport.toString());
+		str.append(_id + ' ' + name + ' ' + transport.toString() + ' ');
 		for(Line l : lines)
 			str.append(l.getId() + ' ');
 		return str.toString();

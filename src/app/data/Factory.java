@@ -2,7 +2,7 @@ package app.data;
 
 import app.model.CITISMap;
 
-public abstract class Factory extends MainFactory {
+public abstract class Factory {
 	
 	protected String type;
 	

@@ -25,7 +25,7 @@ public class DataFile {
 			String str = br.readLine();
 			String[] parameters;
 			while(str != null) {
-				parameters = str.toLowerCase().trim().split(" ");
+				parameters = str.trim().split(" ");
 				Factory f = fact.searchFactory(parameters[0]);
 				if(f != null) 
 					f.createObject(parameters, ct);

@@ -59,7 +59,7 @@ public class Line extends CITISObject {
 		StringBuilder str = new StringBuilder();
 		str.append(_id + ' ' + transp.toString() + ' ');
 		for(Station s : stops)
-			str.append('(' + s.getId() + ',' + s.getName() + ") ");
+			str.append('(' + s.getId() + ", " + s.getName() + ") ");
 		for(Transport t : transports)
 			str.append(t.getId());
 		return str.toString();
