@@ -17,6 +17,10 @@ public class Line extends CITISObject {
 	
 	public Line (String id, TransportType t) {
 		super(id);
+		
+		if (t == null)
+			throw new IllegalArgumentException("El tipo no puede ser nulo");
+		
 		stops = new ArrayList<>();
 		transports = new ArrayList<>();
 		transp = t;

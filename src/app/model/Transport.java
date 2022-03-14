@@ -15,6 +15,14 @@ public abstract class Transport extends CITISObject {
 
 	public Transport(String id, int time, TransportType type, List<Line> l) {
 		super(id);
+		
+		if (time < 0)
+			throw new IllegalArgumentException("El tiempo no puede ser negativo");
+		else if (type == null)
+			throw new IllegalArgumentException("El tipo no puede ser nulo");
+		else if (l == null)
+			throw new IllegalArgumentException("La lista no puede ser nula");
+		
 		this.type = type;
 		this.time = time;
 		lines = l;

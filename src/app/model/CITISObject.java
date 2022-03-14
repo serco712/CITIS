@@ -5,7 +5,7 @@ public abstract class CITISObject {
 	protected String _id;
 	
 	public CITISObject(String id) {
-		if (id == null)
+		if (id == null || id == "")
 			throw new IllegalArgumentException("El objeto debe tener id");
 		else
 			_id = id;

@@ -20,6 +20,11 @@ public class DataFile {
 	private CITISMap ct;
 	
 	public DataFile(MainFactory f, CITISMap cm) throws Exception {
+		if (f == null)
+			throw new IllegalArgumentException("La factoría no puede ser nula");
+		else if (cm == null)
+			throw new IllegalArgumentException("El mapa no puede ser nulo");
+		
 		fact = f;
 		ct = cm;
 	}

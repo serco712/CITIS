@@ -11,14 +11,23 @@ public abstract class Station extends CITISObject {
 	private List<Line> lines;
 	
 	public Station(String id, String name, int x, int y,
-			TransportType transport, List<Line> l) {
+			TransportType t, List<Line> l) {
 		super(id);
+		
+		if (name == null || name == "")
+			throw new IllegalArgumentException("El nombre no puede ser nulo");
+		else if (t == null)
+			throw new IllegalArgumentException("El tipo no puede ser nulo");
+		else if (l == null)
+			throw new IllegalArgumentException("La lista de líneas no puede ser nula");
+		//TODO ver las coordenadas del mapa para lanzar excepción si se salen
+		
 		this.name = name;
 		xCoor = x;
 		yCoor = y;
-		this.transport = transport;
+		transport = t;
 		lines = l;
-		for(Line li : lines)
+		for (Line li : lines)
 			li.addToLine(this);
 	}
 	
