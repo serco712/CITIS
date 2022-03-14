@@ -22,8 +22,8 @@ public class BusStationFactory extends StationFactory {
 	protected Station createStation(String[] para, CITISMap cm) {
 		// Format: id name x y number_lines lines_id
 		List<String> l = new ArrayList<>();
-		for(int i = 0; i < Integer.parseInt(para[6]); i++)
-			l.add(para[7 + i]);
+		for(int i = 0; i < Integer.parseInt(para[5]); i++)
+			l.add(para[6 + i]);
 		List<Line> ll = new ArrayList<>();
 		for(String s : l)
 			ll.add(cm.searchLine(s));

@@ -3,6 +3,7 @@ package app.launcher;
 import java.util.Scanner;
 
 import app.data.DataFile;
+import app.data.Factory;
 import app.data.MainFactory;
 import app.model.CITISMap;
 import app.model.Line;
@@ -31,14 +32,12 @@ public class Main {
 			str.append("1 - Consultar lineas disponibles" + '\n');
 			str.append("2 - Consultar paradas disponibles" + '\n');
 			str.append("3 - Consultar transportes disponibles" + '\n');
-			str.append("4 - Anadir nueva linea" + '\n');
-			str.append("5 - Anadir nueva parada" + '\n');
-			str.append("6 - Anadir nuevo transporte" + '\n');
+			str.append("4 - Anadir nuevo CITISObject" + '\n');
 			str.append("0 - Salir" + '\n');
 			str.append("Seleccione una opcion: ");
-			System.out.println(str.toString());
-			System.out.println("");
+			System.out.print(str.toString());
 			Scanner sc = new Scanner(System.in);
+			System.out.println("");
 			option = Integer.parseInt(sc.nextLine());
 		}
 		while (option < MIN_OPTION && option > MAX_OPTION);
@@ -89,6 +88,14 @@ public class Main {
 		
 	}
 	
+	public static void createNewCITISObject() {
+		Scanner sc = new Scanner(System.in);
+		String[] str = sc.nextLine().trim().split(" ");
+		Factory f = ft.searchFactory(str[0]);
+		if(f != null)
+			f.createObject(str, cm);
+	}
+	
 	public static void main(String[] args) {
 		int option;
 		System.out.println(WELCOME_MSG);
@@ -106,13 +113,8 @@ public class Main {
 				showTransports();
 				break;
 			case 4:
-				// TODO add new line.
+				createNewCITISObject();
 				break;
-			case 5:
-				// TODO add new stop.
-				break;
-			case 6:
-				// TODO add new transport.
 			}
 			option = menu();
 		}

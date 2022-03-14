@@ -14,5 +14,5 @@ public abstract class Factory {
 		return type;
 	}
 	
-	protected abstract void createObject(String[] para, CITISMap cm);
+	public abstract void createObject(String[] para, CITISMap cm);
 }
