@@ -1,2 +1,3 @@
 line l1 SUBWAY
 line l2 TRAIN
+bus_station bs1 MendezAlvaro 10 10 1 l1

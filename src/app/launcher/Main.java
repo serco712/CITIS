@@ -9,6 +9,9 @@ import app.model.CITISMap;
 import app.model.Line;
 import app.model.Station;
 import app.model.Transport;
+import app.view.LineTable;
+import app.view.StationTable;
+import app.view.TableWindow;
 
 public class Main {
 	
@@ -63,12 +66,14 @@ public class Main {
 		try {
 			System.out.println(ENDING_MSG);
 			df.saveData();
+			System.exit(0);
 		} 
 		catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 	public static void showLines() {
+		//new TableWindow(new LineTable(cm.getLines()), "Lines");
 		System.out.println("-----------------------------------");
 		System.out.println("LISTADO DE LINEAS");
 		System.out.println("-----------------------------------");
@@ -80,6 +85,7 @@ public class Main {
 	
 	
 	public static void showStations() {
+		//new TableWindow(new StationTable(cm.getStations()), "Stations");
 		System.out.println("-----------------------------------");
 		System.out.println("LISTADO DE ESTACIONES");
 		System.out.println("-----------------------------------");
