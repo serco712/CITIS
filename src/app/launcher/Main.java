@@ -9,6 +9,7 @@ import app.model.CITISMap;
 import app.model.Line;
 import app.model.Station;
 import app.model.Transport;
+import app.view.InitWindow;
 import app.view.LineTable;
 import app.view.StationTable;
 import app.view.TableWindow;
@@ -51,11 +52,12 @@ public class Main {
 	
 	public static void start() {
 		try {
-			System.out.println(WELCOME_MSG);
+			//System.out.println(WELCOME_MSG);
 			ft = new MainFactory();
 			cm = new CITISMap();
 			df = new DataFile(ft, cm);
 			df.loadData();
+			new InitWindow();
 		} 
 		catch (Exception e) {
 			e.printStackTrace();
@@ -66,7 +68,7 @@ public class Main {
 		try {
 			System.out.println(ENDING_MSG);
 			df.saveData();
-			System.exit(0);
+			System.exit(1);
 		} 
 		catch (Exception e) {
 			e.printStackTrace();
