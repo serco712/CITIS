@@ -3,6 +3,8 @@ package app.view;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,6 +13,8 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -39,23 +43,26 @@ public class InitWindow extends JFrame {
 		this.setSize(500, 400);
 		CITISBackground c = new CITISBackground();
 		this.setContentPane(c);
-		c.setLayout(new BorderLayout());
+		c.setLayout(new GridBagLayout());
 		JPanel initPanel = new JPanel();
+		initPanel.setBorder(BorderFactory.createRaisedBevelBorder());
 		initPanel.setLayout(new BoxLayout(initPanel, BoxLayout.Y_AXIS));
+		initPanel.setSize(new Dimension(400, 300));
 		
-		JPanel msg = new JPanel();
-		JLabel u = new JLabel("Bienvenido a CITIS", JLabel.TRAILING);
+		JLabel u = new JLabel("Bienvenido a CITIS");
+		u.setAlignmentX(CENTER_ALIGNMENT);
+		initPanel.add(u);
 		
-		msg.add(u, SwingConstants.CENTER);
-		msg.setVisible(true);
-		initPanel.add(msg, BorderLayout.NORTH);
-		
+		initPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+
 		InitSesionPanel jp = new InitSesionPanel();
-		initPanel.add(jp, BorderLayout.CENTER);
+		initPanel.add(jp);
+		initPanel.add(Box.createRigidArea(new Dimension(0, 10)));
 		
-		JPanel msgfi = new JPanel();
-		msgfi.setLayout(new BoxLayout(msgfi, BoxLayout.Y_AXIS));
-		JLabel t = new JLabel("No tienes cuenta aun? Registrate ahora", JLabel.TRAILING);
+		JLabel t = new JLabel("No tienes cuenta aun? Registrate ahora");
+		t.setAlignmentX(CENTER_ALIGNMENT);
+		initPanel.add(t);
+		
 		JButton register = new JButton("Registrarse");
 		register.addActionListener(new ActionListener(){
 
@@ -65,12 +72,20 @@ public class InitWindow extends JFrame {
 			}
 			
 		});
-		msgfi.add(t);
-		msgfi.add(register);
-		initPanel.add(msgfi);
-		//initPanel.setMaximumSize(new Dimension(150, 150));
-		//initPanel.setMinimumSize(new Dimension(150, 150));
-		c.add(initPanel, BorderLayout.SOUTH);
+		
+		register.setAlignmentX(CENTER_ALIGNMENT);
+		initPanel.add(t);
+		initPanel.add(register);
+		
+		for(int i = 0; i < 3; i++)
+			for(int j = 0; j < 3; j++) {
+				if (i == 1 && j == 1) {
+					c.add(initPanel);
+				}
+				else {
+					c.add(new JLabel());
+				}
+			}
 	}
 	
 	private Image loadImage(String img) {

@@ -23,16 +23,22 @@ public class InitSesionPanel extends JPanel {
 
 	private void InitGUI() {
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-		this.add(new JLabel("Usuario"));
+		JLabel user = new JLabel("Usuario");
+		user.setAlignmentX(RIGHT_ALIGNMENT);
+		this.add(user);
 		JTextField jt = new JTextField(15);
 		jt.setMaximumSize(new Dimension(120, 20));
 		jt.setMinimumSize(new Dimension(120, 20));
 		this.add(jt);
-		this.add(new JLabel("Contrasena"));
+		JLabel password = new JLabel("Contrasena");
+		password.setAlignmentX(RIGHT_ALIGNMENT);
+		this.add(password);
 		JPasswordField pf = new JPasswordField(15);
 		pf.setMaximumSize(new Dimension(120, 20));
 		pf.setMinimumSize(new Dimension(120, 20));
 		this.add(pf);
+		
+		this.add(Box.createRigidArea(new Dimension(0, 10)));
 		
 		JPanel jp = new JPanel();
 		jp.setLayout(new BoxLayout(jp, BoxLayout.X_AXIS));
@@ -46,7 +52,7 @@ public class InitSesionPanel extends JPanel {
 			
 		});
 		jp.add(entrarInvitado);
-		jp.add(Box.createHorizontalGlue());
+		jp.add(Box.createRigidArea(new Dimension(10, 0)));
 		JButton initSes = new JButton("Iniciar Sesion");
 		initSes.addActionListener(new ActionListener() {
 

@@ -13,7 +13,7 @@ public class CITISBackground extends JPanel {
 	
 	@Override
 	public void paint (Graphics g) {
-		ImageIcon image = new ImageIcon("resources/ari.jpg");
+		ImageIcon image = new ImageIcon("resources/CITIS.jpg");
 		g.drawImage(image.getImage(), 0, 0, getWidth(), getHeight(), this);
 		
 		setOpaque(false);
