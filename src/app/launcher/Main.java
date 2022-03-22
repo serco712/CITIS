@@ -56,8 +56,7 @@ public class Main {
 			ft = new MainFactory();
 			cm = new CITISMap();
 			df = new DataFile(ft, cm);
-			df.loadData();
-			new InitWindow(cm);
+			new InitWindow(cm, df);
 		} 
 		catch (Exception e) {
 			e.printStackTrace();

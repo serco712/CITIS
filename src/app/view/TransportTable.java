@@ -7,7 +7,9 @@ import javax.swing.table.AbstractTableModel;
 import app.model.Transport;
 
 public class TransportTable extends AbstractTableModel {
-
+	
+	private static final long serialVersionUID = 1L;
+	
 	private List<Transport> transports;
 	private String[] cols = {};
 	

@@ -9,6 +9,7 @@ import app.model.Station;
 
 public class StationTable extends AbstractTableModel {
 
+	private static final long serialVersionUID = 1L;
 	
 	private List<Station> stations;
 	private String[] cols = {"Id", "Name", "Transport name", "Lines"};

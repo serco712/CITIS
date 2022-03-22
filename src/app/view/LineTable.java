@@ -5,10 +5,11 @@ import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
 import app.model.Line;
-import app.model.Station;
 
 public class LineTable extends AbstractTableModel {
 
+	private static final long serialVersionUID = 1L;
+	
 	private List<Line> lines;
 	private String[] cols = {"Id", "Transport name"};
 	

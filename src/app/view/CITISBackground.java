@@ -6,11 +6,9 @@ import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 public class CITISBackground extends JPanel {
-	
-	public CITISBackground(){
-		
-	}
-	
+
+	private static final long serialVersionUID = 1L;
+
 	@Override
 	public void paint (Graphics g) {
 		ImageIcon image = new ImageIcon("resources/CITIS.jpg");

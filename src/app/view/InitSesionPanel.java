@@ -1,7 +1,8 @@
 package app.view;
 
-import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -12,7 +13,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
-import javax.swing.SwingConstants;
 
 public class InitSesionPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
@@ -23,20 +23,41 @@ public class InitSesionPanel extends JPanel {
 
 	private void InitGUI() {
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+		JPanel data = new JPanel();
+		data.setLayout(new GridLayout(4, 1));
+		
+		JPanel user_panel = new JPanel();
+		user_panel.setLayout(new FlowLayout());
 		JLabel user = new JLabel("Usuario");
-		user.setAlignmentX(RIGHT_ALIGNMENT);
-		this.add(user);
+		user_panel.add(user);
+		data.add(user_panel);
+		
+		JPanel usert_panel = new JPanel();
+		usert_panel.setLayout(new FlowLayout());
 		JTextField jt = new JTextField(15);
 		jt.setMaximumSize(new Dimension(120, 20));
 		jt.setMinimumSize(new Dimension(120, 20));
-		this.add(jt);
+		usert_panel.add(jt);
+		data.add(usert_panel);
+		
+		JPanel pas_panel = new JPanel();
+		pas_panel.setLayout(new FlowLayout());
 		JLabel password = new JLabel("Contrasena");
-		password.setAlignmentX(RIGHT_ALIGNMENT);
-		this.add(password);
+		
+		pas_panel.add(password);
+		data.add(pas_panel);
+		
+		JPanel past_panel = new JPanel();
+		past_panel.setLayout(new FlowLayout());
 		JPasswordField pf = new JPasswordField(15);
 		pf.setMaximumSize(new Dimension(120, 20));
 		pf.setMinimumSize(new Dimension(120, 20));
-		this.add(pf);
+		past_panel.add(pf);
+		data.add(past_panel);
+		
+		data.setAlignmentX(CENTER_ALIGNMENT);
+		
+		this.add(data);
 		
 		this.add(Box.createRigidArea(new Dimension(0, 10)));
 		

@@ -1,8 +1,7 @@
 package app.view;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.Dimension;
+
 import java.awt.GridLayout;
 
 import javax.swing.BoxLayout;
@@ -15,6 +14,8 @@ import javax.swing.table.AbstractTableModel;
 
 public class TableWindow extends JFrame {
 	
+	private static final long serialVersionUID = 1L;
+
 	public TableWindow(AbstractTableModel table, String str) {
 		initGUI(table, str);
 	}
@@ -41,7 +42,6 @@ public class TableWindow extends JFrame {
 	
 	private JPanel createViewPanel(JComponent c, String title) {
 		JPanel p = new JPanel(new BorderLayout() );
-		// TODO add a framed border to p with title
 		p.add(new JScrollPane(c));
 		return p;
 	}

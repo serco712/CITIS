@@ -1,41 +1,66 @@
 package app.view;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
+
 import java.awt.Dimension;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
-import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.SwingConstants;
 
+import app.data.DataFile;
 import app.model.CITISMap;
 
 public class InitWindow extends JFrame {
+	
 	private static final long serialVersionUID = 1L;
 	
 	private CITISMap cm;
 	
-	public InitWindow (CITISMap cm) {
+	public InitWindow (CITISMap cm, DataFile df) {
 		super("CITIS");
+		try {
+			df.loadData();
+		}
+		catch(Exception e) {
+			System.out.println(e.getMessage());
+		}
+		
 		this.cm = cm;
 		this.setLayout(new BorderLayout());
 		InitGUI();
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				int option = JOptionPane.showConfirmDialog(
+						InitWindow.this, "¿Estás seguro de que quieres cerrar la aplicación?",
+						"Confirmación de cierre", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+					if (option == JOptionPane.YES_OPTION) {
+						try {
+							df.saveData();
+						}
+						catch(Exception a) {
+							System.out.println(a.getMessage());
+						}
+						
+						System.exit(0);
+					}
+					
+			}
+		});
 		this.setVisible(true);
 	}
 	
@@ -44,6 +69,7 @@ public class InitWindow extends JFrame {
 		CITISBackground c = new CITISBackground();
 		this.setContentPane(c);
 		c.setLayout(new GridBagLayout());
+		
 		JPanel initPanel = new JPanel();
 		initPanel.setBorder(BorderFactory.createRaisedBevelBorder());
 		initPanel.setLayout(new BoxLayout(initPanel, BoxLayout.Y_AXIS));
@@ -86,15 +112,5 @@ public class InitWindow extends JFrame {
 					c.add(new JLabel());
 				}
 			}
-	}
-	
-	private Image loadImage(String img) {
-		Image i = null;
-		try {
-			Image im =  ImageIO.read(new File("resources/" + img));
-			return im;
-		} catch (IOException e) {
-		}
-		return i;
 	}
 }
