@@ -34,7 +34,7 @@ public class TableWindow extends JFrame {
 				createViewPanel(new JTable(table), str);
 		tablesPanel.add(eventsView);
 		
-		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.pack();
 		this.setVisible(true);
 	}

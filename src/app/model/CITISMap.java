@@ -20,13 +20,19 @@ public class CITISMap {
 	
 	private List<Transport> transports;
 	
+	private Map<String, User> customers_map;
+	
+	private List<User> customers;
+	
 	public CITISMap () {
 		stations = new ArrayList<>();
 		lines = new ArrayList<>();
 		transports = new ArrayList<>();
+		customers = new ArrayList<>();
 		stations_map = new HashMap<>();
 		lines_map = new HashMap<>();
 		transports_map = new HashMap<>();
+		customers_map = new HashMap<>();
 	}
 	
 	public void addStation(Station s) {
@@ -42,6 +48,11 @@ public class CITISMap {
 	public void addTransport(Transport t) {
 		transports.add(t);
 		transports_map.put(t.getId(), t);
+	}
+	
+	public void addUser(User u) {
+		customers.add(u);
+		customers_map.put(u.getUser(), u);
 	}
 	
 	public Line searchLine(String _id) {
@@ -71,5 +82,14 @@ public class CITISMap {
 	
 	public List<Transport> getTransports (){
 		return Collections.unmodifiableList(transports);
+	}
+	
+	public List<User> getUsers() {
+		return Collections.unmodifiableList(customers);
+	}
+	
+	public boolean checkUser(String username, String password) {	
+		return customers_map.containsKey(username) && 
+				customers_map.get(username).getPassword().equals(password);
 	}
 }

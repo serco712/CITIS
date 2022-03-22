@@ -8,7 +8,8 @@ public class MainFactory {
 		new TrainStationFactory(),
 		new BusFactory(),
 		new SubwayFactory(),
-		new TrainFactory()
+		new TrainFactory(),
+		new CustomerFactory()
 	};
 	
 	public Factory searchFactory(String s) {

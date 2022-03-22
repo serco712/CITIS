@@ -10,6 +10,7 @@ import app.model.CITISMap;
 import app.model.Line;
 import app.model.Station;
 import app.model.Transport;
+import app.model.User;
 
 public class DataFile {
 	
@@ -21,7 +22,7 @@ public class DataFile {
 	
 	public DataFile(MainFactory f, CITISMap cm) throws Exception {
 		if (f == null)
-			throw new IllegalArgumentException("La factoría no puede ser nula");
+			throw new IllegalArgumentException("La factorï¿½a no puede ser nula");
 		else if (cm == null)
 			throw new IllegalArgumentException("El mapa no puede ser nulo");
 		
@@ -69,6 +70,11 @@ public class DataFile {
 				for(Line l : t.getLines())
 					str.append(' ' + l.getId());
 				br.append(str.toString() + '\n');
+			}
+			
+			for(User u : ct.getUsers()) {
+				br.append(u.getTypeId() + ' ' + u.getName() + ' ' + u.getSurname() + 
+						' ' + u.getUser() + ' ' + u.getPassword());
 			}
 			br.close();
 		}

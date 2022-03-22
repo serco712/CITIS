@@ -2,12 +2,11 @@ package app.view;
 
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -23,16 +22,57 @@ public class InitSesionPanel extends JPanel {
 	}
 
 	private void InitGUI() {
-		JTextField user = new JTextField();
+		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+		this.add(new JLabel("Usuario"));
+		JTextField jt = new JTextField(15);
+		jt.setMaximumSize(new Dimension(120, 20));
+		jt.setMinimumSize(new Dimension(120, 20));
+		this.add(jt);
+		this.add(new JLabel("Contrasena"));
+		JPasswordField pf = new JPasswordField(15);
+		pf.setMaximumSize(new Dimension(120, 20));
+		pf.setMinimumSize(new Dimension(120, 20));
+		this.add(pf);
+		
+		JPanel jp = new JPanel();
+		jp.setLayout(new BoxLayout(jp, BoxLayout.X_AXIS));
+		JButton entrarInvitado = new JButton("Entrar como Invitado");
+		entrarInvitado.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO enter as a guest
+			}
+			
+		});
+		jp.add(entrarInvitado);
+		jp.add(Box.createHorizontalGlue());
+		JButton initSes = new JButton("Iniciar Sesion");
+		initSes.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO check data
+			}
+			
+		});
+		jp.add(initSes);
+		this.add(jp);
+		this.setVisible(true);
+	}
+
+	/*
+	private void InitGUI() {
+		JTextField user = new JTextField(10);
 		user.setMaximumSize(new Dimension(120, 20));
 		user.setMinimumSize(new Dimension(120, 20));
-		JTextField password = new JPasswordField();
+		JTextField password = new JPasswordField(20);
 		password.setMaximumSize(new Dimension(120, 20));
 		password.setMinimumSize(new Dimension(120, 20));
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-		this.add(new JLabel("Usuario"));
+		this.add(new JLabel("Usuario", JLabel.TRAILING));
 		this.add(user);
-		this.add(new JLabel("Contrasena"));
+		this.add(new JLabel("Contrasena", JLabel.TRAILING));
 		this.add(password);
 		JPanel confirm = new JPanel();
 		confirm.setLayout(new BoxLayout(confirm, BoxLayout.X_AXIS));
@@ -46,14 +86,13 @@ public class InitSesionPanel extends JPanel {
 			
 		});
 		confirm.add(entrarInvitado, BoxLayout.X_AXIS);
-		confirm.add(new JLabel("         "), BoxLayout.X_AXIS);
+		confirm.add(Box.createHorizontalGlue());
 		JButton initSes = new JButton("Iniciar Sesion");
 		initSes.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO check data
-				
 			}
 			
 		});
@@ -63,6 +102,5 @@ public class InitSesionPanel extends JPanel {
 		this.add(confirm);
 		this.setVisible(true);
 	}
-	
-	
+	*/
 }

@@ -2,6 +2,7 @@ package app.view;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,20 +19,32 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
+import app.model.CITISMap;
+
 public class InitWindow extends JFrame {
 	private static final long serialVersionUID = 1L;
 	
-	public InitWindow () {
+	private CITISMap cm;
+	
+	public InitWindow (CITISMap cm) {
 		super("CITIS");
+		this.cm = cm;
+		this.setLayout(new BorderLayout());
 		InitGUI();
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setVisible(true);
 	}
 	
 	private void InitGUI() {
 		this.setSize(500, 400);
-		JPanel initPanel = new JPanel(new BorderLayout());
+		CITISBackground c = new CITISBackground();
+		this.setContentPane(c);
+		c.setLayout(new BorderLayout());
+		JPanel initPanel = new JPanel();
+		initPanel.setLayout(new BoxLayout(initPanel, BoxLayout.Y_AXIS));
 		
 		JPanel msg = new JPanel();
-		JLabel u = new JLabel("Bienvenido a CITIS");
+		JLabel u = new JLabel("Bienvenido a CITIS", JLabel.TRAILING);
 		
 		msg.add(u, SwingConstants.CENTER);
 		msg.setVisible(true);
@@ -42,23 +55,22 @@ public class InitWindow extends JFrame {
 		
 		JPanel msgfi = new JPanel();
 		msgfi.setLayout(new BoxLayout(msgfi, BoxLayout.Y_AXIS));
-		JLabel t = new JLabel("No tienes cuenta aun? Registrate ahora");
+		JLabel t = new JLabel("No tienes cuenta aun? Registrate ahora", JLabel.TRAILING);
 		JButton register = new JButton("Registrarse");
 		register.addActionListener(new ActionListener(){
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new RegisterWindow();
+				new RegisterWindow(cm);
 			}
 			
 		});
 		msgfi.add(t);
 		msgfi.add(register);
-		msgfi.setVisible(true);
-		initPanel.add(msgfi, BorderLayout.SOUTH);
-		
-		this.add(initPanel);
-		this.setVisible(true);
+		initPanel.add(msgfi);
+		//initPanel.setMaximumSize(new Dimension(150, 150));
+		//initPanel.setMinimumSize(new Dimension(150, 150));
+		c.add(initPanel, BorderLayout.SOUTH);
 	}
 	
 	private Image loadImage(String img) {
