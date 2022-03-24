@@ -52,7 +52,8 @@ public class DataFile {
 		try (BufferedWriter br = new BufferedWriter(new FileWriter(FILE_NAME))) {
 			for(Line l : ct.getLines()) {
 				StringBuilder str = new StringBuilder();
-				str.append(l.getTypeId() + ' ' + l.getId() + ' ' + l.getTransport().toString());
+				str.append(l.getTypeId() + ' ' + l.getId() + ' ' + l.getTransport().toString() + ' '
+						+ l.getColor().getRed() + ' ' + l.getColor().getGreen() + ' ' + l.getColor().getBlue());
 				br.append(str.toString() + '\n');
 			}
 			

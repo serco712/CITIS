@@ -53,12 +53,11 @@ public class InitWindow extends JFrame {
 							df.saveData();
 						}
 						catch(Exception a) {
-							System.out.println(a.getMessage());
+							System.out.println("Aramis");
 						}
 						
 						System.exit(0);
-					}
-					
+					}		
 			}
 		});
 		this.setVisible(true);
@@ -66,7 +65,7 @@ public class InitWindow extends JFrame {
 	
 	private void InitGUI() {
 		this.setSize(500, 400);
-		CITISBackground c = new CITISBackground();
+		CITISBackground c = new CITISBackground("resources/CITIS.jpg");
 		this.setContentPane(c);
 		c.setLayout(new GridBagLayout());
 		
@@ -85,7 +84,7 @@ public class InitWindow extends JFrame {
 		initPanel.add(jp);
 		initPanel.add(Box.createRigidArea(new Dimension(0, 10)));
 		
-		JLabel t = new JLabel("No tienes cuenta aun? Registrate ahora");
+		JLabel t = new JLabel("¿No tienes cuenta aún? Regístrate ahora");
 		t.setAlignmentX(CENTER_ALIGNMENT);
 		initPanel.add(t);
 		

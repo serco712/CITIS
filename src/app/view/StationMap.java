@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Random;
 
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
@@ -22,8 +23,6 @@ import app.model.Station;
 public class StationMap extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	
-	private static final long SEED = 100;
 	
 	private static final int _JRADIUS = 10;
 	private static final int _JRADIUS_MIN = 5;
@@ -49,9 +48,6 @@ public class StationMap extends JPanel {
 		Graphics2D g = (Graphics2D) graphics;
 		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-
-		g.setColor(_BG_COLOR);
-		g.clearRect(0, 0, getWidth(), getHeight());
 
 		drawMap(g);
 	}
@@ -83,41 +79,12 @@ public class StationMap extends JPanel {
 		}
 	}
 	
-	/*
-	private void drawStation(Graphics g, List<Vehicle> v, int x1, int x2, int y) {
-		for (Vehicle ve : v) {
-			if (ve.getStatus() != VehicleStatus.ARRIVED) {
-				
-				float x = (ve.getLocation()*(x2 - x1)) / ve.getRoad().getLength();
-
-				// Choose a color for the vehcile's label and background, depending on its
-				// contamination class
-				int vLabelColor = (int) (25.0 * (10.0 - (double) ve.getContClass()));
-				g.setColor(new Color(0, vLabelColor, 0));
-
-				// draw an image of a car (with circle as background) and it identifier
-				g.drawImage(_car, (int) (x1 + x), y - 6, 12, 12, this);
-				g.drawString(ve.getId(), (int) (x1 + x), y - 6);
-			}
-		}
+	@Override
+	public void paint (Graphics g) {
+		ImageIcon image = new ImageIcon("resources/map.jpg");
+		g.drawImage(image.getImage(), 0, 0, getWidth(), getHeight(), this);
+		
+		setOpaque(false);
+		super.paint(g);
 	}
-	
-	private void drawImage(Graphics g, Road r, int x, int y) {
-		g.drawImage(r.getWeather().getImage(), x + 20, y - 18, 32, 32, this);
-		int C = (int) Math.floor(Math.min((double) r.getTotalCO2()/(1.0 + (double) r.getContLimit()),1.0) /
-			0.19);
-		Image i = img[C];
-		g.drawImage(i, x + 60, y - 18, 32, 32, this);
-	}
-	
-	// loads an image from a file
-	private Image loadImage(String img) {
-		Image i = null;
-		try {
-			return ImageIO.read(new File("resources/icons/" + img));
-		} catch (IOException e) {
-		}
-		return i;
-	}
-	*/
 }
