@@ -1,6 +1,8 @@
 package app.model;
 
+import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Line extends CITISObject {
@@ -15,12 +17,15 @@ public class Line extends CITISObject {
 	
 	private static final String TYPE_ID = "line";
 	
-	public Line (String id, TransportType t) {
+	private Color c;
+	
+	public Line (String id, TransportType t, int c1, int c2, int c3) {
 		super(id);
 		
 		if (t == null)
 			throw new IllegalArgumentException("El tipo no puede ser nulo");
 		
+		c = new Color(c1, c2, c3);
 		stops = new ArrayList<>();
 		transports = new ArrayList<>();
 		transp = t;
@@ -58,6 +63,14 @@ public class Line extends CITISObject {
 
 	public void addToLine(Transport t) {
 		transports.add(t);
+	}
+	
+	public List<Station> getStations() {
+		return Collections.unmodifiableList(stops);
+	}
+	
+	public Color getColor() {
+		return c;
 	}
 	
 	@Override

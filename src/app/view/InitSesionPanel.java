@@ -3,21 +3,29 @@ package app.view;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
+
+import app.model.CITISMap;
 
 public class InitSesionPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	
-	public InitSesionPanel() {
+	private CITISMap _cm;
+	
+	public InitSesionPanel(CITISMap cm) {
+		_cm = cm;
 		InitGUI();
 	}
 
@@ -69,6 +77,9 @@ public class InitSesionPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO enter as a guest
+				Window jf = SwingUtilities.getWindowAncestor(InitSesionPanel.this);
+				jf.setVisible(false);
+				new MapWindow(_cm);
 			}
 			
 		});
@@ -80,6 +91,9 @@ public class InitSesionPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO check data
+				Window jf = SwingUtilities.getWindowAncestor(InitSesionPanel.this);
+				jf.setVisible(false);
+				new SearchWindow();
 			}
 			
 		});

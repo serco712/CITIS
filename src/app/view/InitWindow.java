@@ -81,7 +81,7 @@ public class InitWindow extends JFrame {
 		
 		initPanel.add(Box.createRigidArea(new Dimension(0, 10)));
 
-		InitSesionPanel jp = new InitSesionPanel();
+		InitSesionPanel jp = new InitSesionPanel(cm);
 		initPanel.add(jp);
 		initPanel.add(Box.createRigidArea(new Dimension(0, 10)));
 		
