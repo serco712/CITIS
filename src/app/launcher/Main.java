@@ -2,9 +2,9 @@ package app.launcher;
 
 import java.util.Scanner;
 
-import app.data.DataFile;
-import app.data.Factory;
-import app.data.MainFactory;
+import app.control.Controller;
+import app.factories.Factory;
+import app.factories.MainFactory;
 import app.model.CITISMap;
 import app.model.Line;
 import app.model.Station;
@@ -28,7 +28,7 @@ public class Main {
 	
 	private static CITISMap cm;
 	
-	private static DataFile df;
+	private static Controller df;
 	
 	public static int menu() {
 		int option = -1;
@@ -55,7 +55,7 @@ public class Main {
 			//System.out.println(WELCOME_MSG);
 			ft = new MainFactory();
 			cm = new CITISMap();
-			df = new DataFile(ft, cm);
+			df = new Controller(ft, cm);
 			new InitWindow(cm, df);
 		} 
 		catch (Exception e) {

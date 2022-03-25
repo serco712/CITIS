@@ -5,8 +5,9 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Observer;
 
-public class CITISMap {
+public class CITISMap implements Observable<CITISObserver> {
 	
 	private Map<String, Station> stations_map;
 	
@@ -24,6 +25,8 @@ public class CITISMap {
 	
 	private List<User> customers;
 	
+	private List<CITISObserver> co;
+	
 	public CITISMap () {
 		stations = new ArrayList<>();
 		lines = new ArrayList<>();
@@ -38,16 +41,22 @@ public class CITISMap {
 	public void addStation(Station s) {
 		stations.add(s);
 		stations_map.put(s.getId(), s);
+		for(CITISObserver cs : co)
+			cs.CITISObjectAdded(this, s);
 	}
 	
 	public void addLine(Line l) {
 		lines.add(l);
 		lines_map.put(l.getId(), l);
+		for(CITISObserver cs : co)
+			cs.CITISObjectAdded(this, l);
 	}
 	
 	public void addTransport(Transport t) {
 		transports.add(t);
 		transports_map.put(t.getId(), t);
+		for(CITISObserver cs : co)
+			cs.CITISObjectAdded(this, t);
 	}
 	
 	public void addUser(User u) {
@@ -91,5 +100,15 @@ public class CITISMap {
 	public boolean checkUser(String username, String password) {	
 		return customers_map.containsKey(username) && 
 				customers_map.get(username).getPassword().equals(password);
+	}
+
+	@Override
+	public void addObserver(CITISObserver o) {
+		co.add(o);
+	}
+
+	@Override
+	public void removeObserver(CITISObserver o) {
+		co.remove(o);
 	}
 }
