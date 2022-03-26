@@ -16,11 +16,14 @@ import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+import app.control.Controller;
 import app.model.CITISMap;
+import app.model.CITISObject;
+import app.model.CITISObserver;
 import app.model.Line;
 import app.model.Station;
 
-public class StationMap extends JPanel {
+public class StationMap extends JPanel implements CITISObserver {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -34,8 +37,8 @@ public class StationMap extends JPanel {
 	
 	private CITISMap _map;
 
-	public StationMap (CITISMap map) {
-		_map = map;
+	public StationMap (Controller ctrl) {
+		ctrl.addObserver(this);
 		initGUI();
 	}
 	
@@ -86,5 +89,25 @@ public class StationMap extends JPanel {
 		
 		setOpaque(false);
 		super.paint(g);
+	}
+
+	@Override
+	public void registerObserver(CITISMap cm) {
+		_map = cm;
+	}
+
+	@Override
+	public void CITISObjectAdded(CITISMap cm, CITISObject co) {
+		_map = cm;
+	}
+
+	@Override
+	public void CITISObjectModified(CITISMap cm, CITISObject co) {
+		_map = cm;
+	}
+
+	@Override
+	public void CITISObjectDeleted(CITISMap cm, CITISObject co) {
+		_map = cm;
 	}
 }

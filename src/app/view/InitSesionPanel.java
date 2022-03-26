@@ -18,15 +18,16 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
+import app.control.Controller;
 import app.model.CITISMap;
 
 public class InitSesionPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	
-	private CITISMap _cm;
+	private Controller _ctrl;
 	
-	public InitSesionPanel(CITISMap cm) {
-		_cm = cm;
+	public InitSesionPanel(Controller ctrl) {
+		_ctrl = ctrl;
 		InitGUI();
 	}
 
@@ -80,7 +81,7 @@ public class InitSesionPanel extends JPanel {
 				// TODO enter as a guest
 				Window jf = SwingUtilities.getWindowAncestor(InitSesionPanel.this);
 				jf.setVisible(false);
-				new MapWindow((Frame) jf, _cm);
+				new MapWindow((Frame) jf, _ctrl);
 			}
 			
 		});

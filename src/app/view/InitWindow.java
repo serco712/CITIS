@@ -27,10 +27,13 @@ public class InitWindow extends JFrame {
 	
 	private CITISMap cm;
 	
-	public InitWindow (CITISMap cm, Controller df) {
+	private Controller _ctrl;
+	
+	public InitWindow (CITISMap cm, Controller ctrl) {
 		super("CITIS");
+		_ctrl = ctrl;
 		try {
-			df.loadData();
+			_ctrl.loadData();
 		}
 		catch(Exception e) {
 			System.out.println(e.getMessage());
@@ -48,7 +51,7 @@ public class InitWindow extends JFrame {
 						"Confirmación de cierre", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 					if (option == JOptionPane.YES_OPTION) {
 						try {
-							df.saveData();
+							_ctrl.saveData();
 						}
 						catch(Exception a) {
 							System.out.println(a.getMessage());
@@ -78,7 +81,7 @@ public class InitWindow extends JFrame {
 		
 		initPanel.add(Box.createRigidArea(new Dimension(0, 10)));
 
-		InitSesionPanel jp = new InitSesionPanel(cm);
+		InitSesionPanel jp = new InitSesionPanel(_ctrl);
 		initPanel.add(jp);
 		initPanel.add(Box.createRigidArea(new Dimension(0, 10)));
 		

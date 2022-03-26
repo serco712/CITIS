@@ -36,6 +36,7 @@ public class CITISMap implements Observable<CITISObserver> {
 		lines_map = new HashMap<>();
 		transports_map = new HashMap<>();
 		customers_map = new HashMap<>();
+		co = new ArrayList<>();
 	}
 	
 	public void addStation(Station s) {
@@ -105,6 +106,8 @@ public class CITISMap implements Observable<CITISObserver> {
 	@Override
 	public void addObserver(CITISObserver o) {
 		co.add(o);
+		for(CITISObserver c : co)
+			c.registerObserver(this);
 	}
 
 	@Override
