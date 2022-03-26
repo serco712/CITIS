@@ -3,17 +3,17 @@ package app.model;
 import java.util.Collections;
 import java.util.List;
 
-public abstract class Transport extends CITISObject {
+public class Transport extends CITISObject {
 	
 	private static int numTransports;
 	
 	private TransportType type;
-	
-	private List<Line> lines;
-	
+	private Line line;
 	private int time;
+	private String enroll;
+	private String model;
 
-	public Transport(String id, int time, TransportType type, List<Line> l) {
+	public Transport(String id, String enroll, String model, int time, TransportType type, Line l) {
 		super(id);
 		
 		if (time < 0)
@@ -25,9 +25,9 @@ public abstract class Transport extends CITISObject {
 		
 		this.type = type;
 		this.time = time;
-		lines = l;
-		for(Line li : lines)
-			li.addToLine(this);		
+		this.enroll = enroll;
+		this.model = model;
+		line = l;	
 	}
 
 	@Override
@@ -53,20 +53,21 @@ public abstract class Transport extends CITISObject {
 		return time;
 	}
 	
-	public int getNumLines() {
-		return lines.size();
-	}
-	
-	public List<Line> getLines(){
-		return Collections.unmodifiableList(lines);
+	public String getLine(){
+		return line.getId();
 	}
 	
 	@Override
 	public String toString() {
 		StringBuilder str = new StringBuilder();
 		str.append(_id + ' ' + time + ' ' + type.toString() + ' ');
-		for(Line l : lines)
-			str.append(l.getId() + ' ');
+		str.append(line.getId());
+		
 		return str.toString();
+	}
+
+	@Override
+	public String getTypeId() {
+		return type.toString();
 	}
 }

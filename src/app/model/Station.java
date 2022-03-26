@@ -3,7 +3,7 @@ package app.model;
 import java.util.Collections;
 import java.util.List;
 
-public abstract class Station extends CITISObject {
+public class Station extends CITISObject {
 	
 	private String name;
 	private int xCoor, yCoor;
@@ -63,5 +63,32 @@ public abstract class Station extends CITISObject {
 		for(Line l : lines)
 			str.append(l.getId() + ' ');
 		return str.toString();
+	}
+
+
+	@Override
+	public void onEnter() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void onDelete() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public int getAmount() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+
+	@Override
+	public String getTypeId() {
+		return null;
 	}
 }

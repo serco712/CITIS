@@ -3,15 +3,19 @@ package app.factories;
 import app.model.CITISMap;
 import app.model.Transport;
 
-public abstract class TransportFactory extends Factory {
+public class TransportFactory extends Factory {
 	
-	public TransportFactory(String type) {
-		super(type);
+	private static final String FACT_NAME = "transport";
+	
+	public TransportFactory() {
+		super(FACT_NAME);
 	}
-	
+
 	public void createObject(String[] para, CITISMap cm) {
 		cm.addTransport(createTransport(para, cm));
 	}
 	
-	protected abstract Transport createTransport(String[] para, CITISMap cm);	
+	protected Transport createTransport(String[] para, CITISMap cm) {
+		return new Transport(para[1], );
+	}
 }

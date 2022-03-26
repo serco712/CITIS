@@ -70,9 +70,8 @@ public class Controller {
 			
 			for(Transport t : ct.getTransports()) {
 				StringBuilder str = new StringBuilder();
-				str.append(t.getTypeId() + ' ' + t.getId() + ' ' + t.getTime() + ' ' + t.getNumLines());
-				for(Line l : t.getLines())
-					str.append(' ' + l.getId());
+				str.append(t.getTypeId() + ' ' + t.getId() + ' ' + t.getTime());
+				str.append(t.getLine());
 				br.append(str.toString() + '\n');
 			}
 			

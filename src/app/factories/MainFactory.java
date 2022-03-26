@@ -2,13 +2,9 @@ package app.factories;
 
 public class MainFactory {
 	private Factory[] elems = {
+		new StationFactory(),
 		new LineFactory(),
-		new BusStationFactory(),
-		new SubwayStationFactory(),
-		new TrainStationFactory(),
-		new BusFactory(),
-		new SubwayFactory(),
-		new TrainFactory(),
+		new TransportFactory(),
 		new CustomerFactory()
 	};
 	
