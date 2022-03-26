@@ -52,7 +52,7 @@ public class SearchWindow extends JFrame implements CITISObserver {
 		JMenu check_table = new JMenu("Consultar");
 		JMenuItem station_table = new JMenuItem("Listado de estaciones");
 		JMenuItem transport_table = new JMenuItem("Listado de transportes");
-		JMenuItem line_table = new JMenuItem("Listado de lÃ­neas");
+		JMenuItem line_table = new JMenuItem("Listado de líneas");
 		
 		check_table.add(station_table);
 		check_table.add(transport_table);
@@ -63,10 +63,10 @@ public class SearchWindow extends JFrame implements CITISObserver {
 		transport_table.addActionListener(new TableListener());
 		line_table.addActionListener(new TableListener());
 		
-		JMenu add_obj = new JMenu("AÃ±adir");
-		JMenuItem add_station = new JMenuItem("EstaciÃ³n");
+		JMenu add_obj = new JMenu("Añadir");
+		JMenuItem add_station = new JMenuItem("Estación");
 		JMenuItem add_transport = new JMenuItem("Transporte");
-		JMenuItem add_line = new JMenuItem("LÃ­nea");
+		JMenuItem add_line = new JMenuItem("Línea");
 		
 		add_obj.add(add_station);
 		add_obj.add(add_transport);
@@ -95,7 +95,7 @@ public class SearchWindow extends JFrame implements CITISObserver {
 		secPanel.add(upPanel);
 
 		JPanel downPanel = new JPanel(new GridLayout(1, 2));
-		downPanel.setBorder(new TitledBorder("Conï¿½cenos"));
+		downPanel.setBorder(new TitledBorder("¿Quiénes somos?"));
 		downPanel.add(new ImagePanel("resources/error.jpg"));
 		downPanel.add(new JLabel("Datos de la empresa..."));
 		secPanel.add(downPanel);
@@ -121,11 +121,14 @@ public class SearchWindow extends JFrame implements CITISObserver {
 	private class MiMenuListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			new AddStationDialog(SearchWindow.this);
+			/*
 			JOptionPane.showMessageDialog(
 					SearchWindow.this, 
 					"Se ha pulsado en la opcion de menu: " + e.getActionCommand(), 
 					"Informacion del menu", 
-					JOptionPane.DEFAULT_OPTION);			
+					JOptionPane.DEFAULT_OPTION);	
+					*/		
 		}
 	}
 	

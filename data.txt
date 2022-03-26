@@ -1,8 +1,8 @@
-line l1 SUBWAY 200 50 233
+line l1 SUBWAY 200 50 50
 line l2 TRAIN 0 255 255
-line l3 TRAIN 255 20 147
-line l4 SUBWAY 25 175 200
-line l5 BUS 255 65 7
+line l3 TRAIN 255 20 20
+line l4 SUBWAY 25 175 175
+line l5 BUS 255 65 65
 train_station ts1 PrincipePio 35 50 2 l2 l3
 train_station ts2 Aranjuez 70 40 1 l2
 train_station ts3 NuevosMinisterios 100 55 1 l2
