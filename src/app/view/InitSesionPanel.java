@@ -95,7 +95,7 @@ public class InitSesionPanel extends JPanel {
 				// TODO check data
 				Window jf = SwingUtilities.getWindowAncestor(InitSesionPanel.this);
 				jf.setVisible(false);
-				new SearchWindow();
+				new SearchWindow(_ctrl);
 			}
 			
 		});

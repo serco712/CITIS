@@ -1,10 +1,14 @@
 package app.view;
 
 import java.awt.BorderLayout;
-
+import java.awt.FlowLayout;
+import java.awt.Frame;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -15,15 +19,35 @@ import javax.swing.table.AbstractTableModel;
 public class TableWindow extends JFrame {
 	
 	private static final long serialVersionUID = 1L;
-
-	public TableWindow(AbstractTableModel table, String str) {
+	
+	private Frame _ancestor;
+	
+	public TableWindow(AbstractTableModel table, String str, Frame ancestor) {
+		super("Listado");
+		_ancestor = ancestor;
 		initGUI(table, str);
 	}
 	
 	public void initGUI(AbstractTableModel table, String str) {
 		JPanel mainPanel = new JPanel(new BorderLayout());
 		this.setContentPane(mainPanel);
+		
+		JPanel return_panel = new JPanel();
+		return_panel.setLayout(new FlowLayout(FlowLayout.LEFT));
+		
+		JButton goPrevious = new JButton("Retroceder");
+		goPrevious.addActionListener(new ActionListener() {
 
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				TableWindow.this.setVisible(false);
+				_ancestor.setVisible(true);
+			}
+			
+		});
+		return_panel.add(goPrevious);
+		mainPanel.add(return_panel, BorderLayout.NORTH);
+		
 		JPanel viewsPanel = new JPanel(new GridLayout(1, 2));
 		mainPanel.add(viewsPanel, BorderLayout.CENTER);
 		
@@ -41,7 +65,7 @@ public class TableWindow extends JFrame {
 	}
 	
 	private JPanel createViewPanel(JComponent c, String title) {
-		JPanel p = new JPanel(new BorderLayout() );
+		JPanel p = new JPanel(new BorderLayout());
 		p.add(new JScrollPane(c));
 		return p;
 	}

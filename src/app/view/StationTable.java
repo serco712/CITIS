@@ -54,6 +54,7 @@ public class StationTable extends AbstractTableModel {
 			StringBuilder str = new StringBuilder("[");
 			for (Line l : stations.get(x).getLines())
 				str.append(l.getId()).append(",");
+			str.setLength(str.length() - 1);
 			str.append("]");
 			return str.toString();
 		default:

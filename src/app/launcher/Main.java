@@ -57,8 +57,7 @@ public class Main {
 			ft = new MainFactory();
 			cm = new CITISMap();
 			df = new Controller(ft, cm);
-			//new InitWindow(cm, df);
-			new SearchWindow();
+			new InitWindow(cm, df);
 		} 
 		catch (Exception e) {
 			e.printStackTrace();
