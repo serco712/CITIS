@@ -12,7 +12,9 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.TitledBorder;
 
 public class SearchWindow extends JFrame {
 	
@@ -32,25 +34,19 @@ public class SearchWindow extends JFrame {
 		secPanel.setLayout(new GridLayout(2, 1));
 		mainPanel.add(secPanel, BorderLayout.CENTER);
 		
-		JPanel upPanel = new JPanel() {
-			@Override
-			public void paintComponent(Graphics g) {
-				super.paintComponent(g);
-				try {
-					g.drawImage(ImageIO.read(new File("resources/check.jpg")), 100, 100, 60, 60, secPanel);
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		};
+		JPanel upPanel = new JPanel();
 		upPanel.setLayout(new GridLayout(1, 2));
 		upPanel.setPreferredSize(new Dimension(1000, 400));
 		
+		upPanel.add(new ImagePanel("resources/check.jpg"));
 		upPanel.add(new SearchPanel());
 		upPanel.repaint();
 		secPanel.add(upPanel);
 
-		JPanel downPanel = new JPanel();
+		JPanel downPanel = new JPanel(new GridLayout(1, 2));
+		downPanel.setBorder(new TitledBorder("Conócenos"));
+		downPanel.add(new ImagePanel("resources/error.jpg"));
+		downPanel.add(new JLabel("Datos de la empresa..."));
 		secPanel.add(downPanel);
 		
 		

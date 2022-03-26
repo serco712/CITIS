@@ -11,6 +11,7 @@ import app.model.Station;
 import app.model.Transport;
 import app.view.InitWindow;
 import app.view.LineTable;
+import app.view.SearchWindow;
 import app.view.StationTable;
 import app.view.TableWindow;
 
@@ -56,7 +57,8 @@ public class Main {
 			ft = new MainFactory();
 			cm = new CITISMap();
 			df = new Controller(ft, cm);
-			new InitWindow(cm, df);
+			//new InitWindow(cm, df);
+			new SearchWindow();
 		} 
 		catch (Exception e) {
 			e.printStackTrace();

@@ -15,15 +15,20 @@ public class SearchPanel extends JPanel {
 	}
 	
 	private void initGUI() {
-		this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		
 		JLabel srcLabel = new JLabel("Origen");
 		JComboBox<Station> srcCombo = new JComboBox<>();
+		this.add(srcLabel);
+		this.add(srcCombo);
 		
 		JLabel destLabel = new JLabel("Destino");
 		JComboBox<Station> destCombo = new JComboBox<>();
+		this.add(destLabel);
+		this.add(destCombo);
 		
 		JButton searchButton = new JButton("Buscar");
+		this.add(searchButton);
 	}
 
 }
