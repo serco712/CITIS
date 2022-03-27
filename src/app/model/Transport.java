@@ -1,8 +1,5 @@
 package app.model;
 
-import java.util.Collections;
-import java.util.List;
-
 public class Transport extends CITISObject {
 	
 	private static int numTransports;
@@ -69,5 +66,13 @@ public class Transport extends CITISObject {
 	@Override
 	public String getTypeId() {
 		return type.toString();
+	}
+	
+	public String getEnrollment() {
+		return enroll;
+	}
+	
+	public String getModel() {
+		return model;
 	}
 }

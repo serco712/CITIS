@@ -11,7 +11,7 @@ public class LineTable extends AbstractTableModel {
 	private static final long serialVersionUID = 1L;
 	
 	private List<Line> lines;
-	private String[] cols = {"Id", "Transport name"};
+	private String[] cols = {"ID", "Tipo de transporte"};
 	
 	public LineTable(List<Line> lines) {
 		this.lines = lines;

@@ -10,6 +10,8 @@ import app.model.Station;
 
 public class SearchPanel extends JPanel {
 	
+	private static final long serialVersionUID = 1L;
+
 	public SearchPanel() {
 		initGUI();
 	}

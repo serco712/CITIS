@@ -10,10 +10,6 @@ import app.model.Line;
 import app.model.Station;
 import app.model.Transport;
 import app.view.InitWindow;
-import app.view.LineTable;
-import app.view.SearchWindow;
-import app.view.StationTable;
-import app.view.TableWindow;
 
 public class Main {
 	
@@ -46,6 +42,7 @@ public class Main {
 			Scanner sc = new Scanner(System.in);
 			System.out.println("");
 			option = Integer.parseInt(sc.nextLine());
+			sc.close();
 		}
 		while (option < MIN_OPTION && option > MAX_OPTION);
 		return option;
@@ -53,7 +50,7 @@ public class Main {
 	
 	public static void start() {
 		try {
-			//System.out.println(WELCOME_MSG);
+			System.out.println(WELCOME_MSG);
 			ft = new MainFactory();
 			cm = new CITISMap();
 			df = new Controller(ft, cm);
@@ -117,6 +114,7 @@ public class Main {
 			f.createObject(str, cm);
 			System.out.println("El objeto se ha creado correctamente");
 		}
+		sc.close();
 			
 	}
 	

@@ -10,10 +10,8 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JToolBar;
-import javax.swing.SwingUtilities;
 
 import app.control.Controller;
-import app.model.CITISMap;
 import app.model.TransportType;
 
 @SuppressWarnings("serial")
