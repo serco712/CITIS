@@ -32,12 +32,12 @@ public class Main {
 		do {
 			StringBuilder str = new StringBuilder();
 			str.append("Seleccione una de las siguientes opciones: " + '\n');
-			str.append("1 - Consultar lineas disponibles" + '\n');
+			str.append("1 - Consultar líneas disponibles" + '\n');
 			str.append("2 - Consultar paradas disponibles" + '\n');
 			str.append("3 - Consultar transportes disponibles" + '\n');
-			str.append("4 - Anadir nuevo CITISObject" + '\n');
+			str.append("4 - Añadir nuevo CITISObject" + '\n');
 			str.append("0 - Salir" + '\n');
-			str.append("Seleccione una opcion: ");
+			str.append("Seleccione una opción: ");
 			System.out.print(str.toString());
 			Scanner sc = new Scanner(System.in);
 			System.out.println("");
@@ -74,7 +74,7 @@ public class Main {
 	public static void showLines() {
 		//new TableWindow(new LineTable(cm.getLines()), "Lines");
 		System.out.println("-----------------------------------");
-		System.out.println("LISTADO DE LINEAS");
+		System.out.println("LISTADO DE LÍNEAS");
 		System.out.println("-----------------------------------");
 		for(Line l : cm.getLines())
 			System.out.println(l.toString());

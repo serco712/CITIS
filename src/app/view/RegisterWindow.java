@@ -1,11 +1,13 @@
 package app.view;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -17,6 +19,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import javax.swing.border.Border;
 
 import app.model.CITISMap;
 import app.model.User;
@@ -24,6 +27,8 @@ import app.model.User;
 public class RegisterWindow extends JFrame {
 	
 	private static final long serialVersionUID = 1L; 
+	
+	private Border _defaultBorder = BorderFactory.createLineBorder(Color.black, 2);
 	
 	private CITISMap cm;
 	
@@ -41,81 +46,101 @@ public class RegisterWindow extends JFrame {
 	private void InitGUI() {
 		JPanel mainPanel = new JPanel();
 		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+		mainPanel.setBorder(BorderFactory.createTitledBorder(_defaultBorder));
+		mainPanel.setBackground(Color.WHITE);
 		
 		JLabel welc = new JLabel("Introduzca sus datos:");
 		welc.setAlignmentX(CENTER_ALIGNMENT);
 		mainPanel.add(welc);
 		
 		JPanel p = new JPanel(new GridLayout(13, 1));
+		p.setBackground(Color.WHITE);
 		
 		JPanel nom_panel = new JPanel();
+		nom_panel.setBackground(Color.WHITE);
 		nom_panel.setLayout(new FlowLayout(FlowLayout.LEFT));
 		JLabel nom = new JLabel("Nombre: ", JLabel.TRAILING);
 		nom_panel.add(nom);
 		p.add(nom_panel);
 		
 		JPanel nomT_panel = new JPanel();
+		nomT_panel.setBackground(Color.WHITE);
 		nomT_panel.setLayout(new FlowLayout(FlowLayout.LEFT));
 		JTextField nomT = new JTextField(10);
+		nomT.setBorder(BorderFactory.createTitledBorder(_defaultBorder));
 		nom.setLabelFor(nomT);
 		nomT_panel.add(nomT);
 		p.add(nomT_panel);
 		
 		JPanel ape_panel = new JPanel();
+		ape_panel.setBackground(Color.WHITE);
 		ape_panel.setLayout(new FlowLayout(FlowLayout.LEFT));
 		JLabel ape = new JLabel("Apellidos: ", JLabel.TRAILING);
 		ape_panel.add(ape);
 		p.add(ape_panel);
 		
 		JPanel apeT_panel = new JPanel();
+		apeT_panel.setBackground(Color.WHITE);
 		apeT_panel.setLayout(new FlowLayout(FlowLayout.LEFT));
 		JTextField apeT = new JTextField(20);
+		apeT.setBorder(BorderFactory.createTitledBorder(_defaultBorder));
 		ape.setLabelFor(apeT);
 		apeT_panel.add(apeT);
 		p.add(apeT_panel);
 		
 		JPanel ema_panel = new JPanel();
+		ema_panel.setBackground(Color.WHITE);
 		ema_panel.setLayout(new FlowLayout(FlowLayout.LEFT));
 		JLabel ema = new JLabel("E-mail: ", JLabel.TRAILING);
 		ema_panel.add(ema);
 		p.add(ema_panel);
 		
 		JPanel emaT_panel = new JPanel();
+		emaT_panel.setBackground(Color.WHITE);
 		emaT_panel.setLayout(new FlowLayout(FlowLayout.LEFT));
 		JTextField emaT = new JTextField(15);
+		emaT.setBorder(BorderFactory.createTitledBorder(_defaultBorder));
 		ema.setLabelFor(emaT);
 		emaT_panel.add(emaT);
 		p.add(emaT_panel);
 		
 		JPanel contra_panel = new JPanel();
+		contra_panel.setBackground(Color.WHITE);
 		contra_panel.setLayout(new FlowLayout(FlowLayout.LEFT));
-		JLabel contra = new JLabel("Contrasena: ", JLabel.TRAILING);
+		JLabel contra = new JLabel("Contraseña: ", JLabel.TRAILING);
 		contra_panel.add(contra);
 		p.add(contra_panel);
 		
 		JPanel contraT_panel = new JPanel();
+		contraT_panel.setBackground(Color.WHITE);
 		contraT_panel.setLayout(new FlowLayout(FlowLayout.LEFT));
 		JPasswordField contraT = new JPasswordField(15);
+		contraT.setBorder(BorderFactory.createTitledBorder(_defaultBorder));
 		contra.setLabelFor(contraT);
 		contraT_panel.add(contraT);
 		p.add(contraT_panel);
 		
 		JPanel rcontra_panel = new JPanel();
+		rcontra_panel.setBackground(Color.WHITE);
 		rcontra_panel.setLayout(new FlowLayout(FlowLayout.LEFT));
-		JLabel rcontra = new JLabel("Repetir contrasena: ", JLabel.TRAILING);
+		JLabel rcontra = new JLabel("Repetir contraseña: ", JLabel.TRAILING);
 		rcontra_panel.add(rcontra);
 		p.add(rcontra_panel);
 		
 		JPanel rcontraT_panel = new JPanel();
+		rcontraT_panel.setBackground(Color.WHITE);
 		rcontraT_panel.setLayout(new FlowLayout(FlowLayout.LEFT));
 		JPasswordField rcontraT = new JPasswordField(15);
+		rcontraT.setBorder(BorderFactory.createTitledBorder(_defaultBorder));
 		rcontra.setLabelFor(rcontraT);
 		rcontraT_panel.add(rcontraT);
 		p.add(rcontraT_panel);
 		
 		JPanel showContra = new JPanel();
+		showContra.setBackground(Color.WHITE);
 		showContra.setLayout(new FlowLayout(FlowLayout.LEFT));
 		JCheckBox jc = new JCheckBox();
+		jc.setBackground(Color.WHITE);
 		jc.addActionListener(new ActionListener() {
 			
 			private boolean ctrl = true;
@@ -140,12 +165,14 @@ public class RegisterWindow extends JFrame {
 		
 		showContra.add(jc);
 		showContra.add(Box.createRigidArea(new Dimension(5, 0)));
-		showContra.add(new JLabel("Mostrar Contrasena"));
+		showContra.add(new JLabel("Mostrar Contraseña"));
 		p.add(showContra);
 		
 		JPanel acceptTerms = new JPanel();
+		acceptTerms.setBackground(Color.WHITE);
 		acceptTerms.setLayout(new FlowLayout(FlowLayout.LEFT));
 		JCheckBox cb = new JCheckBox();
+		cb.setBackground(Color.WHITE);
 		cb.addActionListener(new ActionListener() {
 
 			@Override
@@ -157,7 +184,7 @@ public class RegisterWindow extends JFrame {
 		
 		acceptTerms.add(cb);
 		acceptTerms.add(Box.createRigidArea(new Dimension(5, 0)));
-		acceptTerms.add(new JLabel("Acepto la politica de privacidad"));
+		acceptTerms.add(new JLabel("Acepto la política de privacidad"));
 		p.add(acceptTerms);
 		
 		mainPanel.add(p);
@@ -186,7 +213,7 @@ public class RegisterWindow extends JFrame {
 					}
 					else {
 						ImageIcon icon = new ImageIcon("reerror.jpg");
-						JOptionPane.showMessageDialog(null, "Las contrasenas no coinciden", 
+						JOptionPane.showMessageDialog(null, "Las contraseñas no coinciden", 
 				        		"Registrarse", JOptionPane.DEFAULT_OPTION, icon);
 					}
 				}

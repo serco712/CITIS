@@ -25,7 +25,7 @@ public class Controller {
 	
 	public Controller(MainFactory f, CITISMap cm) throws Exception {
 		if (f == null)
-			throw new IllegalArgumentException("La factorï¿½a no puede ser nula");
+			throw new IllegalArgumentException("La factoría no puede ser nula");
 		else if (cm == null)
 			throw new IllegalArgumentException("El mapa no puede ser nulo");
 		

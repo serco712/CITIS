@@ -1,11 +1,13 @@
 package app.view;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -38,6 +40,7 @@ public class SearchWindow extends JFrame implements CITISObserver {
 	private void initGUI() {
 		this.setMinimumSize(new Dimension(600, 400));
 		JPanel mainPanel = new JPanel(new BorderLayout());
+		mainPanel.setBackground(Color.WHITE);
 		this.setContentPane(mainPanel);
 		
 		//mainPanel.add(new SearchControlPanel(), BorderLayout.PAGE_START);
@@ -48,7 +51,7 @@ public class SearchWindow extends JFrame implements CITISObserver {
 		JMenu check_table = new JMenu("Consultar");
 		JMenuItem station_table = new JMenuItem("Listado de estaciones");
 		JMenuItem transport_table = new JMenuItem("Listado de transportes");
-		JMenuItem line_table = new JMenuItem("Listado de lï¿½neas");
+		JMenuItem line_table = new JMenuItem("Listado de líneas");
 		
 		check_table.add(station_table);
 		check_table.add(transport_table);
@@ -59,10 +62,10 @@ public class SearchWindow extends JFrame implements CITISObserver {
 		transport_table.addActionListener(new TableListener());
 		line_table.addActionListener(new TableListener());
 		
-		JMenu add_obj = new JMenu("Aï¿½adir");
-		JMenuItem add_station = new JMenuItem("Estaciï¿½n");
+		JMenu add_obj = new JMenu("Añadir");
+		JMenuItem add_station = new JMenuItem("Estación");
 		JMenuItem add_transport = new JMenuItem("Transporte");
-		JMenuItem add_line = new JMenuItem("Lï¿½nea");
+		JMenuItem add_line = new JMenuItem("Línea");
 		
 		add_obj.add(add_station);
 		add_obj.add(add_transport);
@@ -104,7 +107,7 @@ public class SearchWindow extends JFrame implements CITISObserver {
 		secPanel.add(upPanel);
 
 		JPanel downPanel = new JPanel(new GridLayout(1, 2));
-		downPanel.setBorder(new TitledBorder("ï¿½Quiï¿½nes somos?"));
+		downPanel.setBorder(new TitledBorder("¿Quiénes somos?"));
 		downPanel.add(new ImagePanel("resources/error.jpg"));
 		downPanel.add(new JLabel("Datos de la empresa..."));
 		secPanel.add(downPanel);
