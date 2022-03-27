@@ -14,17 +14,22 @@ import javax.swing.SwingUtilities;
 
 import app.control.Controller;
 import app.model.CITISMap;
+import app.model.TransportType;
 
+@SuppressWarnings("serial")
 public class MapWindow extends JFrame {
 	
 	private Controller _ctrl;
 	
 	private Frame _parent;
 	
-	public MapWindow(Frame parent, Controller ctrl) {
+	private TransportType _tp;
+	
+	public MapWindow(Frame parent, Controller ctrl, TransportType tp) {
 		super("Mapa de Estaciones");
 		_ctrl = ctrl;
 		_parent = parent;
+		_tp = tp;
 		InitGUI();
 	}
 	
@@ -45,7 +50,7 @@ public class MapWindow extends JFrame {
 		
 		jtb.add(goAhead);
 		mainPanel.add(jtb, BorderLayout.NORTH);
-		JPanel np = new StationMap(_ctrl);
+		JPanel np = new StationMap(_ctrl, _tp);
 		mainPanel.add(np, BorderLayout.CENTER);
 		this.setSize(new Dimension(500, 400));
 		this.setVisible(true);

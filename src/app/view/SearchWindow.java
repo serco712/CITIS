@@ -33,8 +33,11 @@ public class SearchWindow extends JFrame implements CITISObserver {
 	
 	private CITISMap _cm;
 	
+	private Controller _ctrl;
+	
 	public SearchWindow(Controller ctrl) {
 		super("CITIS");
+		_ctrl = ctrl;
 		ctrl.addObserver(this);
 		initGUI();
 	}
@@ -52,7 +55,7 @@ public class SearchWindow extends JFrame implements CITISObserver {
 		JMenu check_table = new JMenu("Consultar");
 		JMenuItem station_table = new JMenuItem("Listado de estaciones");
 		JMenuItem transport_table = new JMenuItem("Listado de transportes");
-		JMenuItem line_table = new JMenuItem("Listado de líneas");
+		JMenuItem line_table = new JMenuItem("Listado de lï¿½neas");
 		
 		check_table.add(station_table);
 		check_table.add(transport_table);
@@ -63,10 +66,10 @@ public class SearchWindow extends JFrame implements CITISObserver {
 		transport_table.addActionListener(new TableListener());
 		line_table.addActionListener(new TableListener());
 		
-		JMenu add_obj = new JMenu("Añadir");
-		JMenuItem add_station = new JMenuItem("Estación");
+		JMenu add_obj = new JMenu("Aï¿½adir");
+		JMenuItem add_station = new JMenuItem("Estaciï¿½n");
 		JMenuItem add_transport = new JMenuItem("Transporte");
-		JMenuItem add_line = new JMenuItem("Línea");
+		JMenuItem add_line = new JMenuItem("Lï¿½nea");
 		
 		add_obj.add(add_station);
 		add_obj.add(add_transport);
@@ -77,6 +80,19 @@ public class SearchWindow extends JFrame implements CITISObserver {
 		add_transport.addActionListener(menul);
 		add_line.addActionListener(menul);
 		
+		JMenu map_menu = new JMenu("Mapas");
+		JMenuItem map_train = new JMenuItem("Trenes");
+		JMenuItem map_bus = new JMenuItem("Autobuses");
+		JMenuItem map_subway = new JMenuItem("Metro");
+		
+		map_menu.add(map_train);
+		map_menu.add(map_bus);
+		map_menu.add(map_subway);
+		jmb.add(map_menu);
+		
+		map_train.addActionListener(new MapListener());
+		map_bus.addActionListener(new MapListener());
+		map_subway.addActionListener(new MapListener());
 		this.setJMenuBar(jmb);
 		
 		
@@ -95,7 +111,7 @@ public class SearchWindow extends JFrame implements CITISObserver {
 		secPanel.add(upPanel);
 
 		JPanel downPanel = new JPanel(new GridLayout(1, 2));
-		downPanel.setBorder(new TitledBorder("¿Quiénes somos?"));
+		downPanel.setBorder(new TitledBorder("ï¿½Quiï¿½nes somos?"));
 		downPanel.add(new ImagePanel("resources/error.jpg"));
 		downPanel.add(new JLabel("Datos de la empresa..."));
 		secPanel.add(downPanel);
@@ -115,6 +131,20 @@ public class SearchWindow extends JFrame implements CITISObserver {
 				new TableWindow(new TransportTable(_cm.getTransports()), cmnd, SearchWindow.this);
 			else
 				new TableWindow(new LineTable(_cm.getLines()), cmnd, SearchWindow.this);
+		}
+	}
+	
+	private class MapListener implements ActionListener {
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			String cmnd = e.getActionCommand();
+			if(cmnd.equals("Trenes"))
+				new MapWindow(SearchWindow.this, _ctrl, TransportType.TRAIN);
+			else if(cmnd.equals("Autobuses"))
+				new MapWindow(SearchWindow.this, _ctrl, TransportType.BUS);
+			else
+				new MapWindow(SearchWindow.this, _ctrl, TransportType.SUBWAY);
 		}
 	}
 	
