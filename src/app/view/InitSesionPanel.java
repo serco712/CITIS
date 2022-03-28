@@ -8,6 +8,8 @@ import java.awt.GridLayout;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -18,6 +20,7 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
+import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
 
 import app.control.Controller;
@@ -78,12 +81,14 @@ public class InitSesionPanel extends JPanel {
 		data.setAlignmentX(CENTER_ALIGNMENT);
 		
 		this.add(data);		
-		this.add(Box.createRigidArea(new Dimension(0, 10)));
+		this.add(Box.createRigidArea(new Dimension(240, 10)));
 		
 		JPanel jp = new JPanel();
+	
 		jp.setBackground(Color.WHITE);
 		jp.setLayout(new BoxLayout(jp, BoxLayout.X_AXIS));
 		JButton entrarInvitado = new JButton("Entrar como Invitado");
+		formatButton(entrarInvitado);
 		entrarInvitado.addActionListener(new ActionListener() {
 
 			@Override
@@ -98,6 +103,7 @@ public class InitSesionPanel extends JPanel {
 		jp.add(entrarInvitado);
 		jp.add(Box.createRigidArea(new Dimension(10, 0)));
 		JButton initSes = new JButton("Iniciar Sesión");
+		formatButton(initSes);
 		initSes.addActionListener(new ActionListener() {
 
 			@Override
@@ -112,5 +118,19 @@ public class InitSesionPanel extends JPanel {
 		jp.add(initSes);
 		this.add(jp);
 		this.setVisible(true);
+	}
+	
+	private void formatButton(JButton b) {
+		b.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED, Color.BLACK, Color.LIGHT_GRAY));
+		b.setBackground(Color.WHITE);
+				
+		b.addMouseListener(new MouseAdapter() {
+			public void mouseEntered(MouseEvent e) {
+				b.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED, Color.GRAY, Color.WHITE));
+			}
+			public void mouseExited(MouseEvent e) {
+				b.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED, Color.BLACK, Color.LIGHT_GRAY));
+			}
+		});	
 	}
 }

@@ -6,6 +6,8 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -19,6 +21,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
 
 import app.model.CITISMap;
@@ -48,6 +51,8 @@ public class RegisterWindow extends JFrame {
 		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 		mainPanel.setBorder(BorderFactory.createTitledBorder(_defaultBorder));
 		mainPanel.setBackground(Color.WHITE);
+		
+		mainPanel.add(Box.createRigidArea(new Dimension(0, 10)));
 		
 		JLabel welc = new JLabel("Introduzca sus datos:");
 		welc.setAlignmentX(CENTER_ALIGNMENT);
@@ -190,6 +195,7 @@ public class RegisterWindow extends JFrame {
 		mainPanel.add(p);
 		
 		JButton acept = new JButton("Aceptar");
+		formatButton(acept);
 		acept.setAlignmentX(CENTER_ALIGNMENT);
 		acept.addActionListener(new ActionListener() {
 
@@ -212,13 +218,13 @@ public class RegisterWindow extends JFrame {
 				        RegisterWindow.this.setVisible(false);
 					}
 					else {
-						ImageIcon icon = new ImageIcon("reerror.jpg");
+						ImageIcon icon = new ImageIcon("resources/error.png");
 						JOptionPane.showMessageDialog(null, "Las contraseñas no coinciden", 
 				        		"Registrarse", JOptionPane.DEFAULT_OPTION, icon);
 					}
 				}
 				else {
-					ImageIcon icon = new ImageIcon("resources/error.jpg");
+					ImageIcon icon = new ImageIcon("resources/error.png");
 					JOptionPane.showMessageDialog(null, "Faltan algunos datos requeridos", 
 			        		"Registrarse", JOptionPane.DEFAULT_OPTION, icon);
 				}
@@ -227,7 +233,21 @@ public class RegisterWindow extends JFrame {
 		});
 		
 		mainPanel.add(acept);
+		mainPanel.add(Box.createRigidArea(new Dimension(0, 10)));
 		this.add(mainPanel);
 	}
 	
+	private void formatButton(JButton b) {
+		b.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED, Color.BLACK, Color.LIGHT_GRAY));
+		b.setBackground(Color.WHITE);
+				
+		b.addMouseListener(new MouseAdapter() {
+			public void mouseEntered(MouseEvent e) {
+				b.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED, Color.GRAY, Color.WHITE));
+			}
+			public void mouseExited(MouseEvent e) {
+				b.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED, Color.BLACK, Color.LIGHT_GRAY));
+			}
+		});	
+	}	
 }

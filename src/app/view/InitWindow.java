@@ -3,11 +3,12 @@ package app.view;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -20,7 +21,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JRadioButton;
+import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
 
 import app.control.Controller;
@@ -65,7 +66,9 @@ public class InitWindow extends JFrame {
 						}
 						
 						System.exit(0);
-					}		
+					}
+					else 
+						dispose();
 			}
 		});
 		
@@ -109,13 +112,23 @@ public class InitWindow extends JFrame {
 		initPanel.add(t);
 		
 		JButton register = new JButton("Registrarse");
+		register.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED, Color.BLACK, Color.LIGHT_GRAY));
+		register.setBackground(Color.WHITE);
+		
 		register.addActionListener(new ActionListener(){
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				new RegisterWindow(cm);
 			}
-			
+		});
+		
+		register.addMouseListener(new MouseAdapter() {
+			public void mouseEntered(MouseEvent e) {
+				register.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED, Color.GRAY, Color.WHITE));
+			}
+			public void mouseExited(MouseEvent e) {
+				register.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED, Color.BLACK, Color.LIGHT_GRAY));
+			}
 		});
 				
 		register.setAlignmentX(CENTER_ALIGNMENT);
