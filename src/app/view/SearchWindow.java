@@ -50,7 +50,7 @@ public class SearchWindow extends JFrame implements CITISObserver {
 		JMenu check_table = new JMenu("Consultar");
 		JMenuItem station_table = new JMenuItem("Listado de estaciones");
 		JMenuItem transport_table = new JMenuItem("Listado de transportes");
-		JMenuItem line_table = new JMenuItem("Listado de líneas");
+		JMenuItem line_table = new JMenuItem("Listado de lineas");
 		
 		check_table.add(station_table);
 		check_table.add(transport_table);
@@ -61,10 +61,10 @@ public class SearchWindow extends JFrame implements CITISObserver {
 		transport_table.addActionListener(new TableListener());
 		line_table.addActionListener(new TableListener());
 		
-		JMenu add_obj = new JMenu("Añadir");
-		JMenuItem add_station = new JMenuItem("Estación");
+		JMenu add_obj = new JMenu("Anadir");
+		JMenuItem add_station = new JMenuItem("Estacion");
 		JMenuItem add_transport = new JMenuItem("Transporte");
-		JMenuItem add_line = new JMenuItem("Línea");
+		JMenuItem add_line = new JMenuItem("Linea");
 		
 		add_obj.add(add_station);
 		add_obj.add(add_transport);
@@ -100,15 +100,17 @@ public class SearchWindow extends JFrame implements CITISObserver {
 		upPanel.setLayout(new GridLayout(1, 2));
 		upPanel.setPreferredSize(new Dimension(1000, 400));
 		
-		upPanel.add(new ImagePanel("resources/check.jpg"));
+		upPanel.add(new ImagePanel("resources/map.jpg"));
 		upPanel.add(new SearchPanel());
 		upPanel.repaint();
 		secPanel.add(upPanel);
 
 		JPanel downPanel = new JPanel(new GridLayout(1, 2));
-		downPanel.setBorder(new TitledBorder("¿Quiénes somos?"));
-		downPanel.add(new ImagePanel("resources/error.jpg"));
-		downPanel.add(new JLabel("Datos de la empresa..."));
+		downPanel.setBorder(new TitledBorder("Quienes somos?"));
+		downPanel.add(new ImagePanel("resources/logoCITIS.png"));
+		downPanel.add(new JLabel("<html><p>Somos una empresa dedicada a la gestion de <br>"
+				+ " transportes que tiene como principal objetivo facilitar a los ciudadanos<br>"
+				+ " el uso de la red de transporte publico.</p></html>"));
 		secPanel.add(downPanel);
 		
 		

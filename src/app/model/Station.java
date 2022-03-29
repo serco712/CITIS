@@ -6,9 +6,11 @@ import java.util.List;
 public class Station extends CITISObject {
 	
 	private String name;
+	private static final String TYPE_ID = "station";
 	private int xCoor, yCoor;
 	TransportType transport;
 	private List<Line> lines;
+	private static int numStations;
 	
 	public Station(String id, String name, int x, int y,
 			TransportType t, List<Line> l) {
@@ -19,8 +21,8 @@ public class Station extends CITISObject {
 		else if (t == null)
 			throw new IllegalArgumentException("El tipo no puede ser nulo");
 		else if (l == null)
-			throw new IllegalArgumentException("La lista de líneas no puede ser nula");
-		//TODO ver las coordenadas del mapa para lanzar excepción si se salen
+			throw new IllegalArgumentException("La lista de lï¿½neas no puede ser nula");
+		//TODO ver las coordenadas del mapa para lanzar excepciï¿½n si se salen
 		
 		this.name = name;
 		xCoor = x;
@@ -68,27 +70,24 @@ public class Station extends CITISObject {
 
 	@Override
 	public void onEnter() {
-		// TODO Auto-generated method stub
-		
+		numStations++;
 	}
 
 
 	@Override
 	public void onDelete() {
-		// TODO Auto-generated method stub
-		
+		numStations--;
 	}
 
 
 	@Override
 	public int getAmount() {
-		// TODO Auto-generated method stub
-		return 0;
+		return numStations;
 	}
 
 
 	@Override
 	public String getTypeId() {
-		return null;
+		return TYPE_ID;
 	}
 }

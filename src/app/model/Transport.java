@@ -9,7 +9,8 @@ public class Transport extends CITISObject {
 	private int time;
 	private String enroll;
 	private String model;
-
+	private static final String TYPE_ID = "transport";
+	
 	public Transport(String id, String enroll, String model, int time, TransportType type, Line l) {
 		super(id);
 		
@@ -50,7 +51,7 @@ public class Transport extends CITISObject {
 		return time;
 	}
 	
-	public String getLine(){
+	public String getLine() {
 		return line.getId();
 	}
 	
@@ -65,7 +66,7 @@ public class Transport extends CITISObject {
 
 	@Override
 	public String getTypeId() {
-		return type.toString();
+		return TYPE_ID;
 	}
 	
 	public String getEnrollment() {

@@ -25,7 +25,7 @@ public class Controller {
 	
 	public Controller(MainFactory f, CITISMap cm) throws Exception {
 		if (f == null)
-			throw new IllegalArgumentException("La factoría no puede ser nula");
+			throw new IllegalArgumentException("La factorï¿½a no puede ser nula");
 		else if (cm == null)
 			throw new IllegalArgumentException("El mapa no puede ser nulo");
 		
@@ -70,7 +70,8 @@ public class Controller {
 			
 			for(Transport t : ct.getTransports()) {
 				StringBuilder str = new StringBuilder();
-				str.append(t.getTypeId() + ' ' + t.getId() + ' ' + t.getTime());
+				str.append(t.getTypeId() + ' ' + t.getId() + ' ' + t.getEnrollment() + ' ' + t.getTime());
+				str.append(' ' + t.getModel() + ' ' + t.getTime() + ' ' + t.getType().toString());
 				str.append(t.getLine());
 				br.append(str.toString() + '\n');
 			}

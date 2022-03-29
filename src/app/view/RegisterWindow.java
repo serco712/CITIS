@@ -41,7 +41,7 @@ public class RegisterWindow extends JFrame {
 		super("Registrarse");
 		InitGUI();
 		this.cm = cm;
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		this.setSize(500, 500);
 		this.setVisible(true);
 	}
@@ -112,7 +112,7 @@ public class RegisterWindow extends JFrame {
 		JPanel contra_panel = new JPanel();
 		contra_panel.setBackground(Color.WHITE);
 		contra_panel.setLayout(new FlowLayout(FlowLayout.LEFT));
-		JLabel contra = new JLabel("Contraseña: ", JLabel.TRAILING);
+		JLabel contra = new JLabel("Contrasena: ", JLabel.TRAILING);
 		contra_panel.add(contra);
 		p.add(contra_panel);
 		
@@ -128,7 +128,7 @@ public class RegisterWindow extends JFrame {
 		JPanel rcontra_panel = new JPanel();
 		rcontra_panel.setBackground(Color.WHITE);
 		rcontra_panel.setLayout(new FlowLayout(FlowLayout.LEFT));
-		JLabel rcontra = new JLabel("Repetir contraseña: ", JLabel.TRAILING);
+		JLabel rcontra = new JLabel("Repetir contrasena: ", JLabel.TRAILING);
 		rcontra_panel.add(rcontra);
 		p.add(rcontra_panel);
 		
@@ -170,7 +170,7 @@ public class RegisterWindow extends JFrame {
 		
 		showContra.add(jc);
 		showContra.add(Box.createRigidArea(new Dimension(5, 0)));
-		showContra.add(new JLabel("Mostrar Contraseña"));
+		showContra.add(new JLabel("Mostrar Contrasena"));
 		p.add(showContra);
 		
 		JPanel acceptTerms = new JPanel();
@@ -189,7 +189,7 @@ public class RegisterWindow extends JFrame {
 		
 		acceptTerms.add(cb);
 		acceptTerms.add(Box.createRigidArea(new Dimension(5, 0)));
-		acceptTerms.add(new JLabel("Acepto la política de privacidad"));
+		acceptTerms.add(new JLabel("Acepto la politica de privacidad"));
 		p.add(acceptTerms);
 		
 		mainPanel.add(p);
@@ -219,7 +219,7 @@ public class RegisterWindow extends JFrame {
 					}
 					else {
 						ImageIcon icon = new ImageIcon("resources/error.png");
-						JOptionPane.showMessageDialog(null, "Las contraseñas no coinciden", 
+						JOptionPane.showMessageDialog(null, "Las contraseï¿½as no coinciden", 
 				        		"Registrarse", JOptionPane.DEFAULT_OPTION, icon);
 					}
 				}

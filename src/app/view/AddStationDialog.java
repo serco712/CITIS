@@ -74,7 +74,7 @@ public class AddStationDialog extends JDialog {
 		yCoor = new JTextField();
 		coorPanel.add(yCoor);
 		
-		JButton addButton = new JButton("Añadir");
+		JButton addButton = new JButton("Anadir");
 		downPanel.add(addButton);
 		
 		

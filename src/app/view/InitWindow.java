@@ -55,8 +55,8 @@ public class InitWindow extends JFrame {
 			@Override
 			public void windowClosing(WindowEvent e) {
 				int option = JOptionPane.showConfirmDialog(
-						InitWindow.this, "¿Estás seguro de que quieres cerrar la aplicación?",
-						"Confirmación de cierre", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+						InitWindow.this, "Estas seguro que quieres cerrar la aplicacion?",
+						"Confirmacion de cierre", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 					if (option == JOptionPane.YES_OPTION) {
 						try {
 							_ctrl.saveData();
@@ -107,7 +107,7 @@ public class InitWindow extends JFrame {
 		initPanel.add(jp);
 		initPanel.add(Box.createRigidArea(new Dimension(0, 10)));
 		
-		JLabel t = new JLabel("¿No tienes cuenta aún? Regístrate ahora");
+		JLabel t = new JLabel("No tienes cuenta aun? Registrate ahora");
 		t.setAlignmentX(CENTER_ALIGNMENT);
 		initPanel.add(t);
 		

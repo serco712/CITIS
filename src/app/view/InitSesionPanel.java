@@ -63,7 +63,7 @@ public class InitSesionPanel extends JPanel {
 		JPanel pas_panel = new JPanel();
 		pas_panel.setBackground(Color.WHITE);
 		pas_panel.setLayout(new FlowLayout());
-		JLabel password = new JLabel("Contraseña");
+		JLabel password = new JLabel("Contrasena");
 		
 		pas_panel.add(password);
 		data.add(pas_panel);
@@ -102,7 +102,7 @@ public class InitSesionPanel extends JPanel {
 		});
 		jp.add(entrarInvitado);
 		jp.add(Box.createRigidArea(new Dimension(10, 0)));
-		JButton initSes = new JButton("Iniciar Sesión");
+		JButton initSes = new JButton("Iniciar Sesion");
 		formatButton(initSes);
 		initSes.addActionListener(new ActionListener() {
 

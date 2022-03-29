@@ -35,7 +35,7 @@ public class MapWindow extends JFrame {
 		JPanel mainPanel = new JPanel(new BorderLayout());
 		this.setContentPane(mainPanel);
 		JToolBar jtb = new JToolBar();
-		JButton goAhead = new JButton("Tira pa trás");
+		JButton goAhead = new JButton("Retroceder");
 		goAhead.addActionListener(new ActionListener() {
 
 			@Override
