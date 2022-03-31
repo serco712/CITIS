@@ -5,12 +5,16 @@ import java.util.List;
 
 public class Station extends CITISObject {
 	
-	private String name;
 	private static final String TYPE_ID = "station";
-	private int xCoor, yCoor;
-	TransportType transport;
-	private List<Line> lines;
+	
 	private static int numStations;
+	
+	private String _id;
+	private String _name;
+	private Station _parent;
+	private int xCoor, yCoor;
+	private TransportType transport;
+	private List<Line> lines;
 	
 	public Station(String id, String name, int x, int y,
 			TransportType t, List<Line> l) {
@@ -24,7 +28,8 @@ public class Station extends CITISObject {
 			throw new IllegalArgumentException("La lista de l�neas no puede ser nula");
 		//TODO ver las coordenadas del mapa para lanzar excepci�n si se salen
 		
-		this.name = name;
+		_id = id;
+		_name = name;
 		xCoor = x;
 		yCoor = y;
 		transport = t;
@@ -35,7 +40,7 @@ public class Station extends CITISObject {
 	
 	
 	public String getName() {
-		return name;
+		return _name;
 	}
 	
 	public int getX() {
@@ -61,7 +66,7 @@ public class Station extends CITISObject {
 	@Override
 	public String toString() {
 		StringBuilder str = new StringBuilder();
-		str.append(_id + ' ' + name + ' ' + transport.toString() + ' ');
+		str.append(_id + ' ' + _name + ' ' + transport.toString() + ' ');
 		for(Line l : lines)
 			str.append(l.getId() + ' ');
 		return str.toString();
