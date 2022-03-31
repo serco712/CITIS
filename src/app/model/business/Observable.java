@@ -1,4 +1,4 @@
-package app.model;
+package app.model.business;
 
 public interface Observable<T> {
 	void addObserver(T o);

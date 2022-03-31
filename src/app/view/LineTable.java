@@ -4,7 +4,7 @@ import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
 
-import app.model.Line;
+import app.model.business.Line;
 
 public class LineTable extends AbstractTableModel {
 

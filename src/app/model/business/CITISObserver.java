@@ -1,4 +1,4 @@
-package app.model;
+package app.model.business;
 
 public interface CITISObserver {
 	void registerObserver(CITISMap cm);

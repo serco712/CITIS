@@ -12,12 +12,12 @@ import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
 import app.control.Controller;
-import app.model.CITISMap;
-import app.model.CITISObject;
-import app.model.CITISObserver;
-import app.model.Line;
-import app.model.Station;
-import app.model.TransportType;
+import app.model.business.CITISMap;
+import app.model.business.CITISObject;
+import app.model.business.CITISObserver;
+import app.model.business.Line;
+import app.model.business.Station;
+import app.model.business.TransportType;
 
 public class StationMap extends JPanel implements CITISObserver {
 

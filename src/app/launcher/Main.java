@@ -5,10 +5,10 @@ import java.util.Scanner;
 import app.control.Controller;
 import app.factories.Factory;
 import app.factories.MainFactory;
-import app.model.CITISMap;
-import app.model.Line;
-import app.model.Station;
-import app.model.Transport;
+import app.model.business.CITISMap;
+import app.model.business.Line;
+import app.model.business.Station;
+import app.model.business.Transport;
 import app.view.InitWindow;
 
 public class Main {

@@ -1,13 +1,13 @@
-package app.model;
+package app.model.business.trip;
 
 import app.misc.TimeADT;
 
-public class SpecificTrip extends Trip {
+public class ASSpecificTrip extends ASTrip {
 	
 	private TimeADT _departure;
 	private String _sTripId;
 
-	public SpecificTrip(String id, String name, TimeADT time,
+	public ASSpecificTrip(String id, String name, TimeADT time,
 				String speTripId) {
 		super(id, name);
 		_departure = time;

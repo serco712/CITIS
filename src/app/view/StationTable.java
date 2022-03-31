@@ -4,8 +4,8 @@ import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
 
-import app.model.Line;
-import app.model.Station;
+import app.model.business.Line;
+import app.model.business.Station;
 
 public class StationTable extends AbstractTableModel {
 

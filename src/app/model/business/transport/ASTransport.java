@@ -1,17 +1,21 @@
-package app.model;
+package app.model.business.transport;
 
-public class Transport extends CITISObject {
+import app.model.business.CITISObject;
+import app.model.business.TransportType;
+import app.model.business.line.ASLine;
+
+public class ASTransport extends CITISObject {
 	
 	private static int numTransports;
 	
 	private TransportType type;
-	private Line line;
+	private ASLine line;
 	private int time;
 	private String enroll;
 	private String model;
 	private static final String TYPE_ID = "transport";
 	
-	public Transport(String id, String enroll, String model, int time, TransportType type, Line l) {
+	public ASTransport(String id, String enroll, String model, int time, TransportType type, Line l) {
 		super(id);
 		
 		if (time < 0)

@@ -25,7 +25,7 @@ import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
 
 import app.control.Controller;
-import app.model.CITISMap;
+import app.model.business.CITISMap;
 
 public class InitWindow extends JFrame {
 	

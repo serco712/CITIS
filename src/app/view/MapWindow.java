@@ -12,7 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.JToolBar;
 
 import app.control.Controller;
-import app.model.TransportType;
+import app.model.business.TransportType;
 
 @SuppressWarnings("serial")
 public class MapWindow extends JFrame {

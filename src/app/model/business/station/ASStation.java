@@ -1,9 +1,13 @@
-package app.model;
+package app.model.business.station;
 
 import java.util.Collections;
 import java.util.List;
 
-public class Station extends CITISObject {
+import app.model.business.CITISObject;
+import app.model.business.TransportType;
+import app.model.business.line.ASLine;
+
+public class ASStation extends CITISObject {
 	
 	private static final String TYPE_ID = "station";
 	
@@ -11,13 +15,13 @@ public class Station extends CITISObject {
 	
 	private String _id;
 	private String _name;
-	private Station _parent;
+	private ASStation _parent;
 	private int xCoor, yCoor;
 	private TransportType transport;
-	private List<Line> lines;
+	private List<ASLine> lines;
 	
-	public Station(String id, String name, int x, int y,
-			TransportType t, List<Line> l) {
+	public ASStation(String id, String name, int x, int y,
+			TransportType t, List<ASLine> l) {
 		super(id);
 		
 		if (name == null || name == "")
@@ -34,7 +38,7 @@ public class Station extends CITISObject {
 		yCoor = y;
 		transport = t;
 		lines = l;
-		for (Line li : lines)
+		for (ASLine li : lines)
 			li.addToLine(this);
 	}
 	
@@ -59,7 +63,7 @@ public class Station extends CITISObject {
 		return lines.size();
 	}
 	
-	public List<Line> getLines() {
+	public List<ASLine> getLines() {
 		return Collections.unmodifiableList(lines);
 	}
 	
@@ -67,7 +71,7 @@ public class Station extends CITISObject {
 	public String toString() {
 		StringBuilder str = new StringBuilder();
 		str.append(_id + ' ' + _name + ' ' + transport.toString() + ' ');
-		for(Line l : lines)
+		for(ASLine l : lines)
 			str.append(l.getId() + ' ');
 		return str.toString();
 	}

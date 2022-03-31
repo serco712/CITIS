@@ -1,8 +1,8 @@
 package app.factories;
 
-import app.model.CITISMap;
-import app.model.Transport;
-import app.model.TransportType;
+import app.model.business.CITISMap;
+import app.model.business.TransportType;
+import app.model.business.transport.ASTransport;
 
 public class TransportFactory extends Factory {
 	
@@ -16,8 +16,8 @@ public class TransportFactory extends Factory {
 		cm.addTransport(createTransport(para, cm));
 	}
 	
-	protected Transport createTransport(String[] para, CITISMap cm) {
-		return new Transport(para[1], para[2], para[3], Integer.parseInt(para[4]),
+	protected ASTransport createTransport(String[] para, CITISMap cm) {
+		return new ASTransport(para[1], para[2], para[3], Integer.parseInt(para[4]),
 				TransportType.valueOf(para[5]), cm.searchLine(para[6]));
 	}
 }

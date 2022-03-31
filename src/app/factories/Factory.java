@@ -1,6 +1,6 @@
 package app.factories;
 
-import app.model.CITISMap;
+import app.model.business.CITISMap;
 
 public abstract class Factory {
 	

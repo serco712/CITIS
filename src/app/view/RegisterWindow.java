@@ -24,8 +24,8 @@ import javax.swing.JTextField;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
 
-import app.model.CITISMap;
-import app.model.User;
+import app.model.business.CITISMap;
+import app.model.business.user.User;
 
 public class RegisterWindow extends JFrame {
 	

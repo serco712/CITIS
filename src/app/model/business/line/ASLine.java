@@ -1,25 +1,27 @@
-package app.model;
+package app.model.business.line;
 
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class Line extends CITISObject {
+import app.model.business.CITISObject;
+import app.model.business.TransportType;
+import app.model.business.station.ASStation;
+import app.model.business.transport.ASTransport;
+
+public class ASLine extends CITISObject {
 	
 	private static int numLines;
 	
-	private List<Station> stops;
-	
-	private List<Transport> transports;
-	
+	private List<ASStation> stops;
+	private List<ASTransport> transports;
 	private TransportType transp;
-	
 	private static final String TYPE_ID = "line";
-	
 	private Color c;
 	
-	public Line (String id, TransportType t, int c1, int c2, int c3) {
+	
+	public ASLine (String id, TransportType t, int c1, int c2, int c3) {
 		super(id);
 		
 		if (t == null)
@@ -49,11 +51,11 @@ public class Line extends CITISObject {
 		numLines--;
 	}
 	
-	public void addToLine(Station s) {
+	public void addToLine(ASStation s) {
 		stops.add(s);
 	}
 	
-	public boolean isInLine(Station s) {
+	public boolean isInLine(ASStation s) {
 		return stops.contains(s);
 	}
 	
@@ -61,11 +63,11 @@ public class Line extends CITISObject {
 		return transp;
 	}
 
-	public void addToLine(Transport t) {
+	public void addToLine(ASTransport t) {
 		transports.add(t);
 	}
 	
-	public List<Station> getStations() {
+	public List<ASStation> getStations() {
 		return Collections.unmodifiableList(stops);
 	}
 	
@@ -77,9 +79,9 @@ public class Line extends CITISObject {
 	public String toString() {
 		StringBuilder str = new StringBuilder();
 		str.append(_id + ' ' + transp.toString() + ' ');
-		for(Station s : stops)
+		for(ASStation s : stops)
 			str.append('(' + s.getId() + ", " + s.getName() + ") ");
-		for(Transport t : transports)
+		for(ASTransport t : transports)
 			str.append(t.getId());
 		return str.toString();
 	}

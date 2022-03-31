@@ -9,7 +9,7 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import app.model.Station;
+import app.model.business.Station;
 
 public class SearchPanel extends JPanel {
 	

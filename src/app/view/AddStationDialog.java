@@ -13,7 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import app.model.TransportType;
+import app.model.business.TransportType;
 
 public class AddStationDialog extends JDialog {
 

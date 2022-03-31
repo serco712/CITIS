@@ -16,10 +16,10 @@ import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
 import app.control.Controller;
-import app.model.CITISMap;
-import app.model.CITISObject;
-import app.model.CITISObserver;
-import app.model.TransportType;
+import app.model.business.CITISMap;
+import app.model.business.CITISObject;
+import app.model.business.CITISObserver;
+import app.model.business.TransportType;
 
 public class SearchWindow extends JFrame implements CITISObserver {
 	
