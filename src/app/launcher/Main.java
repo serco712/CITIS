@@ -2,13 +2,14 @@ package app.launcher;
 
 import java.util.Scanner;
 
+
 import app.control.Controller;
 import app.factories.Factory;
 import app.factories.MainFactory;
 import app.model.business.CITISMap;
-import app.model.business.Line;
-import app.model.business.Station;
-import app.model.business.Transport;
+import app.model.business.line.ASLine;
+import app.model.business.station.ASStation;
+import app.model.business.transport.ASTransport;
 import app.view.InitWindow;
 
 public class Main {
@@ -32,12 +33,12 @@ public class Main {
 		do {
 			StringBuilder str = new StringBuilder();
 			str.append("Seleccione una de las siguientes opciones: " + '\n');
-			str.append("1 - Consultar líneas disponibles" + '\n');
+			str.append("1 - Consultar lï¿½neas disponibles" + '\n');
 			str.append("2 - Consultar paradas disponibles" + '\n');
 			str.append("3 - Consultar transportes disponibles" + '\n');
-			str.append("4 - Añadir nuevo CITISObject" + '\n');
+			str.append("4 - Aï¿½adir nuevo CITISObject" + '\n');
 			str.append("0 - Salir" + '\n');
-			str.append("Seleccione una opción: ");
+			str.append("Seleccione una opciï¿½n: ");
 			System.out.print(str.toString());
 			Scanner sc = new Scanner(System.in);
 			System.out.println("");
@@ -74,9 +75,9 @@ public class Main {
 	public static void showLines() {
 		//new TableWindow(new LineTable(cm.getLines()), "Lines");
 		System.out.println("-----------------------------------");
-		System.out.println("LISTADO DE LÍNEAS");
+		System.out.println("LISTADO DE Lï¿½NEAS");
 		System.out.println("-----------------------------------");
-		for(Line l : cm.getLines())
+		for(ASLine l : cm.getLines())
 			System.out.println(l.toString());
 		System.out.println("-----------------------------------");
 		System.out.println("");
@@ -88,7 +89,7 @@ public class Main {
 		System.out.println("-----------------------------------");
 		System.out.println("LISTADO DE ESTACIONES");
 		System.out.println("-----------------------------------");
-		for(Station s : cm.getStations())
+		for(ASStation s : cm.getStations())
 			System.out.println(s.toString());
 		System.out.println("-----------------------------------");
 		System.out.println("");
@@ -98,7 +99,7 @@ public class Main {
 		System.out.println("-----------------------------------");
 		System.out.println("LISTADO DE TRANSPORTES");
 		System.out.println("-----------------------------------");
-		for(Transport t : cm.getTransports())
+		for(ASTransport t : cm.getTransports())
 			System.out.println(t.toString());
 		System.out.println("-----------------------------------");
 		System.out.println("");

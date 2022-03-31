@@ -2,19 +2,20 @@ package app.view;
 
 import java.util.List;
 
+
 import javax.swing.table.AbstractTableModel;
 
-import app.model.business.Line;
-import app.model.business.Station;
+import app.model.business.line.ASLine;
+import app.model.business.station.ASStation;
 
 public class StationTable extends AbstractTableModel {
 
 	private static final long serialVersionUID = 1L;
 	
-	private List<Station> stations;
+	private List<ASStation> stations;
 	private String[] cols = {"ID", "Nombre", "Tipo de transporte", "Linea"};
 
-	public StationTable(List<Station> stations) {
+	public StationTable(List<ASStation> stations) {
 		this.stations = stations;
 	}
 	
@@ -52,7 +53,7 @@ public class StationTable extends AbstractTableModel {
 			return stations.get(x).getTransport().toString();
 		case 3:
 			StringBuilder str = new StringBuilder("[");
-			for (Line l : stations.get(x).getLines())
+			for (ASLine l : stations.get(x).getLines())
 				str.append(l.getId()).append(",");
 			str.setLength(str.length() - 1);
 			str.append("]");

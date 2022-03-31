@@ -1,20 +1,21 @@
 package app.model.layers.integration;
 
 import java.io.FileInputStream;
+
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.sql.*;
 
-import app.model.business.user.User;
+import app.model.business.user.ASUser;
 
 public class UserDatabaseDAO implements UserDAO {
 
 	@Override
-	public User findUser(String id) {
+	public ASUser findUser(String id) {
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		User user = null;
+		ASUser user = null;
 		
 		try {
 			con = getConnection();
@@ -32,7 +33,7 @@ public class UserDatabaseDAO implements UserDAO {
 			String email = rs.getString("email");
 			String password = rs.getString("password");
 			
-			user = new User(id, name, surname, email, password);
+			user = new ASUser(id, name, surname, email, password);
 			
 			ps.close();
 			rs.close();
@@ -60,7 +61,7 @@ public class UserDatabaseDAO implements UserDAO {
 	}
 
 	@Override
-	public void saveUser(User user) {
+	public void saveUser(ASUser user) {
 		Connection con = null;
 		PreparedStatement ps = null;
 		
@@ -94,9 +95,6 @@ public class UserDatabaseDAO implements UserDAO {
 		}
 		finally {
 			try {
-				if (rs != null)
-					rs.close();
-				
 				if (ps != null)
 					ps.close();
 				
@@ -110,7 +108,7 @@ public class UserDatabaseDAO implements UserDAO {
 	}
 
 	@Override
-	public ASUser createUser(User user) {
+	public ASUser createUser(ASUser user) {
 		return null;
 	}
 	

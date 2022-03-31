@@ -15,7 +15,7 @@ public class ASTransport extends CITISObject {
 	private String model;
 	private static final String TYPE_ID = "transport";
 	
-	public ASTransport(String id, String enroll, String model, int time, TransportType type, Line l) {
+	public ASTransport(String id, String enroll, String model, int time, TransportType type, ASLine l) {
 		super(id);
 		
 		if (time < 0)

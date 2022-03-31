@@ -2,18 +2,19 @@ package app.view;
 
 import java.util.List;
 
+
 import javax.swing.table.AbstractTableModel;
 
-import app.model.business.Transport;
+import app.model.business.transport.ASTransport;
 
 public class TransportTable extends AbstractTableModel {
 	
 	private static final long serialVersionUID = 1L;
 	
-	private List<Transport> transports;
+	private List<ASTransport> transports;
 	private String[] cols = {"ID", "Matricula", "Modelo", "Tipo de transporte", "Linea"};
 	
-	public TransportTable(List<Transport> t) {
+	public TransportTable(List<ASTransport> t) {
 		transports = t;
 	}
 	

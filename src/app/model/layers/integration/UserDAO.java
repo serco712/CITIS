@@ -1,9 +1,9 @@
 package app.model.layers.integration;
 
-import app.model.business.user.User;
+import app.model.business.user.ASUser;
 
 public interface UserDAO {
-	public User findUser(String id);
-	public void saveUser(User user);
-	public User createUser(User user);
+	public ASUser findUser(String id);
+	public void saveUser(ASUser user);
+	public ASUser createUser(ASUser user);
 }

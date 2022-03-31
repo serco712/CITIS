@@ -1,6 +1,7 @@
 package app.view;
 
 import java.awt.Color;
+
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -15,9 +16,9 @@ import app.control.Controller;
 import app.model.business.CITISMap;
 import app.model.business.CITISObject;
 import app.model.business.CITISObserver;
-import app.model.business.Line;
-import app.model.business.Station;
 import app.model.business.TransportType;
+import app.model.business.line.ASLine;
+import app.model.business.station.ASStation;
 
 public class StationMap extends JPanel implements CITISObserver {
 
@@ -57,7 +58,7 @@ public class StationMap extends JPanel implements CITISObserver {
 	
 	private void drawMap(Graphics g) {
 		
-		for(Station s : _map.getStations()) {
+		for(ASStation s : _map.getStations()) {
 			if(s.getTransport().equals(_tp)) {
 				g.setColor(STATIONS_BORDER);
 				g.fillOval(s.getX() - _JRADIUS / 2, s.getY() - _JRADIUS / 2, _JRADIUS, _JRADIUS);
@@ -70,9 +71,9 @@ public class StationMap extends JPanel implements CITISObserver {
 			}
 		}
 		
-		for(Line l : _map.getLines()) {
+		for(ASLine l : _map.getLines()) {
 			if(l.getTransport().equals(_tp)) {
-				List<Station> ls = l.getStations();
+				List<ASStation> ls = l.getStations();
 				g.setColor(l.getColor());
 				for(int i = 0; i < l.getNumStops() - 1; i++) {
 					int x1 = ls.get(i).getX(); 

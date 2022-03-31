@@ -2,6 +2,7 @@ package app.view;
 
 import java.awt.Dimension;
 
+
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -9,7 +10,7 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import app.model.business.Station;
+import app.model.business.station.ASStation;
 
 public class SearchPanel extends JPanel {
 	
@@ -24,7 +25,7 @@ public class SearchPanel extends JPanel {
 		
 		JLabel srcLabel = new JLabel("Origen");
 		srcLabel.setAlignmentX(CENTER_ALIGNMENT);
-		JComboBox<Station> srcCombo = new JComboBox<>();
+		JComboBox<ASStation> srcCombo = new JComboBox<>();
 		srcCombo.setPreferredSize(new Dimension(170, 20));
 		srcCombo.setSize(new Dimension(170, 20));
 		srcCombo.setMaximumSize(new Dimension(170, 20));
@@ -38,7 +39,7 @@ public class SearchPanel extends JPanel {
 		
 		JLabel destLabel = new JLabel("Destino");
 		destLabel.setAlignmentX(CENTER_ALIGNMENT);
-		JComboBox<Station> destCombo = new JComboBox<>();
+		JComboBox<ASStation> destCombo = new JComboBox<>();
 		destCombo.setPreferredSize(new Dimension(170, 20));
 		destCombo.setSize(new Dimension(170, 20));
 		destCombo.setMaximumSize(new Dimension(170, 20));

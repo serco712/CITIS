@@ -2,18 +2,19 @@ package app.view;
 
 import java.util.List;
 
+
 import javax.swing.table.AbstractTableModel;
 
-import app.model.business.Line;
+import app.model.business.line.ASLine;
 
 public class LineTable extends AbstractTableModel {
 
 	private static final long serialVersionUID = 1L;
 	
-	private List<Line> lines;
+	private List<ASLine> lines;
 	private String[] cols = {"ID", "Tipo de transporte"};
 	
-	public LineTable(List<Line> lines) {
+	public LineTable(List<ASLine> lines) {
 		this.lines = lines;
 		
 	}

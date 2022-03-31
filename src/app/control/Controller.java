@@ -10,10 +10,10 @@ import app.factories.Factory;
 import app.factories.MainFactory;
 import app.model.business.CITISMap;
 import app.model.business.CITISObserver;
-import app.model.business.Line;
-import app.model.business.Station;
-import app.model.business.Transport;
-import app.model.business.user.User;
+import app.model.business.line.ASLine;
+import app.model.business.station.ASStation;
+import app.model.business.transport.ASTransport;
+import app.model.business.user.ASUser;
 
 public class Controller {
 	
@@ -53,22 +53,22 @@ public class Controller {
 	
 	public void saveData() throws Exception {
 		try (BufferedWriter br = new BufferedWriter(new FileWriter(FILE_NAME))) {
-			for(Line l : ct.getLines()) {
+			for(ASLine l : ct.getLines()) {
 				StringBuilder str = new StringBuilder();
 				str.append(l.getTypeId() + ' ' + l.getId() + ' ' + l.getTransport().toString() + ' '
 						+ l.getColor().getRed() + ' ' + l.getColor().getGreen() + ' ' + l.getColor().getBlue());
 				br.append(str.toString() + '\n');
 			}
 			
-			for(Station s : ct.getStations()) {
+			for(ASStation s : ct.getStations()) {
 				StringBuilder str = new StringBuilder();
 				str.append(s.getTypeId() + ' ' + s.getId() + ' ' + s.getName() + ' ' + s.getX() + ' ' + s.getY() + ' ' + s.getNumLines());
-				for(Line l : s.getLines())
+				for(ASLine l : s.getLines())
 					str.append(' ' + l.getId());
 				br.append(str.toString() + '\n');
 			}
 			
-			for(Transport t : ct.getTransports()) {
+			for(ASTransport t : ct.getTransports()) {
 				StringBuilder str = new StringBuilder();
 				str.append(t.getTypeId() + ' ' + t.getId() + ' ' + t.getEnrollment() + ' ' + t.getTime());
 				str.append(' ' + t.getModel() + ' ' + t.getTime() + ' ' + t.getType().toString());
@@ -76,9 +76,9 @@ public class Controller {
 				br.append(str.toString() + '\n');
 			}
 			
-			for(User u : ct.getUsers()) {
+			for(ASUser u : ct.getUsers()) {
 				br.append(u.getTypeId() + ' ' + u.getName() + ' ' + u.getSurname() + 
-						' ' + u.getUser() + ' ' + u.getPassword());
+						' ' + u.getEmail() + ' ' + u.getPassword());
 			}
 			br.close();
 		}

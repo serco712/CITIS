@@ -1,6 +1,7 @@
 package app.view;
 
 import java.awt.Color;
+
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
@@ -25,7 +26,7 @@ import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
 
 import app.model.business.CITISMap;
-import app.model.business.user.User;
+import app.model.business.user.ASUser;
 
 public class RegisterWindow extends JFrame {
 	
@@ -210,8 +211,8 @@ public class RegisterWindow extends JFrame {
 					for(char c : rcontraT.getPassword())
 						str2 += c;
 					if (str1.contentEquals(str2)) {
-						cm.addUser(new User(nomT.getText(), apeT.getText(),
-				        		emaT.getText(), str1));
+						//cm.addUser(new ASUser(nomT.getText(), apeT.getText(),
+				        //		emaT.getText(), str1));
 						ImageIcon icon = new ImageIcon("resources/check.jpg");
 				        JOptionPane.showMessageDialog(null, "Los datos introducidos son correctos", 
 				        		"Registrarse", JOptionPane.DEFAULT_OPTION, icon);
