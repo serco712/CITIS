@@ -45,6 +45,7 @@ public class TableWindow extends JFrame {
 			}
 			
 		});
+		
 		return_panel.add(goPrevious);
 		mainPanel.add(return_panel, BorderLayout.NORTH);
 		

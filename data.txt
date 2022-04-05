@@ -3,8 +3,3 @@ line l2 TRAIN 0 255 255
 line l3 TRAIN 255 20 20
 line l4 SUBWAY 25 175 175
 line l5 BUS 255 65 65
-station ts1 PrincipePio 35 50 2 l2 l3
-station ts2 Aranjuez 70 40 1 l2
-station ts3 NuevosMinisterios 100 55 1 l2
-station ts4 Atocha 35 90 2 l2 l3
-station ts5 Delicias 70 80 2 l2 l3

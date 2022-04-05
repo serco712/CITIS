@@ -4,9 +4,14 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.Box;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -88,6 +93,16 @@ public class SearchWindow extends JFrame implements CITISObserver {
 		map_train.addActionListener(new MapListener());
 		map_bus.addActionListener(new MapListener());
 		map_subway.addActionListener(new MapListener());
+		
+		jmb.add(Box.createHorizontalGlue());
+		
+		JButton miUser = new JButton();
+		miUser.setToolTipText("Mi usuario");
+		miUser.setIcon(loadImage("resources/error.png")); //AQUI IRIA USER.PNG PERO NO CONSIGO PONERLA
+		miUser.addActionListener(new UserListener());
+		jmb.add(miUser);
+		
+		
 		this.setJMenuBar(jmb);
 		
 		
@@ -115,6 +130,18 @@ public class SearchWindow extends JFrame implements CITISObserver {
 		
 		
 		this.setVisible(true);
+	}
+	
+	protected ImageIcon loadImage(String path) {
+		return new ImageIcon(Toolkit.getDefaultToolkit().createImage(path)); 
+	}	
+	
+	private class UserListener implements ActionListener {
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			
+		}
 	}
 	
 	private class TableListener implements ActionListener {
