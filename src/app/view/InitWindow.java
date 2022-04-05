@@ -76,7 +76,12 @@ public class InitWindow extends JFrame {
 	}
 	
 	private void InitGUI() {
-		this.setSize(500, 400);
+		setLocationRelativeTo(null);
+
+		this.setSize(1000, 600);
+		
+		this.setLocation(500, 200);
+		
 		CITISBackground c = new CITISBackground("resources/fondoApp.png");
 		this.setContentPane(c);
 		c.setLayout(new GridBagLayout());
@@ -86,7 +91,7 @@ public class InitWindow extends JFrame {
 		initPanel.setBorder(BorderFactory.createTitledBorder(_defaultBorder));
 		initPanel.setBackground(Color.WHITE);
 		initPanel.setLayout(new BoxLayout(initPanel, BoxLayout.Y_AXIS));
-		initPanel.setSize(new Dimension(400, 300));
+		initPanel.setSize(new Dimension(600, 400));
 		
 		initPanel.add(Box.createRigidArea(new Dimension(0, 10)));
 		
