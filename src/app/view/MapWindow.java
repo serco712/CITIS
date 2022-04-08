@@ -3,7 +3,6 @@ package app.view;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -23,17 +22,14 @@ public class MapWindow extends JDialog {
 
 	private Controller _ctrl;
 	
-	private Frame _parent;
 	
 	private TransportType _tp;
 	
-	public MapWindow(Frame parent, Controller ctrl, TransportType tp) {
+	public MapWindow(Controller ctrl, TransportType tp) {
 		super(new JFrame(), "Mapa de Estaciones", true);
 		_ctrl = ctrl;
-		_parent = parent;
 		_tp = tp;
 		InitGUI();
-		this.setLocationRelativeTo(null);
 	}
 	
 	private void InitGUI() {
@@ -50,8 +46,7 @@ public class MapWindow extends JDialog {
 		goAhead.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				MapWindow.this.setVisible(false);
-				_parent.setVisible(true);
+				dispose();
 			}			
 		});
 		
@@ -60,6 +55,7 @@ public class MapWindow extends JDialog {
 		JPanel np = new StationMap(_ctrl, _tp);
 		mainPanel.add(np, BorderLayout.CENTER);
 		this.setSize(new Dimension(800, 600));
+		this.setLocationRelativeTo(null);
 		this.setVisible(true);
 	}
 

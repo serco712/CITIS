@@ -199,11 +199,11 @@ public class SearchWindow extends JFrame implements CITISObserver {
 		public void actionPerformed(ActionEvent e) {
 			String cmnd = e.getActionCommand();
 			if(cmnd.equals("Trenes"))
-				new MapWindow(SearchWindow.this, _ctrl, TransportType.TRAIN);
+				new MapWindow(_ctrl, TransportType.TRAIN);
 			else if(cmnd.equals("Autobuses"))
-				new MapWindow(SearchWindow.this, _ctrl, TransportType.BUS);
+				new MapWindow(_ctrl, TransportType.BUS);
 			else
-				new MapWindow(SearchWindow.this, _ctrl, TransportType.SUBWAY);
+				new MapWindow(_ctrl, TransportType.SUBWAY);
 		}
 	}
 	
