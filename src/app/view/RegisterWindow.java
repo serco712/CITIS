@@ -16,6 +16,7 @@ import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -28,7 +29,7 @@ import javax.swing.border.Border;
 import app.model.business.CITISMap;
 import app.model.business.user.ASUser;
 
-public class RegisterWindow extends JFrame {
+public class RegisterWindow extends JDialog {
 	
 	private static final long serialVersionUID = 1L; 
 	
@@ -39,12 +40,15 @@ public class RegisterWindow extends JFrame {
 	private int _status;
 	
 	public RegisterWindow(CITISMap cm) {
-		super("Registrarse");
+		super(new JFrame(), "Registrarse", true);
 		InitGUI();
 		this.cm = cm;
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		this.setSize(500, 500);
+		this.pack();
+		this.setLocationRelativeTo(null);
 		this.setVisible(true);
+		this.setResizable(false);
 	}
 
 	private void InitGUI() {
@@ -59,7 +63,7 @@ public class RegisterWindow extends JFrame {
 		welc.setAlignmentX(CENTER_ALIGNMENT);
 		mainPanel.add(welc);
 		
-		JPanel p = new JPanel(new GridLayout(13, 1));
+		JPanel p = new JPanel(new GridLayout(12, 1));
 		p.setBackground(Color.WHITE);
 		
 		JPanel nom_panel = new JPanel();
@@ -72,7 +76,7 @@ public class RegisterWindow extends JFrame {
 		JPanel nomT_panel = new JPanel();
 		nomT_panel.setBackground(Color.WHITE);
 		nomT_panel.setLayout(new FlowLayout(FlowLayout.LEFT));
-		JTextField nomT = new JTextField(10);
+		JTextField nomT = new JTextField(40);
 		nomT.setBorder(BorderFactory.createTitledBorder(_defaultBorder));
 		nom.setLabelFor(nomT);
 		nomT_panel.add(nomT);
@@ -88,7 +92,7 @@ public class RegisterWindow extends JFrame {
 		JPanel apeT_panel = new JPanel();
 		apeT_panel.setBackground(Color.WHITE);
 		apeT_panel.setLayout(new FlowLayout(FlowLayout.LEFT));
-		JTextField apeT = new JTextField(20);
+		JTextField apeT = new JTextField(40);
 		apeT.setBorder(BorderFactory.createTitledBorder(_defaultBorder));
 		ape.setLabelFor(apeT);
 		apeT_panel.add(apeT);
@@ -104,7 +108,7 @@ public class RegisterWindow extends JFrame {
 		JPanel emaT_panel = new JPanel();
 		emaT_panel.setBackground(Color.WHITE);
 		emaT_panel.setLayout(new FlowLayout(FlowLayout.LEFT));
-		JTextField emaT = new JTextField(15);
+		JTextField emaT = new JTextField(40);
 		emaT.setBorder(BorderFactory.createTitledBorder(_defaultBorder));
 		ema.setLabelFor(emaT);
 		emaT_panel.add(emaT);
@@ -120,7 +124,7 @@ public class RegisterWindow extends JFrame {
 		JPanel contraT_panel = new JPanel();
 		contraT_panel.setBackground(Color.WHITE);
 		contraT_panel.setLayout(new FlowLayout(FlowLayout.LEFT));
-		JPasswordField contraT = new JPasswordField(15);
+		JPasswordField contraT = new JPasswordField(40);
 		contraT.setBorder(BorderFactory.createTitledBorder(_defaultBorder));
 		contra.setLabelFor(contraT);
 		contraT_panel.add(contraT);
@@ -136,7 +140,7 @@ public class RegisterWindow extends JFrame {
 		JPanel rcontraT_panel = new JPanel();
 		rcontraT_panel.setBackground(Color.WHITE);
 		rcontraT_panel.setLayout(new FlowLayout(FlowLayout.LEFT));
-		JPasswordField rcontraT = new JPasswordField(15);
+		JPasswordField rcontraT = new JPasswordField(40);
 		rcontraT.setBorder(BorderFactory.createTitledBorder(_defaultBorder));
 		rcontra.setLabelFor(rcontraT);
 		rcontraT_panel.add(rcontraT);
@@ -197,7 +201,6 @@ public class RegisterWindow extends JFrame {
 		
 		JButton acept = new JButton("Aceptar");
 		formatButton(acept);
-		acept.setAlignmentX(CENTER_ALIGNMENT);
 		acept.addActionListener(new ActionListener() {
 
 			@Override
@@ -233,15 +236,33 @@ public class RegisterWindow extends JFrame {
 			
 		});
 		
-		mainPanel.add(acept);
-		mainPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+		JButton cancel = new JButton("Cancelar");
+		formatButton(cancel);
+		cancel.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				dispose();
+			}
+		});
+		
+		JPanel buttonsPanel = new JPanel();
+		buttonsPanel.setAlignmentX(CENTER_ALIGNMENT);
+		buttonsPanel.setBackground(Color.WHITE);
+		buttonsPanel.add(acept);
+		buttonsPanel.add(Box.createRigidArea(new Dimension(7, 0)));
+		buttonsPanel.add(cancel);
+		
+		mainPanel.add(buttonsPanel);
+		mainPanel.add(Box.createRigidArea(new Dimension(0, 5)));
+				
 		this.add(mainPanel);
 	}
 	
 	private void formatButton(JButton b) {
 		b.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED, Color.BLACK, Color.LIGHT_GRAY));
 		b.setBackground(Color.WHITE);
-				
+		b.setPreferredSize(new Dimension(65, 25));		
+		
 		b.addMouseListener(new MouseAdapter() {
 			public void mouseEntered(MouseEvent e) {
 				b.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED, Color.GRAY, Color.WHITE));

@@ -4,10 +4,11 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.Box;
 import javax.swing.ImageIcon;
@@ -39,6 +40,15 @@ public class SearchWindow extends JFrame implements CITISObserver {
 		_ctrl = ctrl;
 		ctrl.addObserver(this);
 		initGUI();
+		
+		this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		
+		this.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				new OptionPaneWindow(_ctrl);
+			}
+		});
 	}
 	
 	private void initGUI() {
@@ -102,10 +112,7 @@ public class SearchWindow extends JFrame implements CITISObserver {
 		miUser.addActionListener(new UserListener());
 		jmb.add(miUser);
 		
-		
 		this.setJMenuBar(jmb);
-		
-		
 		
 		JPanel secPanel = new JPanel();
 		secPanel.setLayout(new GridLayout(2, 1));
@@ -128,7 +135,7 @@ public class SearchWindow extends JFrame implements CITISObserver {
 				+ " el uso de la red de transporte publico.</p></html>"));
 		secPanel.add(downPanel);
 		
-		
+		this.setLocationRelativeTo(null);
 		this.setVisible(true);
 	}
 	

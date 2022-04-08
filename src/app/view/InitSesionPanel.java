@@ -40,6 +40,7 @@ public class InitSesionPanel extends JPanel {
 	private void InitGUI() {
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		this.setBackground(Color.WHITE);
+			
 		JPanel data = new JPanel();
 		data.setLayout(new GridLayout(4, 1));
 		
@@ -81,13 +82,15 @@ public class InitSesionPanel extends JPanel {
 		data.setAlignmentX(CENTER_ALIGNMENT);
 		
 		this.add(data);		
-		this.add(Box.createRigidArea(new Dimension(240, 10)));
+		this.add(Box.createRigidArea(new Dimension(0, 5)));
 		
 		JPanel jp = new JPanel();
 	
 		jp.setBackground(Color.WHITE);
 		jp.setLayout(new BoxLayout(jp, BoxLayout.X_AXIS));
+		
 		JButton entrarInvitado = new JButton("Entrar como Invitado");
+		entrarInvitado.setPreferredSize(new Dimension(135, 25));
 		formatButton(entrarInvitado);
 		entrarInvitado.addActionListener(new ActionListener() {
 
@@ -100,9 +103,9 @@ public class InitSesionPanel extends JPanel {
 			}
 			
 		});
-		jp.add(entrarInvitado);
-		jp.add(Box.createRigidArea(new Dimension(10, 0)));
+		
 		JButton initSes = new JButton("Iniciar Sesion");
+		initSes.setPreferredSize(new Dimension(95, 25));
 		formatButton(initSes);
 		initSes.addActionListener(new ActionListener() {
 
@@ -115,7 +118,19 @@ public class InitSesionPanel extends JPanel {
 			}
 			
 		});
-		jp.add(initSes);
+		
+		JPanel buttonsPanel = new JPanel();
+		buttonsPanel.setAlignmentX(CENTER_ALIGNMENT);
+		buttonsPanel.setBackground(Color.WHITE);
+	
+		buttonsPanel.add(entrarInvitado);
+		
+		buttonsPanel.add(Box.createRigidArea(new Dimension(7, 0)));
+		
+		buttonsPanel.add(initSes);
+		
+		this.add(buttonsPanel);
+		
 		this.add(jp);
 		this.setVisible(true);
 	}

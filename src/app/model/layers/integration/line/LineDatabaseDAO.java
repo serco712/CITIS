@@ -27,12 +27,12 @@ public class LineDatabaseDAO implements LineDAO {
 			if (!rs.next())
 				return null;
 			
-			user = new DTOUser();
+			/*user = new DTOUser();
 			user.setName(rs.getString("name"));
 			user.setSurname(rs.getString("surname"));
 			user.setEmail(rs.getString("email"));
 			user.setPassword(rs.getString("password"));
-			
+			*/
 			ps.close();
 			rs.close();
 		}
@@ -55,7 +55,7 @@ public class LineDatabaseDAO implements LineDAO {
 			}
 		}
 		
-		return user;
+		return null;
 	}
 
 	@Override

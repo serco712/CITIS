@@ -19,7 +19,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
@@ -50,38 +49,22 @@ public class InitWindow extends JFrame {
 		this.cm = cm;
 		this.setLayout(new BorderLayout());
 		InitGUI();
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		
 		this.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
-				int option = JOptionPane.showConfirmDialog(
-						InitWindow.this, "Estas seguro que quieres cerrar la aplicacion?",
-						"Confirmacion de cierre", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-					if (option == JOptionPane.YES_OPTION) {
-						try {
-							_ctrl.saveData();
-						}
-						catch(Exception a) {
-							System.out.println(a.getMessage());
-						}
-						
-						System.exit(0);
-					}
-					else 
-						dispose();
+				new OptionPaneWindow(_ctrl);
 			}
 		});
 		
+		this.setLocationRelativeTo(null);
 		this.setVisible(true);
 	}
 	
 	private void InitGUI() {
-		setLocationRelativeTo(null);
-
 		this.setSize(1000, 600);
-		
-		this.setLocation(500, 200);
-		
+				
 		CITISBackground c = new CITISBackground("resources/fondoApp.png");
 		this.setContentPane(c);
 		c.setLayout(new GridBagLayout());
@@ -106,41 +89,38 @@ public class InitWindow extends JFrame {
 				
 		initPanel.add(u);
 		
-		initPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+		initPanel.add(Box.createRigidArea(new Dimension(0, 5)));
 
 		InitSesionPanel jp = new InitSesionPanel(_ctrl);
 		initPanel.add(jp);
-		initPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+		initPanel.add(Box.createRigidArea(new Dimension(0, 5)));
 		
 		JLabel t = new JLabel("No tienes cuenta aun? Registrate ahora");
 		t.setAlignmentX(CENTER_ALIGNMENT);
 		initPanel.add(t);
 		
 		JButton register = new JButton("Registrarse");
-		register.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED, Color.BLACK, Color.LIGHT_GRAY));
-		register.setBackground(Color.WHITE);
-		
+		formatButton(register);
+				
 		register.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				new RegisterWindow(cm);
 			}
 		});
-		
-		register.addMouseListener(new MouseAdapter() {
-			public void mouseEntered(MouseEvent e) {
-				register.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED, Color.GRAY, Color.WHITE));
-			}
-			public void mouseExited(MouseEvent e) {
-				register.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED, Color.BLACK, Color.LIGHT_GRAY));
-			}
-		});
 				
-		register.setAlignmentX(CENTER_ALIGNMENT);
 		initPanel.add(t);
-		initPanel.add(register);
 		
-		initPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+		initPanel.add(Box.createRigidArea(new Dimension(0, 5)));
+		
+		JPanel buttonsPanel = new JPanel();
+		buttonsPanel.setAlignmentX(CENTER_ALIGNMENT);
+		buttonsPanel.add(register);
+		buttonsPanel.setBackground(Color.WHITE);
+		
+		initPanel.add(buttonsPanel);
+		
+		initPanel.add(Box.createRigidArea(new Dimension(0, 5)));
 		
 		for(int i = 0; i < 3; i++)
 			for(int j = 0; j < 3; j++) {
@@ -151,5 +131,20 @@ public class InitWindow extends JFrame {
 					c.add(new JLabel());
 				}
 			}
+	}
+	
+	private void formatButton(JButton b) {
+		b.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED, Color.BLACK, Color.LIGHT_GRAY));
+		b.setBackground(Color.WHITE);
+		b.setPreferredSize(new Dimension(85, 25));
+		
+		b.addMouseListener(new MouseAdapter() {
+			public void mouseEntered(MouseEvent e) {
+				b.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED, Color.GRAY, Color.WHITE));
+			}
+			public void mouseExited(MouseEvent e) {
+				b.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED, Color.BLACK, Color.LIGHT_GRAY));
+			}
+		});	
 	}
 }
