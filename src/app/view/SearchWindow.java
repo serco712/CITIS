@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -19,6 +20,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 
 import app.control.Controller;
@@ -31,6 +33,8 @@ public class SearchWindow extends JFrame implements CITISObserver {
 	
 	private static final long serialVersionUID = 1L;
 
+	private Border _defaultBorder = BorderFactory.createLineBorder(Color.black, 2);
+	
 	private CITISMap _cm;
 	
 	private Controller _ctrl;
@@ -61,8 +65,14 @@ public class SearchWindow extends JFrame implements CITISObserver {
 		
 		MiMenuListener menul = new MiMenuListener();
 		JMenuBar jmb = new JMenuBar();
+		jmb.setBackground(Color.WHITE);
+		jmb.setPreferredSize(new Dimension(600, 30));
+		
+		JLabel icon = new JLabel(new ImageIcon("resources/menu.png"));
+		jmb.add(icon);
 		
 		JMenu check_table = new JMenu("Consultar");
+		check_table.setBorder(BorderFactory.createMatteBorder(2,2,2,0,Color.black));
 		JMenuItem station_table = new JMenuItem("Listado de estaciones");
 		JMenuItem transport_table = new JMenuItem("Listado de transportes");
 		JMenuItem line_table = new JMenuItem("Listado de lineas");
@@ -77,6 +87,7 @@ public class SearchWindow extends JFrame implements CITISObserver {
 		line_table.addActionListener(new TableListener());
 		
 		JMenu add_obj = new JMenu("Anadir");
+		add_obj.setBorder(BorderFactory.createMatteBorder(2,1,2,0,Color.black));
 		JMenuItem add_station = new JMenuItem("Estacion");
 		JMenuItem add_transport = new JMenuItem("Transporte");
 		JMenuItem add_line = new JMenuItem("Linea");
@@ -91,6 +102,7 @@ public class SearchWindow extends JFrame implements CITISObserver {
 		add_line.addActionListener(menul);
 		
 		JMenu map_menu = new JMenu("Mapas");
+		map_menu.setBorder(BorderFactory.createMatteBorder(2,1,2,2,Color.black));
 		JMenuItem map_train = new JMenuItem("Trenes");
 		JMenuItem map_bus = new JMenuItem("Autobuses");
 		JMenuItem map_subway = new JMenuItem("Metro");
@@ -107,11 +119,25 @@ public class SearchWindow extends JFrame implements CITISObserver {
 		jmb.add(Box.createHorizontalGlue());
 		
 		JButton miUser = new JButton();
+		miUser.setPreferredSize(new Dimension(32,32));
 		miUser.setToolTipText("Mi usuario");
-		miUser.setIcon(loadImage("resources/error.png")); //AQUI IRIA USER.PNG PERO NO CONSIGO PONERLA
+		miUser.setIcon(loadImage("resources/user.png")); 
 		miUser.addActionListener(new UserListener());
 		jmb.add(miUser);
 		
+		JButton logOut = new JButton();
+		logOut.setPreferredSize(new Dimension(32,32));
+		logOut.setToolTipText("Desconectarse");
+		logOut.setIcon(loadImage("resources/log_out.png")); 
+		logOut.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				dispose();
+				new InitWindow(null, _ctrl);
+			}
+		});
+		jmb.add(logOut);
+						
 		this.setJMenuBar(jmb);
 		
 		JPanel secPanel = new JPanel();
@@ -119,6 +145,7 @@ public class SearchWindow extends JFrame implements CITISObserver {
 		mainPanel.add(secPanel, BorderLayout.CENTER);
 		
 		JPanel upPanel = new JPanel();
+		upPanel.setBackground(Color.WHITE);
 		upPanel.setLayout(new GridLayout(1, 2));
 		upPanel.setPreferredSize(new Dimension(1000, 400));
 		
@@ -128,7 +155,8 @@ public class SearchWindow extends JFrame implements CITISObserver {
 		secPanel.add(upPanel);
 
 		JPanel downPanel = new JPanel(new GridLayout(1, 2));
-		downPanel.setBorder(new TitledBorder("Quienes somos?"));
+		downPanel.setBorder(BorderFactory.createTitledBorder(_defaultBorder, "Quienes somos?", TitledBorder.LEFT,TitledBorder.TOP));
+		downPanel.setBackground(Color.WHITE);
 		downPanel.add(new ImagePanel("resources/logoCITIS.png"));
 		downPanel.add(new JLabel("<html><p>Somos una empresa dedicada a la gestion de <br>"
 				+ " transportes que tiene como principal objetivo facilitar a los ciudadanos<br>"
