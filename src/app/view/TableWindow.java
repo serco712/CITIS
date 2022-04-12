@@ -1,30 +1,31 @@
 package app.view;
 
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-import java.awt.Frame;
+import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JToolBar;
 import javax.swing.table.AbstractTableModel;
 
-public class TableWindow extends JFrame {
+public class TableWindow extends JDialog {
 	
 	private static final long serialVersionUID = 1L;
-	
-	private Frame _ancestor;
-	
-	public TableWindow(AbstractTableModel table, String str, Frame ancestor) {
-		super("Listado");
-		_ancestor = ancestor;
+		
+	public TableWindow(AbstractTableModel table, String str) {
+		super(new JFrame(), "Listado", true);
 		initGUI(table, str);
 	}
 	
@@ -32,23 +33,35 @@ public class TableWindow extends JFrame {
 		JPanel mainPanel = new JPanel(new BorderLayout());
 		this.setContentPane(mainPanel);
 		
-		JPanel return_panel = new JPanel();
-		return_panel.setLayout(new FlowLayout(FlowLayout.LEFT));
+		JToolBar toolBar = new JToolBar();
+		toolBar.setBorder(null);
+		toolBar.setBackground(Color.WHITE);
+		this.add(toolBar, BorderLayout.PAGE_START);
 		
-		JButton goPrevious = new JButton("Retroceder");
-		goPrevious.addActionListener(new ActionListener() {
-
+		JButton goBackButton = new JButton();
+		goBackButton.setBorder(null);
+		goBackButton.setToolTipText("Retroceder");
+		goBackButton.setIcon(new ImageIcon("resources/back.png")); 
+		goBackButton.setBackground(Color.WHITE);
+	
+		goBackButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				TableWindow.this.setVisible(false);
-				_ancestor.setVisible(true);
-			}
-			
+				dispose();
+			}			
 		});
 		
-		return_panel.add(goPrevious);
-		mainPanel.add(return_panel, BorderLayout.NORTH);
+		goBackButton.addMouseListener(new MouseAdapter() {
+			public void mouseEntered(MouseEvent e) {
+				goBackButton.setIcon(new ImageIcon("resources/back_click.png"));
+			}
+			public void mouseExited(MouseEvent e) {
+				goBackButton.setIcon(new ImageIcon("resources/back.png"));
+			}
+		});	
 		
+		toolBar.add(goBackButton);
+				
 		JPanel viewsPanel = new JPanel(new GridLayout(1, 2));
 		mainPanel.add(viewsPanel, BorderLayout.CENTER);
 		
@@ -60,8 +73,9 @@ public class TableWindow extends JFrame {
 				createViewPanel(new JTable(table), str);
 		tablesPanel.add(eventsView);
 		
-		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.pack();
+		
+		this.setLocationRelativeTo(null);
 		this.setVisible(true);
 	}
 	

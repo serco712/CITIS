@@ -3,19 +3,19 @@ package app.view;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Frame;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.BorderFactory;
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -33,13 +33,13 @@ public class AddStationDialog extends JDialog {
 	private JTextField xCoor;
 	private JTextField yCoor;
 	
-	public AddStationDialog(Frame parent) {
-		super(parent, true);
+	public AddStationDialog() {
+		super(new JFrame(), "Anadir", true);
 		initGUI();
 	}
 	
 	public void initGUI() {
-		this.setMinimumSize(new Dimension(300,400));
+		this.setMinimumSize(new Dimension(400,250));
 		JPanel mainPanel = new JPanel(new BorderLayout());
 		this.add(mainPanel);
 		
@@ -75,7 +75,7 @@ public class AddStationDialog extends JDialog {
 		JPanel secPanel = new JPanel();
 		secPanel.setBackground(Color.WHITE);
 		secPanel.setLayout(new BoxLayout(secPanel, BoxLayout.Y_AXIS));
-		mainPanel.add(secPanel, BorderLayout.CENTER);
+		mainPanel.add(secPanel);
 		
 		//Up panel
 		JPanel upPanel = new JPanel();
@@ -89,9 +89,12 @@ public class AddStationDialog extends JDialog {
 		
 		dataPanel.add(new JLabel("Tipo de parada:"));
 		transportCombo = new JComboBox<>();
+		transportCombo.setPreferredSize(new Dimension(100, 20));
+		transportCombo.setBackground(Color.white);
 		dataPanel.add(transportCombo);
 		dataPanel.add(new JLabel("Nombre de la parada:"));
 		stationName = new JTextField();
+		stationName.setPreferredSize(new Dimension(100, 20));
 		dataPanel.add(stationName);
 		
 		//Down panel
@@ -104,21 +107,31 @@ public class AddStationDialog extends JDialog {
 		
 		JPanel coorPanel = new JPanel();
 		coorPanel.setBackground(Color.WHITE);
-		coorPanel.setLayout(new BoxLayout(coorPanel, BoxLayout.X_AXIS));
-		downPanel.add(coorPanel);
+		downPanel.add(coorPanel, RIGHT_ALIGNMENT);
 		
+		coorPanel.add(Box.createRigidArea(new Dimension(10, 0)));
 		coorPanel.add(new JLabel("X "));
 		xCoor = new JTextField();
+		xCoor.setPreferredSize(new Dimension(50,20));
 		coorPanel.add(xCoor);
-		coorPanel.add(new JLabel("  Y "));
+		coorPanel.add(Box.createRigidArea(new Dimension(10, 0)));
+		coorPanel.add(new JLabel("Y "));
 		yCoor = new JTextField();
+		yCoor.setPreferredSize(new Dimension(50,20));
 		coorPanel.add(yCoor);
+		coorPanel.add(Box.createRigidArea(new Dimension(10, 0)));
 		
 		JButton addButton = new JButton("Anadir");
 		formatButton(addButton);
-		downPanel.add(addButton);
 		
+		JPanel buttonsPanel = new JPanel();
+		buttonsPanel.setAlignmentX(CENTER_ALIGNMENT);
+		buttonsPanel.add(addButton);
+		buttonsPanel.setBackground(Color.WHITE);
 		
+		secPanel.add(buttonsPanel);
+		
+		this.setLocationRelativeTo(null);
 		this.setVisible(true);
 	}
 

@@ -13,11 +13,11 @@ public class TransportDatabaseDAO implements TransportDAO {
 		ResultSet rs = null;
 		DTOTransport transport = null;
 		
-		try {
+		/*try {
 			con = getConnection();
 			ps = con.prepareStatement("SELECT * "
 									+ "FROM ")
-		}
+		}*/
 		
 		return null;
 	}

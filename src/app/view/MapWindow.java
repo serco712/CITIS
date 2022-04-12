@@ -5,6 +5,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -39,6 +41,7 @@ public class MapWindow extends JDialog {
 		jtb.setBorder(null);
 		jtb.setBackground(Color.WHITE);
 		JButton goAhead = new JButton();
+		goAhead.setBorder(null);
 		goAhead.setPreferredSize(new Dimension(30,32));
 		goAhead.setToolTipText("Retroceder");
 		goAhead.setIcon(new ImageIcon("resources/back.png")); 
@@ -49,6 +52,15 @@ public class MapWindow extends JDialog {
 				dispose();
 			}			
 		});
+		
+		goAhead.addMouseListener(new MouseAdapter() {
+			public void mouseEntered(MouseEvent e) {
+				goAhead.setIcon(new ImageIcon("resources/back_click.png"));
+			}
+			public void mouseExited(MouseEvent e) {
+				goAhead.setIcon(new ImageIcon("resources/back.png"));
+			}
+		});	
 		
 		jtb.add(goAhead);
 		mainPanel.add(jtb, BorderLayout.NORTH);

@@ -122,7 +122,12 @@ public class SearchWindow extends JFrame implements CITISObserver {
 		miUser.setPreferredSize(new Dimension(32,32));
 		miUser.setToolTipText("Mi usuario");
 		miUser.setIcon(loadImage("resources/user.png")); 
-		miUser.addActionListener(new UserListener());
+		miUser.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				new UserWindow(_cm);
+			}
+		});
 		jmb.add(miUser);
 		
 		JButton logOut = new JButton();
@@ -171,25 +176,17 @@ public class SearchWindow extends JFrame implements CITISObserver {
 		return new ImageIcon(Toolkit.getDefaultToolkit().createImage(path)); 
 	}	
 	
-	private class UserListener implements ActionListener {
-		
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			
-		}
-	}
-	
 	private class TableListener implements ActionListener {
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			String cmnd = e.getActionCommand();
 			if(cmnd.equals("Listado de estaciones"))
-				new TableWindow(new StationTable(_cm.getStations()), cmnd, SearchWindow.this);
+				new TableWindow(new StationTable(_cm.getStations()), cmnd);
 			else if(cmnd.contentEquals("Listado de transportes"))
-				new TableWindow(new TransportTable(_cm.getTransports()), cmnd, SearchWindow.this);
+				new TableWindow(new TransportTable(_cm.getTransports()), cmnd);
 			else
-				new TableWindow(new LineTable(_cm.getLines()), cmnd, SearchWindow.this);
+				new TableWindow(new LineTable(_cm.getLines()), cmnd);
 		}
 	}
 	
@@ -210,7 +207,7 @@ public class SearchWindow extends JFrame implements CITISObserver {
 	private class MiMenuListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			new AddStationDialog(SearchWindow.this);
+			new AddStationDialog();
 			/*
 			JOptionPane.showMessageDialog(
 					SearchWindow.this, 
