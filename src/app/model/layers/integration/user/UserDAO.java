@@ -5,5 +5,4 @@ import app.model.business.user.DTOUser;
 public interface UserDAO {
 	public DTOUser findUser(String id);
 	public void saveUser(DTOUser user);
-	public DTOUser createUser(DTOUser user);
 }

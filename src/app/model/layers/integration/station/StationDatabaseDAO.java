@@ -118,12 +118,6 @@ public class StationDatabaseDAO implements StationDAO {
 		}
 	}
 
-	@Override
-	public DTOStation createStation(DTOStation station) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
 	private Connection getConnection() {
 		Conectar c = new Conectar();
 		return c.getConnection();

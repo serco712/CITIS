@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.sql.*;
 
 import app.model.business.user.DTOUser;
+import app.model.layers.integration.Conectar;
 
 public class UserDatabaseDAO implements UserDAO {
 
@@ -19,7 +20,7 @@ public class UserDatabaseDAO implements UserDAO {
 		try {
 			con = getConnection();
 			ps = con.prepareStatement("SELECT * "
-									+ "FROM AV_USERS "
+									+ "FROM city_users "
 									+ "WHERE id = ?");
 			ps.setString(1, id);
 			rs = ps.executeQuery();
@@ -65,7 +66,7 @@ public class UserDatabaseDAO implements UserDAO {
 		
 		try {
 			con = getConnection();
-			ps = con.prepareStatement("INSERT INTO AV_USERS "
+			ps = con.prepareStatement("INSERT INTO city_users "
 									+ "(?, ?, ?, ?, ?, ?, ?)");
 			
 			ps.setString(1, user.getId());
@@ -104,13 +105,9 @@ public class UserDatabaseDAO implements UserDAO {
 			}
 		}
 	}
-
-	@Override
-	public DTOUser createUser(DTOUser user) {
-		return null;
-	}
 	
 	private Connection getConnection() {
-		return null;
+		Conectar c = new Conectar();
+		return c.getConnection();
 	}
 }
