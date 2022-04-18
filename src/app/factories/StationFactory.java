@@ -31,6 +31,6 @@ public class StationFactory extends Factory {
 			ll.add(cm.searchLine(s));
 		
 		return new ASStation(para[1], para[2], Integer.parseInt(para[4]),
-					Integer.parseInt(para[5]), TransportType.valueOf(para[3]), ll);
+					Integer.parseInt(para[5]), TransportType.valueOf(para[3]), ll, null, type);
 	}
 }

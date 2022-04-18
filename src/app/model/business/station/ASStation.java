@@ -20,9 +20,9 @@ public class ASStation extends CITISObject {
 	private TransportType transport;
 	private List<ASLine> lines;
 	private String _city;
-	
+
 	public ASStation(String id, String name, int x, int y,
-			TransportType t, List<ASLine> l) {
+			TransportType t, List<ASLine> l, ASStation parent, String city) {
 		super(id);
 		
 		if (name == null || name == "")
@@ -39,11 +39,12 @@ public class ASStation extends CITISObject {
 		yCoor = y;
 		transport = t;
 		lines = l;
+		_parent = parent;
+		_city = city;
 		for (ASLine li : lines)
 			li.addToLine(this);
 	}
-	
-	
+
 	public String getName() {
 		return _name;
 	}
