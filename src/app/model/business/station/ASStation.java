@@ -19,6 +19,7 @@ public class ASStation extends CITISObject {
 	private int xCoor, yCoor;
 	private TransportType transport;
 	private List<ASLine> lines;
+	private String _city;
 	
 	public ASStation(String id, String name, int x, int y,
 			TransportType t, List<ASLine> l) {
@@ -82,18 +83,15 @@ public class ASStation extends CITISObject {
 		numStations++;
 	}
 
-
 	@Override
 	public void onDelete() {
 		numStations--;
 	}
 
-
 	@Override
 	public int getAmount() {
 		return numStations;
 	}
-
 
 	@Override
 	public String getTypeId() {

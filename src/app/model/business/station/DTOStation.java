@@ -8,16 +8,12 @@ import app.model.business.line.ASLine;
 public class DTOStation {
 	
 	private String _id;
-	
 	private String _name;
-	
 	private ASStation _parent;
-	
 	private int xCoor, yCoor;
-	
 	private TransportType transport;
-	
-	private List<ASLine> lines;
+	private List<ASLine> lines ;
+	private String _city;
 	
 	public String getId() {
 		return _id;
@@ -47,6 +43,10 @@ public class DTOStation {
 		return lines;
 	}
 	
+	public String getCity() {
+		return _city;
+	}
+	
 	public void setId(String id) {
 		_id = id;
 	}
@@ -73,5 +73,9 @@ public class DTOStation {
 	
 	public void setLines (List<ASLine> ls) {
 		lines = ls;
+	}
+	
+	public void setCity (String city) {
+		_city = city;
 	}
 }
