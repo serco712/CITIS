@@ -61,6 +61,53 @@ public class UserDatabaseDAO implements UserDAO {
 
 	@Override
 	public void saveUser(DTOUser user) {
+		DTOUser u = findUser(user.getId());
+		if(u == null)
+			createUser(user);
+
+		Connection con = null;
+		PreparedStatement ps = null;
+		
+		try {
+			con = getConnection();
+			ps = con.prepareStatement("UPDATE citis_users"
+									+ "SET name = ?, surname = ?, email = ?, password = ?, rol = ?, photo = ?"
+									+ "WHERE id = ?");
+			
+			ps.setString(1, user.getName());
+			ps.setString(2, user.getSurname());
+			ps.setString(3, user.getEmail());
+			ps.setString(4, user.getPassword());
+			ps.setInt(5, user.getRole());
+			ps.setBlob(6, user.getPhoto());
+			ps.setString(7, user.getId());
+			
+			ps.executeUpdate();
+			ps.close();
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		finally {
+			try {
+				if (ps != null)
+					ps.close();
+				
+				if (con != null)
+					con.close();
+			}
+			catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	@Override
+	public DTOUser createUser(DTOUser user) {
+		DTOUser u = findUser(user.getId());
+		if(u != null)
+			return u;
+		
 		Connection con = null;
 		PreparedStatement ps = null;
 		
@@ -104,6 +151,8 @@ public class UserDatabaseDAO implements UserDAO {
 				e.printStackTrace();
 			}
 		}
+		
+		return user;
 	}
 	
 	private Connection getConnection() {

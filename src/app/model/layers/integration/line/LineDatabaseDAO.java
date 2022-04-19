@@ -64,4 +64,10 @@ public class LineDatabaseDAO implements LineDAO {
 		
 	}
 
+	@Override
+	public DTOLine createLine(DTOLine line) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

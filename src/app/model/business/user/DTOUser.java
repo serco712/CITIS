@@ -1,5 +1,6 @@
 package app.model.business.user;
 
+import java.sql.Blob;
 import java.util.List;
 
 import app.model.business.station.ASStation;
@@ -17,6 +18,10 @@ public class DTOUser {
 	private String password;
 	
 	private List<ASStation> fav;
+	
+	private Blob _photo;
+	
+	private int _role;
 	
 	public String getId() {
 		return _id;
@@ -42,6 +47,14 @@ public class DTOUser {
 		return fav;
 	}
 	
+	public Blob getPhoto() {
+		return _photo;
+	}
+	
+	public int getRole() {
+		return _role;
+	}
+	
 	public void setId(String id) {
 		_id = id;
 	}
@@ -64,5 +77,13 @@ public class DTOUser {
 	
 	public void setFavorites(List<ASStation> f) {
 		fav = f;
+	}
+	
+	public void setBlob(Blob photo) {
+		_photo = photo;
+	}
+	
+	public void setRole(int role) {
+		_role = role;
 	}
 }
