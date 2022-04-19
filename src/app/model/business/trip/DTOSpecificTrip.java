@@ -1,26 +1,24 @@
 package app.model.business.trip;
 
-import app.misc.TimeADT;
+import java.sql.Timestamp;
 
 public class DTOSpecificTrip {
 	
 	private String _id;
-	
-	private String _name;
-	
-	private TimeADT _departure;
-	
+	private String _calendar;
+	private Timestamp _departure;
 	private String _sTripId;
+	private String _lineName;
 	
 	public String getId() {
 		return _id;
 	}
 	
-	public String getName() {
-		return _name;
+	public String getCalendar() {
+		return _calendar;
 	}
 	
-	public TimeADT getDepartureTime() {
+	public Timestamp getDepartureTime() {
 		return _departure;
 	}
 	
@@ -28,19 +26,27 @@ public class DTOSpecificTrip {
 		return _sTripId;
 	}
 	
+	public String getLineName() {
+		return _lineName;
+	}
+	
 	public void setId(String id) {
 		_id = id;
 	}
 	
-	public void setName(String name) {
-		_name = name;
+	public void setCalendar(String calendar) {
+		_calendar = calendar;
 	}
 	
-	public void setTime(TimeADT time) {
+	public void setTime(Timestamp time) {
 		_departure = time;
 	}
 	
 	public void setTripId(String tid) {
 		_sTripId = tid;
+	}
+	
+	public void setLineName(String name) {
+		_lineName = name;
 	}
 }

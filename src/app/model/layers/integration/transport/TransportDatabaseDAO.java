@@ -2,6 +2,7 @@ package app.model.layers.integration.transport;
 
 import java.sql.*;
 
+import app.model.business.TransportType;
 import app.model.business.transport.DTOTransport;
 
 public class TransportDatabaseDAO implements TransportDAO {
@@ -13,13 +14,46 @@ public class TransportDatabaseDAO implements TransportDAO {
 		ResultSet rs = null;
 		DTOTransport transport = null;
 		
-		/*try {
+		try {
 			con = getConnection();
 			ps = con.prepareStatement("SELECT * "
-									+ "FROM ")
-		}*/
+									+ "FROM transport "
+									+ "WHERE id = ?");
+			
+			ps.setString(1, id);
+			rs = ps.executeQuery();
+			
+			if (!rs.next())
+				return null;
+			
+			transport = new DTOTransport();
+			
+			transport.setEnroll(rs.getString("enrollment"));
+			transport.setModel(rs.getString("model"));
+			
+			ps.close();
+			rs.close();
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		finally {
+			try {
+				if (rs != null)
+					rs.close();
+				
+				if (ps != null)
+					ps.close();
+				
+				if (con != null)
+					con.close();
+			}
+			catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 		
-		return null;
+		return transport;
 	}
 
 	private Connection getConnection() {

@@ -11,8 +11,6 @@ public class DTOTransport {
 	
 	private ASLine line;
 	
-	private int time;
-	
 	private String enroll;
 	
 	private String model;
@@ -29,10 +27,6 @@ public class DTOTransport {
 		return line;
 	}
 	
-	public int getTime() {
-		return time;
-	}
-	
 	public String getEnroll() {
 		return enroll;
 	}
@@ -45,16 +39,8 @@ public class DTOTransport {
 		_id = id;
 	}
 	
-	public void setTransportType(TransportType tr) {
-		type = tr;
-	}
-	
 	public void setLine(ASLine l) {
 		line = l;
-	}
-	
-	public void getTime(int ti) {
-		time = ti;
 	}
 	
 	public void setEnroll(String enrl) {
