@@ -14,8 +14,10 @@ import java.awt.event.MouseEvent;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -97,9 +99,9 @@ public class InitSesionPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO enter as a guest
-				//Window jf = SwingUtilities.getWindowAncestor(InitSesionPanel.this);
-				//jf.setVisible(false);
-				//new MapWindow((Frame) jf, _ctrl);
+				Window jf = SwingUtilities.getWindowAncestor(InitSesionPanel.this);
+				jf.setVisible(false);
+				new SearchWindow(_ctrl);
 			}
 			
 		});
@@ -112,9 +114,19 @@ public class InitSesionPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO check data
-				Window jf = SwingUtilities.getWindowAncestor(InitSesionPanel.this);
-				jf.setVisible(false);
-				new SearchWindow(_ctrl);
+				//if(!jt.equals("") && !pf.equals("")) {
+				if(!jt.getText().isEmpty() && !pf.getText().isEmpty()) {					
+					Window jf = SwingUtilities.getWindowAncestor(InitSesionPanel.this);
+					jf.setVisible(false);
+					new SearchWindow(_ctrl);
+				}
+				else { //Si esta vacio
+					ImageIcon icon = new ImageIcon("resources/error.png");
+					JOptionPane.showMessageDialog(null, "Faltan algunos datos requeridos", "Iniciar sesion",
+							JOptionPane.DEFAULT_OPTION, icon);
+				}
+				//TODO falta si se introduce un usuario, pero es incorrecto
+				
 			}
 			
 		});
