@@ -63,6 +63,7 @@ public class UserWindow extends JDialog {
 	}
 
 	private void InitGUI() {
+		this.setMinimumSize(new Dimension(500, 300));
 		JPanel mainPanel = new JPanel();
 		mainPanel.setLayout(new BorderLayout(10, 5));
 		mainPanel.setBorder(BorderFactory.createTitledBorder(_defaultBorder));
@@ -251,6 +252,7 @@ public class UserWindow extends JDialog {
 
 		mostrarcontra.addActionListener(new mostrarListener());
 		
+		this.pack();
 		this.setResizable(false);
 	}
 
