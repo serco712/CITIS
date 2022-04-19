@@ -360,7 +360,6 @@ public class UserWindow extends JDialog {
 						JOptionPane.showMessageDialog(null, "Los datos introducidos son correctos",
 								"Cambiar contrasena", JOptionPane.DEFAULT_OPTION, icon);
 						diag.dispose();
-						UserWindow.this.setVisible(false);
 					} else {
 						ImageIcon icon = new ImageIcon("resources/error.png");
 						JOptionPane.showMessageDialog(null, "Las contrasenas no coinciden", "Cambiar contrasena",
