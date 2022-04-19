@@ -1,11 +1,17 @@
 package app.model.layers.integration.line;
 
+import java.awt.Color;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import app.model.business.line.DTOLine;
+import app.model.business.station.ASStation;
+import app.model.business.station.DTOStation;
+import app.model.layers.integration.Conectar;
 
 public class LineDatabaseDAO implements LineDAO {
 
@@ -17,22 +23,32 @@ public class LineDatabaseDAO implements LineDAO {
 		DTOLine line = null;
 		
 		try {
-			// con = getConnection();
+			con = getConnection();
 			ps = con.prepareStatement("SELECT * "
-									+ "FROM AV_USERS "
-									+ "WHERE id = ?");
+									+ "FROM citis_route"
+									+ "WHERE route_id = ?");
 			ps.setString(1, id);
 			rs = ps.executeQuery();
 			
 			if (!rs.next())
 				return null;
 			
-			/*user = new DTOUser();
-			user.setName(rs.getString("name"));
-			user.setSurname(rs.getString("surname"));
-			user.setEmail(rs.getString("email"));
-			user.setPassword(rs.getString("password"));
-			*/
+			line = new DTOLine();
+			line.setId(rs.getString("route_id"));
+			line.setShortName(rs.getString("route_short_name"));
+			line.setLongName(rs.getString("route_long_name"));
+			String co = rs.getString("route_text_color");
+			co = (String) co.subSequence(1, co.length() - 1);
+			String [] aux = co.split(",");
+			line.setColorText(new Color(Integer.parseInt(aux[0]), Integer.parseInt(aux[1]), 
+					Integer.parseInt(aux[2])));
+			co = rs.getString("route_color");
+			co = (String) co.subSequence(1, co.length() - 1);
+			aux = co.split(",");
+			line.setColorText(new Color(Integer.parseInt(aux[0]), Integer.parseInt(aux[1]), 
+					Integer.parseInt(aux[2])));
+			line.setAgency(rs.getString("agency_name"));
+			
 			ps.close();
 			rs.close();
 		}
@@ -60,14 +76,148 @@ public class LineDatabaseDAO implements LineDAO {
 
 	@Override
 	public void saveLine(DTOLine line) {
-		// TODO Auto-generated method stub
+		DTOLine dl = findLine(line.getId());
+		if(dl == null)
+			createLine(line);
+
+		Connection con = null;
+		PreparedStatement ps = null;
 		
+		try {
+			con = getConnection();
+			ps = con.prepareStatement("UPDATE city_route"
+									+ "SET route_short_name = ?, route_long_name = ?, route_color = ?, route_text_color = ?, agency_name = ?"
+									+ "WHERE route_id = ?");
+			
+			ps.setString(1, line.getShortName());
+			ps.setString(2, line.getLongName());
+			StringBuilder str = new StringBuilder();
+			str.append("(" + line.getLineColor().getRed() + ',' + line.getLineColor().getGreen() + ',' +
+					line.getLineColor().getBlue() + ")");
+			ps.setString(3, str.toString());
+			str = new StringBuilder();
+			str.append("(" + line.getColorText().getRed() + ',' + line.getColorText().getGreen() + ',' +
+					line.getColorText().getBlue() + ")");
+			ps.setString(4, str.toString());
+			ps.setString(5, line.getAgency());
+			ps.setString(6, line.getId());
+			
+			ps.executeUpdate();
+			ps.close();
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		finally {
+			try {
+				if (ps != null)
+					ps.close();
+				
+				if (con != null)
+					con.close();
+			}
+			catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	@Override
 	public DTOLine createLine(DTOLine line) {
-		// TODO Auto-generated method stub
-		return null;
+		DTOLine dl = findLine(line.getId());
+		if(dl != null)
+			return dl;
+
+		Connection con = null;
+		PreparedStatement ps = null;
+		
+		try {
+			con = getConnection();
+			ps = con.prepareStatement("INSERT INTO city_route"
+									+ "VALUES (?, ?, ?, ?, ?, ?)");
+			
+			ps.setString(1, line.getId());
+			ps.setString(2, line.getShortName());
+			ps.setString(3, line.getLongName());
+			StringBuilder str = new StringBuilder();
+			str.append("(" + line.getLineColor().getRed() + ',' + line.getLineColor().getGreen() + ',' +
+					line.getLineColor().getBlue() + ")");
+			ps.setString(4, str.toString());
+			str = new StringBuilder();
+			str.append("(" + line.getColorText().getRed() + ',' + line.getColorText().getGreen() + ',' +
+					line.getColorText().getBlue() + ")");
+			ps.setString(5, str.toString());
+			ps.setString(6, line.getAgency());
+			
+			ps.executeUpdate();
+			ps.close();
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		finally {
+			try {
+				if (ps != null)
+					ps.close();
+				
+				if (con != null)
+					con.close();
+			}
+			catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return line;
 	}
 
+	@Override
+	public List<String> findRouteStations(String line_id) {
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		List<String> as = new ArrayList<>();
+		
+		try {
+			con = getConnection();
+			ps = con.prepareStatement("SELECT cs.stop_id"
+									+ "FROM citis_route cr"
+									+ 	"INNER JOIN citis_trip ct ON cr.route_id = ct.route_id"
+									+	"INNER JOIN citis_stop_time cst ON ct.trip_id = cst.trip_id"
+									+	"INNER JOIN citis_stop cs ON cs.stop_id = cst.stop_id"
+									+ "WHERE route_id = ?");
+			ps.setString(1, line_id);
+			rs = ps.executeQuery();
+			
+			while(rs.next()){
+                as.add(rs.getString("stop_id"));
+            }
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		finally {
+			try {
+				if (rs != null)
+					rs.close();
+				
+				if (ps != null)
+					ps.close();
+				
+				if (con != null)
+					con.close();
+			}
+			catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return as;
+	}
+	
+	private Connection getConnection() {
+		Conectar c = new Conectar();
+		return c.getConnection();
+	}
 }

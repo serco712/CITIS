@@ -73,13 +73,13 @@ public class StationMap extends JPanel implements CITISObserver {
 		
 		for(ASLine l : _map.getLines()) {
 			if(l.getTransport().equals(_tp)) {
-				List<ASStation> ls = l.getStations();
-				g.setColor(l.getColor());
+				List<String> ls = l.getStations();
+				g.setColor(l.getColorLine());
 				for(int i = 0; i < l.getNumStops() - 1; i++) {
-					int x1 = ls.get(i).getX(); 
-					int x2 = ls.get(i + 1).getX();
-					int y1 = ls.get(i).getY(); 
-					int y2 = ls.get(i + 1).getY();
+					int x1 = _map.searchStation(ls.get(i)).getX(); 
+					int x2 = _map.searchStation(ls.get(i + 1)).getX();
+					int y1 = _map.searchStation(ls.get(i)).getY(); 
+					int y2 = _map.searchStation(ls.get(i + 1)).getY();
 					g.drawLine(x1, y1, x2, y2);
 				}
 			}

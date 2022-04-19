@@ -14,12 +14,14 @@ public class ASLine extends CITISObject {
 	
 	private static int numLines;
 	
-	private List<ASStation> stops;
-	private List<ASTransport> transports;
+	private List<String> stops;
 	private TransportType transp;
 	private static final String TYPE_ID = "line";
-	private Color c;
-	
+	private Color ctext;
+	private Color cline;
+	private String shortName;
+	private String longName;
+	private String agency;
 	
 	public ASLine (String id, TransportType t, int c1, int c2, int c3) {
 		super(id);
@@ -27,9 +29,8 @@ public class ASLine extends CITISObject {
 		if (t == null)
 			throw new IllegalArgumentException("El tipo no puede ser nulo");
 		
-		c = new Color(c1, c2, c3);
+		cline = new Color(c1, c2, c3);
 		stops = new ArrayList<>();
-		transports = new ArrayList<>();
 		transp = t;
 	}
 	
@@ -52,38 +53,27 @@ public class ASLine extends CITISObject {
 	}
 	
 	public void addToLine(ASStation s) {
-		stops.add(s);
+		stops.add(s.getId());
 	}
 	
 	public boolean isInLine(ASStation s) {
-		return stops.contains(s);
+		return stops.contains(s.getId());
 	}
 	
 	public TransportType getTransport() {
 		return transp;
 	}
-
-	public void addToLine(ASTransport t) {
-		transports.add(t);
-	}
 	
-	public List<ASStation> getStations() {
+	public List<String> getStations() {
 		return Collections.unmodifiableList(stops);
 	}
 	
-	public Color getColor() {
-		return c;
+	public Color getColorText() {
+		return ctext;
 	}
 	
-	@Override
-	public String toString() {
-		StringBuilder str = new StringBuilder();
-		str.append(_id + ' ' + transp.toString() + ' ');
-		for(ASStation s : stops)
-			str.append('(' + s.getId() + ", " + s.getName() + ") ");
-		for(ASTransport t : transports)
-			str.append(t.getId());
-		return str.toString();
+	public Color getColorLine() {
+		return cline;
 	}
 
 	@Override

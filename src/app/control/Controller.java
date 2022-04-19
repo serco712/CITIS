@@ -53,12 +53,14 @@ public class Controller {
 	
 	public void saveData() throws Exception {
 		try (BufferedWriter br = new BufferedWriter(new FileWriter(FILE_NAME))) {
+			/*
 			for(ASLine l : ct.getLines()) {
 				StringBuilder str = new StringBuilder();
 				str.append(l.getTypeId() + ' ' + l.getId() + ' ' + l.getTransport().toString() + ' '
 						+ l.getColor().getRed() + ' ' + l.getColor().getGreen() + ' ' + l.getColor().getBlue());
 				br.append(str.toString() + '\n');
 			}
+			*/
 			
 			for(ASStation s : ct.getStations()) {
 				StringBuilder str = new StringBuilder();
