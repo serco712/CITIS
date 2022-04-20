@@ -5,6 +5,7 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.List;
 
 import app.factories.Factory;
 import app.factories.MainFactory;
@@ -14,6 +15,9 @@ import app.model.business.line.ASLine;
 import app.model.business.station.ASStation;
 import app.model.business.transport.ASTransport;
 import app.model.business.user.ASUser;
+import app.model.layers.integration.line.LineDatabaseDAO;
+import app.view.LineTable;
+import app.view.TableWindow;
 
 public class Controller {
 	
@@ -22,6 +26,8 @@ public class Controller {
 	private MainFactory fact;
 	
 	private CITISMap ct;
+	
+	private ASLine al;
 	
 	public Controller(MainFactory f, CITISMap cm) throws Exception {
 		if (f == null)
@@ -89,6 +95,18 @@ public class Controller {
 		}
 	}
 	
+	public void executeOption(int option) {
+		List<ASStation> stationList;
+		List<ASLine> lineList;
+		List<ASTransport> transportList;
+		switch (option) {
+		case ControllerChoices.List_Lines:
+			ASLine al  = new ASLine();
+			lineList = al.searchLines();
+			new TableWindow(new LineTable(lineList), "Listado de Lineas");
+			break;
+		}
+	}
 	public void addObserver(CITISObserver co) {
 		ct.addObserver(co);
 	}

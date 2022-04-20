@@ -9,6 +9,7 @@ import app.model.business.CITISObject;
 import app.model.business.TransportType;
 import app.model.business.station.ASStation;
 import app.model.business.transport.ASTransport;
+import app.model.layers.integration.line.LineDatabaseDAO;
 
 public class ASLine extends CITISObject {
 	
@@ -23,15 +24,23 @@ public class ASLine extends CITISObject {
 	private String longName;
 	private String agency;
 	
-	public ASLine (String id, TransportType t, int c1, int c2, int c3) {
-		super(id);
+	public ASLine () {
+		super(" ");
+	}
+	
+	public ASLine (DTOLine dto) {
+		super(dto.getId());
 		
-		if (t == null)
+		if (dto.getTransportType() == null)
 			throw new IllegalArgumentException("El tipo no puede ser nulo");
 		
-		cline = new Color(c1, c2, c3);
 		stops = new ArrayList<>();
-		transp = t;
+		shortName = dto.getShortName();
+		longName = dto.getLongName();
+		ctext = dto.getColorText();
+		cline = dto.getLineColor();
+		transp = dto.getTransportType();
+		agency = dto.getAgency();
 	}
 	
 	public int getNumStops() {
@@ -79,5 +88,10 @@ public class ASLine extends CITISObject {
 	@Override
 	public String getTypeId() {
 		return TYPE_ID;
+	}
+	
+	public List<ASLine> searchLines() {
+		LineDatabaseDAO dao = new LineDatabaseDAO();
+		return dao.searchLines();
 	}
 }

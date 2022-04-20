@@ -8,6 +8,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import app.model.business.TransportType;
+import app.model.business.line.ASLine;
 import app.model.business.line.DTOLine;
 import app.model.business.station.ASStation;
 import app.model.business.station.DTOStation;
@@ -26,7 +28,7 @@ public class LineDatabaseDAO implements LineDAO {
 			con = getConnection();
 			ps = con.prepareStatement("SELECT * "
 									+ "FROM citis_route"
-									+ "WHERE route_id = ?");
+									+ "WHERE route_id = ?;");
 			ps.setString(1, id);
 			rs = ps.executeQuery();
 			
@@ -48,6 +50,14 @@ public class LineDatabaseDAO implements LineDAO {
 			line.setColorText(new Color(Integer.parseInt(aux[0]), Integer.parseInt(aux[1]), 
 					Integer.parseInt(aux[2])));
 			line.setAgency(rs.getString("agency_name"));
+
+			int ttype = Integer.parseInt(id.substring(0, 1));
+			if(ttype == 4)
+				line.setTransportType(TransportType.SUBWAY);
+			else if(ttype == 5)
+				line.setTransportType(TransportType.TRAIN);
+			else
+				line.setTransportType(TransportType.BUS);
 			
 			ps.close();
 			rs.close();
@@ -85,9 +95,9 @@ public class LineDatabaseDAO implements LineDAO {
 		
 		try {
 			con = getConnection();
-			ps = con.prepareStatement("UPDATE city_route"
+			ps = con.prepareStatement("UPDATE citis_route"
 									+ "SET route_short_name = ?, route_long_name = ?, route_color = ?, route_text_color = ?, agency_name = ?"
-									+ "WHERE route_id = ?");
+									+ "WHERE route_id = ?;");
 			
 			ps.setString(1, line.getShortName());
 			ps.setString(2, line.getLongName());
@@ -134,7 +144,7 @@ public class LineDatabaseDAO implements LineDAO {
 		try {
 			con = getConnection();
 			ps = con.prepareStatement("INSERT INTO city_route"
-									+ "VALUES (?, ?, ?, ?, ?, ?)");
+									+ "VALUES (?, ?, ?, ?, ?, ?);");
 			
 			ps.setString(1, line.getId());
 			ps.setString(2, line.getShortName());
@@ -186,7 +196,7 @@ public class LineDatabaseDAO implements LineDAO {
 									+ 	"INNER JOIN citis_trip ct ON cr.route_id = ct.route_id"
 									+	"INNER JOIN citis_stop_time cst ON ct.trip_id = cst.trip_id"
 									+	"INNER JOIN citis_stop cs ON cs.stop_id = cst.stop_id"
-									+ "WHERE route_id = ?");
+									+ "WHERE route_id = ?;");
 			ps.setString(1, line_id);
 			rs = ps.executeQuery();
 			
@@ -214,6 +224,68 @@ public class LineDatabaseDAO implements LineDAO {
 		}
 		
 		return as;
+	}
+
+	@Override
+	public List<ASLine> searchLines() {
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		List<ASLine> l = new ArrayList<>();
+		
+		try {
+			con = getConnection();
+			ps = con.prepareStatement("SELECT *"
+									+ "FROM citis_route;");
+			
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				DTOLine line = new DTOLine();
+				line.setId(rs.getString("route_id"));
+				line.setShortName(rs.getString("route_short_name"));
+				line.setLongName(rs.getString("route_long_name"));
+				String co = rs.getString("route_text_color");
+				co = (String) co.subSequence(1, co.length() - 1);
+				String [] aux = co.split(",");
+				line.setColorText(new Color(Integer.parseInt(aux[0]), Integer.parseInt(aux[1]), 
+						Integer.parseInt(aux[2])));
+				co = rs.getString("route_color");
+				co = (String) co.subSequence(1, co.length() - 1);
+				aux = co.split(",");
+				line.setColorText(new Color(Integer.parseInt(aux[0]), Integer.parseInt(aux[1]), 
+						Integer.parseInt(aux[2])));
+				line.setAgency(rs.getString("agency_name"));
+				
+				int ttype = Integer.parseInt(rs.getString("route_id").substring(0, 1));
+				if(ttype == 4)
+					line.setTransportType(TransportType.SUBWAY);
+				else if(ttype == 5)
+					line.setTransportType(TransportType.TRAIN);
+				else
+					line.setTransportType(TransportType.BUS);
+				
+				l.add(new ASLine(line));
+			}
+				
+			rs.close();
+			ps.close();
+		}
+		catch (SQLException e) {
+			System.out.println("Fallo en la bbdd");
+		}
+		finally {
+			try {
+				if (ps != null)
+					ps.close();
+				
+				if (con != null)
+					con.close();
+			}
+			catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return l;
 	}
 	
 	private Connection getConnection() {
