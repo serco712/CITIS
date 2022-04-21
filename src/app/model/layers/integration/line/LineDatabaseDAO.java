@@ -11,8 +11,6 @@ import java.util.List;
 import app.model.business.TransportType;
 import app.model.business.line.ASLine;
 import app.model.business.line.DTOLine;
-import app.model.business.station.ASStation;
-import app.model.business.station.DTOStation;
 import app.model.layers.integration.Conectar;
 
 public class LineDatabaseDAO implements LineDAO {

@@ -1,5 +1,7 @@
 package app.model.layers.integration.agency;
 
-public interface AgencyDAO {
+import app.model.business.agency.DTOAgency;
 
+public interface AgencyDAO {
+	public DTOAgency findAgency(String id);
 }

@@ -10,7 +10,8 @@ public class ControllerChoices {
 	// Check Data Commands
 	public static final int Check_UserData = 1;
 	public static final int Check_UserExists = 2;
-	public static final int Check_CorrectIdandAgency = 3;
+	public static final int Check_CorrectId = 3;
+	public static final int Check_AgencyExists = 4;
 	
 	// Add Commands
 	public static final int Add_User = 1;

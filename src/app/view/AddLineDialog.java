@@ -27,6 +27,7 @@ import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.border.BevelBorder;
+import javax.swing.border.Border;
 
 import app.control.Controller;
 import app.model.business.TransportType;
@@ -46,7 +47,9 @@ public class AddLineDialog extends JDialog {
 	private JTextField lineId;
 	private JTextField lineSName;
 	private JTextField lineLName;
+	private JTextField agencyn;
 	private Controller ctrl;
+	private Border _defaultBorder = BorderFactory.createLineBorder(Color.black, 2);
 	
 	public AddLineDialog(Controller ctrl) {
 		super(new JFrame(), "Anadir Linea", true);
@@ -100,6 +103,7 @@ public class AddLineDialog extends JDialog {
 		txt.setAlignmentX(CENTER_ALIGNMENT);
 		upPanel.add(txt);
 		secPanel.add(upPanel);
+		
 		JPanel typeidPanel = new JPanel();
 		typeidPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
 		typeidPanel.setBackground(Color.WHITE);
@@ -111,11 +115,13 @@ public class AddLineDialog extends JDialog {
 			transportCombom.addElement(t);
 		transportCombo.setPreferredSize(new Dimension(80, 20));
 		transportCombo.setBackground(Color.WHITE);
+		transportCombo.setBorder(BorderFactory.createTitledBorder(_defaultBorder));
 		typeidPanel.add(transportCombo);
 		typeidPanel.add(Box.createRigidArea(new Dimension(10, 0)));
 		typeidPanel.add(new JLabel("Id parada: "));
 		lineId = new JTextField();
 		lineId.setPreferredSize(new Dimension(100, 20));
+		lineId.setBorder(BorderFactory.createTitledBorder(_defaultBorder));
 		typeidPanel.add(lineId);
 		secPanel.add(typeidPanel);
 		
@@ -126,11 +132,13 @@ public class AddLineDialog extends JDialog {
 		dataPanel.add(new JLabel("Nombre abrev.: "));
 		lineSName = new JTextField();
 		lineSName.setPreferredSize(new Dimension(100, 20));
+		lineSName.setBorder(BorderFactory.createTitledBorder(_defaultBorder));
 		dataPanel.add(lineSName);
 		dataPanel.add(Box.createRigidArea(new Dimension(10, 0)));
 		dataPanel.add(new JLabel("Nombre comp.: "));
 		lineLName = new JTextField();
 		lineLName.setPreferredSize(new Dimension(100, 20));
+		lineLName.setBorder(BorderFactory.createTitledBorder(_defaultBorder));
 		dataPanel.add(lineLName);
 		secPanel.add(dataPanel);
 		
@@ -144,6 +152,7 @@ public class AddLineDialog extends JDialog {
 		rText.setMaximumSize(new Dimension(70, 20));
 		rText.setMinimumSize(new Dimension(70, 20));
 		rText.setPreferredSize(new Dimension(70, 20));
+		rText.setBorder(BorderFactory.createTitledBorder(_defaultBorder));
 		colorTextPanel.add(rText);
 		colorTextPanel.add(Box.createRigidArea(new Dimension(0, 10)));
 		colorTextPanel.add(new JLabel("G: "));
@@ -151,6 +160,7 @@ public class AddLineDialog extends JDialog {
 		gText.setMaximumSize(new Dimension(70, 20));
 		gText.setMinimumSize(new Dimension(70, 20));
 		gText.setPreferredSize(new Dimension(70, 20));
+		gText.setBorder(BorderFactory.createTitledBorder(_defaultBorder));
 		colorTextPanel.add(gText);
 		colorTextPanel.add(Box.createRigidArea(new Dimension(0, 10)));
 		colorTextPanel.add(new JLabel("B: "));
@@ -158,6 +168,7 @@ public class AddLineDialog extends JDialog {
 		bText.setMaximumSize(new Dimension(70, 20));
 		bText.setMinimumSize(new Dimension(70, 20));
 		bText.setPreferredSize(new Dimension(70, 20));
+		bText.setBorder(BorderFactory.createTitledBorder(_defaultBorder));
 		colorTextPanel.add(bText);
 		secPanel.add(colorTextPanel);
 		
@@ -170,6 +181,7 @@ public class AddLineDialog extends JDialog {
 		rLine.setMaximumSize(new Dimension(70, 20));
 		rLine.setMinimumSize(new Dimension(70, 20));
 		rLine.setPreferredSize(new Dimension(70, 20));
+		rLine.setBorder(BorderFactory.createTitledBorder(_defaultBorder));
 		colorLinePanel.add(rLine);
 		colorLinePanel.add(Box.createRigidArea(new Dimension(0, 10)));
 		colorLinePanel.add(new JLabel("G: "));
@@ -177,6 +189,7 @@ public class AddLineDialog extends JDialog {
 		gLine.setMaximumSize(new Dimension(70, 20));
 		gLine.setMinimumSize(new Dimension(70, 20));
 		gLine.setPreferredSize(new Dimension(70, 20));
+		gLine.setBorder(BorderFactory.createTitledBorder(_defaultBorder));
 		colorLinePanel.add(gLine);
 		colorLinePanel.add(Box.createRigidArea(new Dimension(0, 10)));
 		colorLinePanel.add(new JLabel("B: "));
@@ -184,9 +197,20 @@ public class AddLineDialog extends JDialog {
 		bLine.setMaximumSize(new Dimension(70, 20));
 		bLine.setMinimumSize(new Dimension(70, 20));
 		bLine.setPreferredSize(new Dimension(70, 20));
+		bLine.setBorder(BorderFactory.createTitledBorder(_defaultBorder));
 		colorLinePanel.add(bLine);
 		secPanel.add(colorLinePanel);
-
+		
+		JPanel agencyPanel = new JPanel();
+		agencyPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+		agencyPanel.setBackground(Color.WHITE);
+		agencyPanel.add(new JLabel("Agencia gestora: "));
+		agencyn = new JTextField();
+		agencyn.setPreferredSize(new Dimension(100, 20));
+		agencyn.setBorder(BorderFactory.createTitledBorder(_defaultBorder));
+		agencyPanel.add(agencyn);
+		secPanel.add(agencyPanel);
+		
 		JButton addButton = new JButton("Anadir");
 		formatButton(addButton);
 		
@@ -203,7 +227,8 @@ public class AddLineDialog extends JDialog {
 	
 	public void createLine() {
 		if(transportCombom.getSelectedItem() != null && !lineId.getText().equals("") 
-				&& !lineSName.getText().equals("") && !lineLName.getText().equals("")) {
+				&& !lineSName.getText().equals("") && !lineLName.getText().equals("")
+				&& !agencyn.getText().equals("")) {
 			int ttype;
 			if(transportCombom.getSelectedItem().equals(TransportType.SUBWAY))
 				ttype = 4;
@@ -215,8 +240,9 @@ public class AddLineDialog extends JDialog {
 			st.append(ttype);
 			st.append('_');
 			st.append(lineId.getText());
-			String[] dat = {st.toString()};
-			if(!ctrl.checkData(3, dat)) {
+			String[] dat1 = {st.toString()};
+			String[] dat2 = {agencyn.getText()};
+			if(!ctrl.checkData(3, dat1) && ctrl.checkData(4, dat2)) {
 				DTOLine dtl = new DTOLine();
 				dtl.setId(st.toString());
 				dtl.setTransportType((TransportType) transportCombom.getSelectedItem());
@@ -224,7 +250,7 @@ public class AddLineDialog extends JDialog {
 				dtl.setShortName(lineSName.getText());
 				dtl.setColorLine(new Color((Integer)rLine.getValue(), (Integer)gLine.getValue(), (Integer)bLine.getValue()));
 				dtl.setColorText(new Color((Integer)rText.getValue(), (Integer)gLine.getValue(), (Integer)bText.getValue()));
-				dtl.setAgency(" ");
+				dtl.setAgency(agencyn.getText());
 				ctrl.addData(3, dtl);
 				dispose();
 			}

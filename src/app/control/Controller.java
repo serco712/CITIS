@@ -11,6 +11,7 @@ import app.factories.Factory;
 import app.factories.MainFactory;
 import app.model.business.CITISMap;
 import app.model.business.CITISObserver;
+import app.model.business.agency.ASAgency;
 import app.model.business.line.ASLine;
 import app.model.business.line.DTOLine;
 import app.model.business.station.ASStation;
@@ -121,13 +122,17 @@ public class Controller {
 	public boolean checkData(int option, String[] data) {
 		ASUser a = new ASUser();
 		ASLine l = new ASLine();
+		ASAgency as = new ASAgency();
+		
 		switch(option) {
 		case ControllerChoices.Check_UserData:
 			return a.checkUserDataExists(data[0], data[1]);
 		case ControllerChoices.Check_UserExists:
 			return a.checkUserExists(data[0]);
-		case ControllerChoices.Check_CorrectIdandAgency:
+		case ControllerChoices.Check_CorrectId:
 			return l.findLine(data[0]);
+		case ControllerChoices.Check_AgencyExists:
+			return as.findAgency(data[0]);
 		}
 		return true;
 	}

@@ -12,7 +12,7 @@ public class LineTable extends AbstractTableModel {
 	private static final long serialVersionUID = 1L;
 	
 	private List<ASLine> lines;
-	private String[] cols = {"ID", "Tipo de transporte"};
+	private String[] cols = {"Linea", "Tipo de transporte", "Agencia gestora"};
 	
 	public LineTable(List<ASLine> lines) {
 		this.lines = lines;
@@ -46,9 +46,11 @@ public class LineTable extends AbstractTableModel {
 		
 		switch (y) {
 		case 0:
-			return lines.get(x).getId();
+			return lines.get(x).getShortName();
 		case 1:
 			return lines.get(x).getTransport().toString();
+		case 2:
+			return lines.get(x).getAgency();
 		default:
 			return null;
 		}

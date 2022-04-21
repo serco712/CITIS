@@ -52,10 +52,12 @@ public class StationTable extends AbstractTableModel {
 		case 2:
 			return stations.get(x).getTransport().toString();
 		case 3:
-			StringBuilder str = new StringBuilder("[");
+			StringBuilder str = new StringBuilder();
+			str.append("[");
 			for (ASLine l : stations.get(x).getLines())
 				str.append(l.getId()).append(",");
-			str.setLength(str.length() - 1);
+			if(str.length() >= 2)
+				str.setLength(str.length() - 1);
 			str.append("]");
 			return str.toString();
 		default:
