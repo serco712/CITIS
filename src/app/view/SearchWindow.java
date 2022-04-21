@@ -182,11 +182,11 @@ public class SearchWindow extends JFrame implements CITISObserver {
 		public void actionPerformed(ActionEvent e) {
 			String cmnd = e.getActionCommand();
 			if(cmnd.equals("Listado de estaciones"))
-				_ctrl.executeOption(2);
+				_ctrl.listOption(2);
 			else if(cmnd.contentEquals("Listado de transportes"))
-				_ctrl.executeOption(3);
+				_ctrl.listOption(3);
 			else
-				_ctrl.executeOption(1);
+				_ctrl.listOption(1);
 		}
 	}
 	

@@ -42,7 +42,6 @@ public class UserWindow extends JDialog {
 
 	private CITISMap cm;
 	
-	// HABRA QUE COMUNICARLO CON ALGO DE LA BASE DE DATOS
 	private ImageIcon profilePhoto = new ImageIcon("resources/profileImg.png"); // IMAGEN PREDETERMINADA
 	
 	private JTextField emaT;

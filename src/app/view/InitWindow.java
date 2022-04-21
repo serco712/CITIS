@@ -105,7 +105,7 @@ public class InitWindow extends JFrame {
 		register.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new RegisterWindow(cm);
+				new RegisterWindow(_ctrl);
 			}
 		});
 				

@@ -2,28 +2,37 @@ package app.model.business.user;
 
 import java.util.List;
 
+import javax.swing.ImageIcon;
+
 import app.model.business.station.ASStation;
+import app.model.layers.integration.user.UserDatabaseDAO;
 
 public class ASUser {
 	
 	private static final String TYPE_ID = "customer";
 	
-	private String _id;
+	private int _id;
 	private String _name;
 	private String surname;
 	private String email;
 	private String password;
 	private List<ASStation> fav;
+	private ImageIcon photo;
 	
-	public ASUser(String id, String name, String surname, String email, String password) {
-		_id = id;
-		_name = name;
-		this.surname = surname;
-		this.email = email;
-		this.password = password;
+	public ASUser (DTOUser user) {
+		_id = user.getId();
+		_name = user.getName();
+		surname = user.getSurname();
+		email = user.getSurname();
+		password = user.getPassword();
+		photo = (ImageIcon) user.getPhoto();
 	}
 	
-	public String getId() {
+	public ASUser() {
+		
+	}
+
+	public int getId() {
 		return _id;
 	}
 	
@@ -49,5 +58,24 @@ public class ASUser {
 
 	public String getTypeId() {
 		return TYPE_ID;
+	}
+	
+	public ImageIcon getPhoto() {
+		return photo;
+	}
+	
+	public boolean checkUserDataExists(String email, String password) {
+		UserDatabaseDAO dao = new UserDatabaseDAO();
+		return dao.checkUserData(email, password);
+	}
+	
+	public DTOUser createUser(DTOUser user) {
+		UserDatabaseDAO dao = new UserDatabaseDAO();
+		return dao.createUser(user);
+	}
+
+	public boolean checkUserExists(String userEmail) {
+		UserDatabaseDAO dao = new UserDatabaseDAO();
+		return dao.checkUserExists(userEmail);
 	}
 }

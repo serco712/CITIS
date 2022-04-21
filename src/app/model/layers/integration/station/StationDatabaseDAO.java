@@ -1,13 +1,16 @@
 package app.model.layers.integration.station;
 
+import java.awt.Color;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 import app.model.business.TransportType;
 import app.model.business.line.ASLine;
+import app.model.business.line.DTOLine;
 import app.model.business.station.ASStation;
 import app.model.business.station.DTOStation;
 import app.model.layers.integration.Conectar;
@@ -24,8 +27,8 @@ public class StationDatabaseDAO implements StationDAO {
 		try {
 			con = getConnection();
 			ps = con.prepareStatement("SELECT * "
-									+ "FROM city_stop"
-									+ "WHERE stop_id = ?");
+									+ "FROM citis_stop"
+									+ "WHERE stop_id = ?;");
 			ps.setString(1, id);
 			rs = ps.executeQuery();
 			
@@ -39,9 +42,7 @@ public class StationDatabaseDAO implements StationDAO {
 			st.setYCoor(rs.getInt("y_coor"));
 			st.setCity(rs.getString("stop_city"));
 			st.setLines(new ArrayList<ASLine>());
-			DTOStation pat = findStation(rs.getString("parent_id"));
-			st.setParent(new ASStation(pat.getId(), pat.getName(), pat.getXCoor(), pat.getYCoor(),
-					pat.getTransportType(), pat.getLines(), pat.getParent(), pat.getCity()));
+			st.setParent(rs.getString("parent_id"));
 			int ttype = Integer.parseInt(id.substring(0, 1));
 			if(ttype == 4)
 				st.setTransportType(TransportType.SUBWAY);
@@ -86,7 +87,7 @@ public class StationDatabaseDAO implements StationDAO {
 		
 		try {
 			con = getConnection();
-			ps = con.prepareStatement("UPDATE city_stop"
+			ps = con.prepareStatement("UPDATE citis_stop"
 									+ "SET stop_name = ?, x_coor = ?, y_coor = ?, stop_city = ?, parent_id = ?"
 									+ "WHERE stop_id = ?");
 			
@@ -94,7 +95,7 @@ public class StationDatabaseDAO implements StationDAO {
 			ps.setInt(2, station.getXCoor());
 			ps.setInt(3, station.getYCoor());
 			ps.setString(4, station.getCity());
-			ps.setString(5, station.getParent().getId());
+			ps.setString(5, station.getParent());
 			ps.setString(6, station.getId());
 			
 			ps.executeUpdate();
@@ -128,7 +129,7 @@ public class StationDatabaseDAO implements StationDAO {
 		
 		try {
 			con = getConnection();
-			ps = con.prepareStatement("INSERT INTO city_stop"
+			ps = con.prepareStatement("INSERT INTO citis_stop"
 									+ "VALUES (?, ?, ?, ?, ?, ?)");
 			
 			ps.setString(1, station.getId());
@@ -136,7 +137,7 @@ public class StationDatabaseDAO implements StationDAO {
 			ps.setInt(3, station.getXCoor());
 			ps.setInt(4, station.getYCoor());
 			ps.setString(5, station.getCity());
-			ps.setString(6, station.getParent().getId());
+			ps.setString(6, station.getParent());
 			
 			ps.executeUpdate();
 			ps.close();
@@ -163,5 +164,134 @@ public class StationDatabaseDAO implements StationDAO {
 	private Connection getConnection() {
 		Conectar c = new Conectar();
 		return c.getConnection();
+	}
+
+	@Override
+	public List<ASStation> searchStations() {
+		List<ASStation> ls = new ArrayList<>();
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		DTOStation st = null;
+		
+		try {
+			con = getConnection();
+			ps = con.prepareStatement("SELECT * "
+									+ "FROM citis_stop;");
+			rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				st = new DTOStation();
+				st.setId(rs.getString("stop_id"));
+				st.setName(rs.getString("stop_name"));
+				st.setXCoor(rs.getInt("x_coor"));
+				st.setYCoor(rs.getInt("y_coor"));
+				st.setCity(rs.getString("stop_city"));
+				st.setParent(rs.getString("parent_id"));
+				int ttype = Integer.parseInt(st.getId().substring(0, 1));
+				if(ttype == 4)
+					st.setTransportType(TransportType.SUBWAY);
+				else if(ttype == 5)
+					st.setTransportType(TransportType.TRAIN);
+				else
+					st.setTransportType(TransportType.BUS);
+				
+				ls.add(new ASStation(st));
+			}
+			
+			ps.close();
+			rs.close();
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		finally {
+			try {
+				if (rs != null)
+					rs.close();
+				
+				if (ps != null)
+					ps.close();
+				
+				if (con != null)
+					con.close();
+			}
+			catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return ls;
+	}
+
+	@Override
+	public List<ASLine> searchLines(String id) {
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		List<ASLine> al = new ArrayList<>();
+		
+		try {
+			con = getConnection();
+			ps = con.prepareStatement("SELECT cr.route_id, route_short_name, route_long_name, route_color, route_text_color, agency_name "
+							+   "FROM citis_route cr "
+							+ 	"INNER JOIN citis_trip ct ON cr.route_id = ct.route_id "
+							+	"INNER JOIN citis_stop_time cst ON ct.trip_id = cst.trip_id "
+							+	"INNER JOIN citis_stop cs ON cs.stop_id = cst.stop_id "
+							+   "WHERE cs.stop_id = ?;");
+			
+			ps.setString(1, id);
+			
+			rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				DTOLine line = new DTOLine();
+				line.setId(rs.getString("cr.route_id"));
+				line.setShortName(rs.getString("route_short_name"));
+				line.setLongName(rs.getString("route_long_name"));
+				String co = rs.getString("route_text_color");
+				co = (String) co.subSequence(1, co.length() - 1);
+				String [] aux = co.split(",");
+				line.setColorText(new Color(Integer.parseInt(aux[0]), Integer.parseInt(aux[1]), 
+						Integer.parseInt(aux[2])));
+				co = rs.getString("route_color");
+				co = (String) co.subSequence(1, co.length() - 1);
+				aux = co.split(",");
+				line.setColorText(new Color(Integer.parseInt(aux[0]), Integer.parseInt(aux[1]), 
+						Integer.parseInt(aux[2])));
+				line.setAgency(rs.getString("agency_name"));
+
+				int ttypel = Integer.parseInt(line.getId().substring(0, 1));
+				if(ttypel == 4)
+					line.setTransportType(TransportType.SUBWAY);
+				else if(ttypel == 5)
+					line.setTransportType(TransportType.TRAIN);
+				else
+					line.setTransportType(TransportType.BUS);
+				
+				al.add(new ASLine(line));
+			}
+			
+			ps.close();
+			rs.close();
+			con.close();
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		finally {
+			try {
+				if (ps != null)
+					ps.close();
+				
+				if (con != null)
+					con.close();
+			}
+			catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return al;
 	}
 }

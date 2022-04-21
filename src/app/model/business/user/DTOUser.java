@@ -7,7 +7,7 @@ import app.model.business.station.ASStation;
 
 public class DTOUser {
 	
-	private String _id;
+	private int _id;
 	
 	private String _name;
 	
@@ -23,7 +23,7 @@ public class DTOUser {
 	
 	private int _role;
 	
-	public String getId() {
+	public int getId() {
 		return _id;
 	}
 	
@@ -55,7 +55,7 @@ public class DTOUser {
 		return _role;
 	}
 	
-	public void setId(String id) {
+	public void setId(int id) {
 		_id = id;
 	}
 	

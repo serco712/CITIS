@@ -15,8 +15,10 @@ import app.model.business.line.ASLine;
 import app.model.business.station.ASStation;
 import app.model.business.transport.ASTransport;
 import app.model.business.user.ASUser;
+import app.model.business.user.DTOUser;
 import app.model.layers.integration.line.LineDatabaseDAO;
 import app.view.LineTable;
+import app.view.StationTable;
 import app.view.TableWindow;
 
 public class Controller {
@@ -26,8 +28,6 @@ public class Controller {
 	private MainFactory fact;
 	
 	private CITISMap ct;
-	
-	private ASLine al;
 	
 	public Controller(MainFactory f, CITISMap cm) throws Exception {
 		if (f == null)
@@ -95,7 +95,7 @@ public class Controller {
 		}
 	}
 	
-	public void executeOption(int option) {
+	public void listOption(int option) {
 		List<ASStation> stationList;
 		List<ASLine> lineList;
 		List<ASTransport> transportList;
@@ -105,8 +105,34 @@ public class Controller {
 			lineList = al.searchLines();
 			new TableWindow(new LineTable(lineList), "Listado de Lineas");
 			break;
+		case ControllerChoices.List_Stations:
+			ASStation as = new ASStation();
+			stationList = as.searchStations();
+			new TableWindow(new StationTable(stationList), "Listado de Estaciones");
+			break;
 		}
 	}
+	
+	public boolean checkData(int option, String[] data) {
+		ASUser a = new ASUser();
+		switch(option) {
+		case ControllerChoices.Check_UserData:
+			return a.checkUserDataExists(data[0], data[1]);
+		case ControllerChoices.Check_UserExists:
+			return a.checkUserExists(data[0]);
+		}
+		return true;
+	}
+	
+	public void addData(int option, Object transfer) {
+		switch(option) {
+		case ControllerChoices.Add_User:
+			ASUser a = new ASUser();
+			a.createUser((DTOUser) transfer);
+			break;
+		}
+	}
+	
 	public void addObserver(CITISObserver co) {
 		ct.addObserver(co);
 	}

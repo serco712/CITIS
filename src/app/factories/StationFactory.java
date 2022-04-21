@@ -30,7 +30,8 @@ public class StationFactory extends Factory {
 		for (String s : l)
 			ll.add(cm.searchLine(s));
 		
-		return new ASStation(para[1], para[2], Integer.parseInt(para[4]),
-					Integer.parseInt(para[5]), TransportType.valueOf(para[3]), ll, null, type);
+		return null;
+		//return new ASStation(para[1], para[2], Integer.parseInt(para[4]),
+		//			Integer.parseInt(para[5]), TransportType.valueOf(para[3]), ll, null, type);
 	}
 }

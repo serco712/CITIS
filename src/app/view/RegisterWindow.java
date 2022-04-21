@@ -26,8 +26,10 @@ import javax.swing.JTextField;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
 
+import app.control.Controller;
 import app.model.business.CITISMap;
 import app.model.business.user.ASUser;
+import app.model.business.user.DTOUser;
 
 public class RegisterWindow extends JDialog {
 	
@@ -35,14 +37,14 @@ public class RegisterWindow extends JDialog {
 	
 	private Border _defaultBorder = BorderFactory.createLineBorder(Color.black, 2);
 	
-	private CITISMap cm;
-	
 	private int _status;
 	
-	public RegisterWindow(CITISMap cm) {
+	private Controller _ctrl;
+	
+	public RegisterWindow(Controller ctrl) {
 		super(new JFrame(), "Registrarse", true);
+		_ctrl = ctrl;
 		InitGUI();
-		this.cm = cm;
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		this.setSize(500, 500);
 		this.pack();
@@ -214,16 +216,28 @@ public class RegisterWindow extends JDialog {
 					for(char c : rcontraT.getPassword())
 						str2 += c;
 					if (str1.contentEquals(str2)) {
-						//cm.addUser(new ASUser(nomT.getText(), apeT.getText(),
-				        //		emaT.getText(), str1));
-						ImageIcon icon = new ImageIcon("resources/check.jpg");
-				        JOptionPane.showMessageDialog(null, "Los datos introducidos son correctos", 
-				        		"Registrarse", JOptionPane.DEFAULT_OPTION, icon);
-				        RegisterWindow.this.setVisible(false);
+						String[] data = {emaT.getText()};
+						if(!_ctrl.checkData(2, data)) {
+							DTOUser du = new DTOUser();
+							du.setName(nomT.getText());
+							du.setSurname(apeT.getText());
+							du.setEmail(emaT.getText());
+							du.setPassword(str1);
+							_ctrl.addData(1, du);
+							ImageIcon icon = new ImageIcon("resources/check.jpg");
+					        JOptionPane.showMessageDialog(null, "Los datos introducidos son validos", 
+					        		"Registrarse", JOptionPane.DEFAULT_OPTION, icon);
+					        RegisterWindow.this.setVisible(false);
+						}
+						else {
+							ImageIcon icon = new ImageIcon("resources/error.png");
+							JOptionPane.showMessageDialog(null, "El email ya esta utilizado", 
+					        		"Registrarse", JOptionPane.DEFAULT_OPTION, icon);
+						}
 					}
 					else {
 						ImageIcon icon = new ImageIcon("resources/error.png");
-						JOptionPane.showMessageDialog(null, "Las contrase�as no coinciden", 
+						JOptionPane.showMessageDialog(null, "Las contrasenas no coinciden", 
 				        		"Registrarse", JOptionPane.DEFAULT_OPTION, icon);
 					}
 				}

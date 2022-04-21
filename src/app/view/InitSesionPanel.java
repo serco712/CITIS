@@ -113,12 +113,21 @@ public class InitSesionPanel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO check data
-				//if(!jt.equals("") && !pf.equals("")) {
-				if(!jt.getText().isEmpty() && !pf.getText().isEmpty()) {					
-					Window jf = SwingUtilities.getWindowAncestor(InitSesionPanel.this);
-					jf.setVisible(false);
-					new SearchWindow(_ctrl);
+				String password = "";
+				for(char c : pf.getPassword())
+					password += c;
+				if(!jt.getText().isEmpty() && !password.contentEquals("")) {
+					String [] data = {jt.getText(), password};
+					if(_ctrl.checkData(1, data)) {
+						Window jf = SwingUtilities.getWindowAncestor(InitSesionPanel.this);
+						jf.setVisible(false);
+						new SearchWindow(_ctrl);
+					}
+					else { // El usuario no existe
+						ImageIcon icon = new ImageIcon("resources/error.png");
+						JOptionPane.showMessageDialog(null, "El usuario introducido no esta registrado", "Iniciar sesion",
+								JOptionPane.DEFAULT_OPTION, icon);
+					}
 				}
 				else { //Si esta vacio
 					ImageIcon icon = new ImageIcon("resources/error.png");

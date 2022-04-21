@@ -9,7 +9,7 @@ public class DTOStation {
 	
 	private String _id;
 	private String _name;
-	private ASStation _parent;
+	private String _parent;
 	private int xCoor, yCoor;
 	private TransportType transport;
 	private List<ASLine> lines ;
@@ -23,7 +23,7 @@ public class DTOStation {
 		return _name;
 	}
 	
-	public ASStation getParent() {
+	public String getParent() {
 		return _parent;
 	}
 	
@@ -55,7 +55,7 @@ public class DTOStation {
 		_name = name;
 	}
 	
-	public void setParent(ASStation st) {
+	public void setParent(String st) {
 		_parent = st;
 	}
 	

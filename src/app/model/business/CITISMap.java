@@ -25,21 +25,15 @@ public class CITISMap implements Observable<CITISObserver> {
 	
 	private List<ASTransport> transports;
 	
-	private Map<String, ASUser> customers_map;
-	
-	private List<ASUser> customers;
-	
 	private List<CITISObserver> co;
 	
 	public CITISMap () {
 		stations = new ArrayList<>();
 		lines = new ArrayList<>();
 		transports = new ArrayList<>();
-		customers = new ArrayList<>();
 		stations_map = new HashMap<>();
 		lines_map = new HashMap<>();
 		transports_map = new HashMap<>();
-		customers_map = new HashMap<>();
 		co = new ArrayList<>();
 	}
 	
@@ -65,8 +59,7 @@ public class CITISMap implements Observable<CITISObserver> {
 	}
 	
 	public void addUser(ASUser u) {
-		customers.add(u);
-		customers_map.put(u.getId(), u);
+		
 	}
 	
 	public ASLine searchLine(String _id) {
@@ -99,12 +92,11 @@ public class CITISMap implements Observable<CITISObserver> {
 	}
 	
 	public List<ASUser> getUsers() {
-		return Collections.unmodifiableList(customers);
+		return null;
 	}
 	
 	public boolean checkUser(String username, String password) {	
-		return customers_map.containsKey(username) && 
-				customers_map.get(username).getPassword().equals(password);
+		return true;
 	}
 
 	@Override
