@@ -27,7 +27,7 @@ public class LineDatabaseDAO implements LineDAO {
 		try {
 			con = getConnection();
 			ps = con.prepareStatement("SELECT * "
-									+ "FROM citis_route"
+									+ "FROM citis_route "
 									+ "WHERE route_id = ?;");
 			ps.setString(1, id);
 			rs = ps.executeQuery();
@@ -95,8 +95,8 @@ public class LineDatabaseDAO implements LineDAO {
 		
 		try {
 			con = getConnection();
-			ps = con.prepareStatement("UPDATE citis_route"
-									+ "SET route_short_name = ?, route_long_name = ?, route_color = ?, route_text_color = ?, agency_name = ?"
+			ps = con.prepareStatement("UPDATE citis_route "
+									+ "SET route_short_name = ?, route_long_name = ?, route_color = ?, route_text_color = ?, agency_name = ? "
 									+ "WHERE route_id = ?;");
 			
 			ps.setString(1, line.getShortName());
@@ -143,7 +143,7 @@ public class LineDatabaseDAO implements LineDAO {
 		
 		try {
 			con = getConnection();
-			ps = con.prepareStatement("INSERT INTO city_route"
+			ps = con.prepareStatement("INSERT INTO citis_route "
 									+ "VALUES (?, ?, ?, ?, ?, ?);");
 			
 			ps.setString(1, line.getId());
@@ -191,7 +191,7 @@ public class LineDatabaseDAO implements LineDAO {
 		
 		try {
 			con = getConnection();
-			ps = con.prepareStatement("SELECT cs.stop_id"
+			ps = con.prepareStatement("SELECT cs.stop_id "
 									+ "FROM citis_route cr"
 									+ 	"INNER JOIN citis_trip ct ON cr.route_id = ct.route_id"
 									+	"INNER JOIN citis_stop_time cst ON ct.trip_id = cst.trip_id"
@@ -235,7 +235,7 @@ public class LineDatabaseDAO implements LineDAO {
 		
 		try {
 			con = getConnection();
-			ps = con.prepareStatement("SELECT *"
+			ps = con.prepareStatement("SELECT * "
 									+ "FROM citis_route;");
 			
 			rs = ps.executeQuery();

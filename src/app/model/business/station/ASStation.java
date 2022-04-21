@@ -111,4 +111,9 @@ public class ASStation extends CITISObject {
 		
 		return as;
 	}
+
+	public DTOStation createStation(DTOStation station) {
+		StationDatabaseDAO dao = new StationDatabaseDAO();
+		return dao.createStation(station);
+	}
 }

@@ -230,7 +230,6 @@ public class StationDatabaseDAO implements StationDAO {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		List<ASLine> al = new ArrayList<>();
-		
 		try {
 			con = getConnection();
 			ps = con.prepareStatement("SELECT cr.route_id, route_short_name, route_long_name, route_color, route_text_color, agency_name "
@@ -269,7 +268,14 @@ public class StationDatabaseDAO implements StationDAO {
 				else
 					line.setTransportType(TransportType.BUS);
 				
-				al.add(new ASLine(line));
+				ASLine a = new ASLine(line);
+				boolean find = false;
+				for(ASLine l : al)
+					if(l.getId().equals(a.getId()))
+						find = true;
+				
+				if(!find)
+					al.add(a);
 			}
 			
 			ps.close();

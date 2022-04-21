@@ -97,9 +97,9 @@ public class SearchWindow extends JFrame implements CITISObserver {
 		add_obj.add(add_line);
 		jmb.add(add_obj);
 		
-		add_station.addActionListener(menul);
-		add_transport.addActionListener(menul);
-		add_line.addActionListener(menul);
+		add_station.addActionListener(new MiMenuListener());
+		add_transport.addActionListener(new MiMenuListener());
+		add_line.addActionListener(new MiMenuListener());
 		
 		JMenu map_menu = new JMenu("Mapas");
 		map_menu.setBorder(BorderFactory.createMatteBorder(2,1,2,2,Color.black));
@@ -195,10 +195,10 @@ public class SearchWindow extends JFrame implements CITISObserver {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			String cmnd = e.getActionCommand();
-			if(cmnd.equals("Trenes"))
+			if(cmnd.equals("Transporte"))
 				new MapWindow(_ctrl, TransportType.TRAIN);
-			else if(cmnd.equals("Autobuses"))
-				new MapWindow(_ctrl, TransportType.BUS);
+			else if(cmnd.equals("Linea"))
+				new AddLineDialog(_ctrl);
 			else
 				new MapWindow(_ctrl, TransportType.SUBWAY);
 		}
@@ -207,14 +207,13 @@ public class SearchWindow extends JFrame implements CITISObserver {
 	private class MiMenuListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			new AddStationDialog();
-			/*
-			JOptionPane.showMessageDialog(
-					SearchWindow.this, 
-					"Se ha pulsado en la opcion de menu: " + e.getActionCommand(), 
-					"Informacion del menu", 
-					JOptionPane.DEFAULT_OPTION);	
-					*/		
+			String cmnd = e.getActionCommand();
+			if(cmnd.equals("Transporte"))
+				new MapWindow(_ctrl, TransportType.TRAIN);
+			else if(cmnd.equals("Linea"))
+				new AddLineDialog(_ctrl);
+			else
+				new MapWindow(_ctrl, TransportType.SUBWAY);
 		}
 	}
 	

@@ -12,7 +12,9 @@ import app.factories.MainFactory;
 import app.model.business.CITISMap;
 import app.model.business.CITISObserver;
 import app.model.business.line.ASLine;
+import app.model.business.line.DTOLine;
 import app.model.business.station.ASStation;
+import app.model.business.station.DTOStation;
 import app.model.business.transport.ASTransport;
 import app.model.business.user.ASUser;
 import app.model.business.user.DTOUser;
@@ -110,16 +112,22 @@ public class Controller {
 			stationList = as.searchStations();
 			new TableWindow(new StationTable(stationList), "Listado de Estaciones");
 			break;
+		case ControllerChoices.List_Transports:
+			ASTransport at = new ASTransport();
+			break;
 		}
 	}
 	
 	public boolean checkData(int option, String[] data) {
 		ASUser a = new ASUser();
+		ASLine l = new ASLine();
 		switch(option) {
 		case ControllerChoices.Check_UserData:
 			return a.checkUserDataExists(data[0], data[1]);
 		case ControllerChoices.Check_UserExists:
 			return a.checkUserExists(data[0]);
+		case ControllerChoices.Check_CorrectIdandAgency:
+			return l.findLine(data[0]);
 		}
 		return true;
 	}
@@ -129,6 +137,16 @@ public class Controller {
 		case ControllerChoices.Add_User:
 			ASUser a = new ASUser();
 			a.createUser((DTOUser) transfer);
+			break;
+		case ControllerChoices.Add_Station:
+			ASStation as = new ASStation();
+			as.createStation((DTOStation) transfer);
+			break;
+		case ControllerChoices.Add_Line:
+			ASLine al = new ASLine();
+			al.createLine((DTOLine) transfer);
+			break;
+		case ControllerChoices.Add_Transport:
 			break;
 		}
 	}

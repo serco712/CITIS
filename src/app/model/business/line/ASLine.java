@@ -84,7 +84,19 @@ public class ASLine extends CITISObject {
 	public Color getColorLine() {
 		return cline;
 	}
-
+	
+	public String getShortName() {
+		return shortName;
+	}
+	
+	public String getLongName() {
+		return longName;
+	}
+	
+	public String getAgency() {
+		return agency;
+	}
+	
 	@Override
 	public String getTypeId() {
 		return TYPE_ID;
@@ -93,5 +105,15 @@ public class ASLine extends CITISObject {
 	public List<ASLine> searchLines() {
 		LineDatabaseDAO dao = new LineDatabaseDAO();
 		return dao.searchLines();
+	}
+
+	public DTOLine createLine(DTOLine line) {
+		LineDatabaseDAO dao = new LineDatabaseDAO();
+		return dao.createLine(line);
+	}
+
+	public boolean findLine (String id) {
+		LineDatabaseDAO dao = new LineDatabaseDAO();
+		return dao.findLine(id) != null;
 	}
 }

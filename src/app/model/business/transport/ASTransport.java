@@ -32,6 +32,10 @@ public class ASTransport extends CITISObject {
 		line = l;	
 	}
 
+	public ASTransport() {
+		super(" ");
+	}
+
 	@Override
 	public int getAmount() {
 		return numTransports;
