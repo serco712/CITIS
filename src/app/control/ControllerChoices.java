@@ -2,10 +2,10 @@ package app.control;
 
 public class ControllerChoices {
 	// List Commands
-	public static final int List_Lines = 1;
-	public static final int List_Stations = 2;
-	public static final int List_Transports = 3;
-	public static final int List_Agencies = 4;
+	public static final int Table_Lines = 1;
+	public static final int Table_Stations = 2;
+	public static final int Table_Transports = 3;
+	public static final int Table_Agencies = 4;
 	
 	// Check Data Commands
 	public static final int Check_UserData = 1;

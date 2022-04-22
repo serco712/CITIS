@@ -69,13 +69,8 @@ public class ASStation extends CITISObject {
 	
 	@Override
 	public String toString() {
-		StringBuilder str = new StringBuilder();
-		str.append(_id + ' ' + _name + ' ' + transport.toString() + ' ');
-		for(ASLine l : lines)
-			str.append(l.getId() + ' ');
-		return str.toString();
+		return _name;
 	}
-
 
 	@Override
 	public void onEnter() {

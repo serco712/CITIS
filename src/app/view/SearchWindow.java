@@ -155,7 +155,7 @@ public class SearchWindow extends JFrame implements CITISObserver {
 		upPanel.setPreferredSize(new Dimension(1000, 400));
 		
 		upPanel.add(new ImagePanel("resources/map.jpg"));
-		upPanel.add(new SearchPanel());
+		upPanel.add(new SearchPanel(_ctrl));
 		upPanel.repaint();
 		secPanel.add(upPanel);
 
@@ -182,11 +182,11 @@ public class SearchWindow extends JFrame implements CITISObserver {
 		public void actionPerformed(ActionEvent e) {
 			String cmnd = e.getActionCommand();
 			if(cmnd.equals("Listado de estaciones"))
-				_ctrl.listOption(2);
+				_ctrl.tableOption(2);
 			else if(cmnd.contentEquals("Listado de transportes"))
-				_ctrl.listOption(3);
+				_ctrl.tableOption(3);
 			else
-				_ctrl.listOption(1);
+				_ctrl.tableOption(1);
 		}
 	}
 	

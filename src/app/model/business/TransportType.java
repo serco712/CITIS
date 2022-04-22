@@ -2,8 +2,8 @@ package app.model.business;
 
 public enum TransportType {
 	
-	TRAIN(3, "train", "train_station", "trenes"), BUS(1.5, "bus", "bus_station", "autobuses"), 
-		SUBWAY(2, "subway", "subway_station", "metro");
+	TRAIN(3, "train", "train_station", "Tren"), BUS(1.5, "bus", "bus_station", "Autobus"), 
+		SUBWAY(2, "subway", "subway_station", "Metro");
 	
 	private double basePrice;
 	
@@ -26,6 +26,11 @@ public enum TransportType {
 	}
 	
 	public String getTranslation() {
+		return translation;
+	}
+	
+	@Override
+	public String toString() {
 		return translation;
 	}
 }

@@ -51,15 +51,16 @@ public class AddLineDialog extends JDialog {
 	private Controller ctrl;
 	private Border _defaultBorder = BorderFactory.createLineBorder(Color.black, 2);
 	
-	public AddLineDialog(Controller ctrl) {
+	public AddLineDialog(Controller _ctrl) {
 		super(new JFrame(), "Anadir Linea", true);
-		this.ctrl = ctrl;
+		ctrl = _ctrl;
 		initGUI();
 	}
 	
 	public void initGUI() {
 		this.setMinimumSize(new Dimension(500, 300));
 		JPanel mainPanel = new JPanel(new BorderLayout());
+		mainPanel.setBorder(_defaultBorder);
 		this.add(mainPanel);
 		
 		JToolBar toolBar = new JToolBar();

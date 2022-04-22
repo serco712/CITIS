@@ -98,22 +98,22 @@ public class Controller {
 		}
 	}
 	
-	public void listOption(int option) {
+	public void tableOption(int option) {
 		List<ASStation> stationList;
 		List<ASLine> lineList;
 		List<ASTransport> transportList;
 		switch (option) {
-		case ControllerChoices.List_Lines:
+		case ControllerChoices.Table_Lines:
 			ASLine al  = new ASLine();
 			lineList = al.searchLines();
 			new TableWindow(new LineTable(lineList), "Listado de Lineas");
 			break;
-		case ControllerChoices.List_Stations:
+		case ControllerChoices.Table_Stations:
 			ASStation as = new ASStation();
 			stationList = as.searchStations();
 			new TableWindow(new StationTable(stationList), "Listado de Estaciones");
 			break;
-		case ControllerChoices.List_Transports:
+		case ControllerChoices.Table_Transports:
 			ASTransport at = new ASTransport();
 			break;
 		}
@@ -154,6 +154,11 @@ public class Controller {
 		case ControllerChoices.Add_Transport:
 			break;
 		}
+	}
+	
+	public List<ASStation> listStations() {
+		ASStation as = new ASStation();
+		return as.searchStations();
 	}
 	
 	public void addObserver(CITISObserver co) {
