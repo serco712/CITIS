@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -24,12 +25,12 @@ public class TableWindow extends JDialog {
 	
 	private static final long serialVersionUID = 1L;
 		
-	public TableWindow(AbstractTableModel table, String str) {
+	public TableWindow(JTable table, String str) {
 		super(new JFrame(), "Listado", true);
 		initGUI(table, str);
 	}
 	
-	public void initGUI(AbstractTableModel table, String str) {
+	public void initGUI(JTable table, String str) {
 		JPanel mainPanel = new JPanel(new BorderLayout());
 		this.setContentPane(mainPanel);
 		
@@ -70,7 +71,7 @@ public class TableWindow extends JDialog {
 		viewsPanel.add(tablesPanel);
 		
 		JPanel eventsView =
-				createViewPanel(new JTable(table), str);
+				createViewPanel(table, str);
 		tablesPanel.add(eventsView);
 		
 		this.pack();

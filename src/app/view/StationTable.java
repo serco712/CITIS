@@ -1,21 +1,66 @@
 package app.view;
 
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.List;
 
-
+import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
 
 import app.model.business.line.ASLine;
 import app.model.business.station.ASStation;
 
-public class StationTable extends AbstractTableModel {
+public class StationTable extends JTable {
 
 	private static final long serialVersionUID = 1L;
 	
+	public StationTable(List<ASStation> stations) {
+		super(new StationTableModel(stations));
+		this.addMouseListener(new MouseListener() {
+
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if(e.getClickCount() == 2) {
+					new StationWindow(stations.get(StationTable.this.getSelectedRow()));
+				}
+				
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+		});
+	}
+}
+
+class StationTableModel extends AbstractTableModel {
+	
+	private static final long serialVersionUID = 1L;
 	private List<ASStation> stations;
 	private String[] cols = {"ID", "Nombre", "Tipo de transporte", "Linea"};
 
-	public StationTable(List<ASStation> stations) {
+	public StationTableModel(List<ASStation> stations) {
 		this.stations = stations;
 	}
 	
@@ -64,5 +109,4 @@ public class StationTable extends AbstractTableModel {
 			return null;
 		}
 	}
-
 }

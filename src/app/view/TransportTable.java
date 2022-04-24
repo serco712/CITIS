@@ -2,12 +2,12 @@ package app.view;
 
 import java.util.List;
 
-
+import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
 
 import app.model.business.transport.ASTransport;
 
-public class TransportTable extends AbstractTableModel {
+public class TransportTable extends JTable {
 	
 	private static final long serialVersionUID = 1L;
 	
