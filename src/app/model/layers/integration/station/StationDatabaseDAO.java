@@ -8,6 +8,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import app.misc.Pair;
+import app.misc.TimeADT;
 import app.model.business.TransportType;
 import app.model.business.line.ASLine;
 import app.model.business.line.DTOLine;

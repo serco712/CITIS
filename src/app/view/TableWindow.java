@@ -21,10 +21,12 @@ import javax.swing.JTable;
 import javax.swing.JToolBar;
 import javax.swing.table.AbstractTableModel;
 
+import app.control.Controller;
+
 public class TableWindow extends JDialog {
 	
 	private static final long serialVersionUID = 1L;
-		
+	
 	public TableWindow(JTable table, String str) {
 		super(new JFrame(), "Listado", true);
 		initGUI(table, str);

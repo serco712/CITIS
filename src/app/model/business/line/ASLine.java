@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import app.misc.TimeADT;
+import app.misc.Triplet;
 import app.model.business.CITISObject;
 import app.model.business.TransportType;
 import app.model.business.station.ASStation;
@@ -115,5 +117,10 @@ public class ASLine extends CITISObject {
 	public boolean findLine (String id) {
 		LineDatabaseDAO dao = new LineDatabaseDAO();
 		return dao.findLine(id) != null;
+	}
+
+	public List<Triplet<ASLine, TimeADT, String>> searchDepartureTimes(List<String> route_id) {
+		LineDatabaseDAO dao = new LineDatabaseDAO();
+		return dao.findDepartures(route_id);
 	}
 }

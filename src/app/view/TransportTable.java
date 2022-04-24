@@ -8,13 +8,22 @@ import javax.swing.table.AbstractTableModel;
 import app.model.business.transport.ASTransport;
 
 public class TransportTable extends JTable {
-	
+
 	private static final long serialVersionUID = 1L;
+	
+	public TransportTable(List<ASTransport> t) {
+		super(new TransportTableModel(t));
+	}
+	
+}
+
+class TransportTableModel extends AbstractTableModel {
+private static final long serialVersionUID = 1L;
 	
 	private List<ASTransport> transports;
 	private String[] cols = {"ID", "Matricula", "Modelo", "Tipo de transporte", "Linea"};
 	
-	public TransportTable(List<ASTransport> t) {
+	public TransportTableModel(List<ASTransport> t) {
 		transports = t;
 	}
 	
@@ -58,5 +67,4 @@ public class TransportTable extends JTable {
 			return null;
 		}
 	}
-	
 }

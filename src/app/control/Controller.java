@@ -13,6 +13,9 @@ import javax.swing.table.AbstractTableModel;
 
 import app.factories.Factory;
 import app.factories.MainFactory;
+import app.misc.Pair;
+import app.misc.TimeADT;
+import app.misc.Triplet;
 import app.model.business.CITISMap;
 import app.model.business.CITISObserver;
 import app.model.business.agency.ASAgency;
@@ -115,7 +118,7 @@ public class Controller {
 		case ControllerChoices.Table_Stations:
 			ASStation as = new ASStation();
 			stationList = as.searchStations();
-			new TableWindow(new StationTable(stationList), "Listado de Estaciones");
+			new TableWindow(new StationTable(stationList, this), "Listado de Estaciones");
 			break;
 		case ControllerChoices.Table_Transports:
 			ASTransport at = new ASTransport();
@@ -163,6 +166,16 @@ public class Controller {
 	public List<ASStation> listStations() {
 		ASStation as = new ASStation();
 		return as.searchStations();
+	}
+	
+	public List<ASLine> searchStationLines(String id) {
+		ASStation as = new ASStation();
+		return as.searchLines(id);
+	}
+	
+	public List<Triplet<ASLine, TimeADT, String>> getScheduleList(List<String> route_id) {
+		ASLine al = new ASLine();
+		return al.searchDepartureTimes(route_id);
 	}
 	
 	public void addObserver(CITISObserver co) {

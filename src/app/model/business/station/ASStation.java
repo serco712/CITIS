@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import app.misc.Pair;
+import app.misc.TimeADT;
 import app.model.business.CITISObject;
 import app.model.business.TransportType;
 import app.model.business.line.ASLine;
@@ -110,5 +112,10 @@ public class ASStation extends CITISObject {
 	public DTOStation createStation(DTOStation station) {
 		StationDatabaseDAO dao = new StationDatabaseDAO();
 		return dao.createStation(station);
+	}
+	
+	public List<ASLine> searchLines(String id) {
+		StationDatabaseDAO dao = new StationDatabaseDAO();
+		return dao.searchLines(id);
 	}
 }

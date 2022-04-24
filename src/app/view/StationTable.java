@@ -7,6 +7,7 @@ import java.util.List;
 import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
 
+import app.control.Controller;
 import app.model.business.line.ASLine;
 import app.model.business.station.ASStation;
 
@@ -14,39 +15,38 @@ public class StationTable extends JTable {
 
 	private static final long serialVersionUID = 1L;
 	
-	public StationTable(List<ASStation> stations) {
+	private Controller _ctrl;
+	
+	public StationTable(List<ASStation> stations, Controller ctrl) {
 		super(new StationTableModel(stations));
+		_ctrl = ctrl;
 		this.addMouseListener(new MouseListener() {
 
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if(e.getClickCount() == 2) {
-					new StationWindow(stations.get(StationTable.this.getSelectedRow()));
+					new StationWindow(stations.get(StationTable.this.getSelectedRow()), _ctrl);
 				}
 				
 			}
 
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				// TODO Auto-generated method stub
 				
 			}
 
 			@Override
 			public void mouseExited(MouseEvent e) {
-				// TODO Auto-generated method stub
 				
 			}
 
 			@Override
 			public void mousePressed(MouseEvent e) {
-				// TODO Auto-generated method stub
 				
 			}
 
 			@Override
 			public void mouseReleased(MouseEvent e) {
-				// TODO Auto-generated method stub
 				
 			}
 			

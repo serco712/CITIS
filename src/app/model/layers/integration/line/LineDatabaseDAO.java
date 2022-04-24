@@ -8,6 +8,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import app.misc.TimeADT;
+import app.misc.Triplet;
 import app.model.business.TransportType;
 import app.model.business.line.ASLine;
 import app.model.business.line.DTOLine;
@@ -289,5 +291,69 @@ public class LineDatabaseDAO implements LineDAO {
 	private Connection getConnection() {
 		Conectar c = new Conectar();
 		return c.getConnection();
+	}
+
+	@Override
+	public List<Triplet<ASLine, TimeADT, String>> findDepartures(List<String> route_ids) {
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		List<Triplet<ASLine, TimeADT, String>> as = new ArrayList<>();
+		
+		try {
+			con = getConnection();
+			ps = con.prepareStatement("SELECT * "
+									+ "FROM citis_route cr "
+									+ 	"INNER JOIN citis_trip ct ON cr.route_id = ct.route_id "
+									+	"INNER JOIN citis_stop_time cst ON ct.trip_id = cst.trip_id "
+									+	"INNER JOIN citis_stop cs ON cs.stop_id = cst.stop_id "
+									+ "ORDER BY departure_time;");
+			rs = ps.executeQuery();
+			
+			while(rs.next()){
+				if(route_ids.contains(rs.getString("cr.route_id"))) {
+					DTOLine dt = new DTOLine();
+	                dt.setId(rs.getString("cr.route_id"));
+	                dt.setShortName(rs.getString("route_short_name"));
+	                int ttype = Integer.parseInt(rs.getString("cr.route_id").substring(0, 1));
+	    			if(ttype == 4)
+	    				dt.setTransportType(TransportType.SUBWAY);
+	    			else if(ttype == 5)
+	    				dt.setTransportType(TransportType.TRAIN);
+	    			else
+	    				dt.setTransportType(TransportType.BUS);
+	    			
+	    			String[] t = rs.getString("departure_time").split(":");
+	    			TimeADT time = new TimeADT(Integer.parseInt(t[0]), Integer.parseInt(t[1]),
+	    					Integer.parseInt(t[2]));
+	    			
+	    			String notes = rs.getString("cst.notes");
+	    			
+	    			Triplet<ASLine, TimeADT, String> p = new Triplet<ASLine, TimeADT, String>(new ASLine(dt), time, notes);
+	    			as.add(p);
+				}
+            }
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		finally {
+			try {
+				if (rs != null)
+					rs.close();
+				
+				if (ps != null)
+					ps.close();
+				
+				if (con != null)
+					con.close();
+			}
+			catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return as;
 	}
 }

@@ -2,33 +2,25 @@ package app.view;
 
 import java.util.List;
 
-import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
 
+import app.misc.TimeADT;
+import app.misc.Triplet;
 import app.model.business.line.ASLine;
 
-public class LineTable extends JTable {
+public class ScheduleTable extends AbstractTableModel {
 	private static final long serialVersionUID = 1L;
-
-	public LineTable(List<ASLine> l) {
-		super(new LineTableModel(l));
-	}
-}
-
-class LineTableModel extends AbstractTableModel {
-private static final long serialVersionUID = 1L;
 	
-	private List<ASLine> lines;
-	private String[] cols = {"Linea", "Tipo de transporte", "Agencia gestora"};
-	
-	public LineTableModel(List<ASLine> lines) {
-		this.lines = lines;
-		
+	private List<Triplet<ASLine, TimeADT, String>> _schedule;
+	private String[] cols = {"Linea", "Tipo de transporte", "Hora salida", "Notas"};
+
+	public ScheduleTable(List<Triplet<ASLine, TimeADT, String>> schedule) {
+		_schedule = schedule;
 	}
 	
 	@Override
 	public int getRowCount() {
-		return lines.size();
+		return _schedule.size();
 	}
 
 	@Override
@@ -47,17 +39,19 @@ private static final long serialVersionUID = 1L;
 	public Object getValueAt(int x, int y) {
 		if (y < 0 || y >= cols.length)
 			throw new IllegalArgumentException("The column is not valid");
-	
-		if (x < 0 || x >= lines.size())
+		
+		if (x < 0 || x >= _schedule.size())
 			throw new IllegalArgumentException("The row is not found");
 		
 		switch (y) {
 		case 0:
-			return lines.get(x).getShortName();
+			return _schedule.get(x).getFirst().getShortName();
 		case 1:
-			return lines.get(x).getTransport().toString();
+			return _schedule.get(x).getFirst().getTransport().toString();
 		case 2:
-			return lines.get(x).getAgency();
+			return _schedule.get(x).getSecond().toString();
+		case 3:
+			return _schedule.get(x).getThird().toString();
 		default:
 			return null;
 		}
