@@ -50,6 +50,11 @@ public class ASLine extends CITISObject {
 	}
 	
 	@Override
+	public String toString() {
+		return shortName;
+	}
+	
+	@Override
 	public int getAmount() {
 		return numLines;
 	}

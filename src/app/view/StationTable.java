@@ -27,7 +27,6 @@ public class StationTable extends JTable {
 				if(e.getClickCount() == 2) {
 					new StationWindow(stations.get(StationTable.this.getSelectedRow()), _ctrl);
 				}
-				
 			}
 
 			@Override

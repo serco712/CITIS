@@ -118,4 +118,9 @@ public class ASStation extends CITISObject {
 		StationDatabaseDAO dao = new StationDatabaseDAO();
 		return dao.searchLines(id);
 	}
+	
+	public boolean findStation(String id) {
+		StationDatabaseDAO dao = new StationDatabaseDAO();
+		return dao.findStation(id) != null;
+	}
 }

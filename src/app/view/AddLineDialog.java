@@ -119,7 +119,7 @@ public class AddLineDialog extends JDialog {
 		transportCombo.setBorder(BorderFactory.createTitledBorder(_defaultBorder));
 		typeidPanel.add(transportCombo);
 		typeidPanel.add(Box.createRigidArea(new Dimension(10, 0)));
-		typeidPanel.add(new JLabel("Id parada: "));
+		typeidPanel.add(new JLabel("Id linea: "));
 		lineId = new JTextField();
 		lineId.setPreferredSize(new Dimension(100, 20));
 		lineId.setBorder(BorderFactory.createTitledBorder(_defaultBorder));
@@ -255,9 +255,14 @@ public class AddLineDialog extends JDialog {
 				ctrl.addData(3, dtl);
 				dispose();
 			}
-			else {
+			else if (ctrl.checkData(3, dat1)){
 				ImageIcon icon = new ImageIcon("resources/error.png");
-				JOptionPane.showMessageDialog(null, "El id ya existe", 
+				JOptionPane.showMessageDialog(null, "El id introducido ya existe", 
+		        		"Anadir Linea", JOptionPane.DEFAULT_OPTION, icon);
+			}
+			else if(!ctrl.checkData(4, dat2)) {
+				ImageIcon icon = new ImageIcon("resources/error.png");
+				JOptionPane.showMessageDialog(null, "La agencia introducida no existe", 
 		        		"Anadir Linea", JOptionPane.DEFAULT_OPTION, icon);
 			}
 		}

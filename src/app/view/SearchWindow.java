@@ -91,15 +91,17 @@ public class SearchWindow extends JFrame implements CITISObserver {
 		JMenuItem add_station = new JMenuItem("Estacion");
 		JMenuItem add_transport = new JMenuItem("Transporte");
 		JMenuItem add_line = new JMenuItem("Linea");
-		
+		JMenuItem add_schedule = new JMenuItem("Horario");
 		add_obj.add(add_station);
 		add_obj.add(add_transport);
 		add_obj.add(add_line);
+		add_obj.add(add_schedule);
 		jmb.add(add_obj);
 		
 		add_station.addActionListener(new MiMenuListener());
 		add_transport.addActionListener(new MiMenuListener());
 		add_line.addActionListener(new MiMenuListener());
+		add_schedule.addActionListener(new MiMenuListener());
 		
 		JMenu map_menu = new JMenu("Mapas");
 		map_menu.setBorder(BorderFactory.createMatteBorder(2,1,2,2,Color.black));
@@ -212,8 +214,10 @@ public class SearchWindow extends JFrame implements CITISObserver {
 				new MapWindow(_ctrl, TransportType.TRAIN);
 			else if(cmnd.equals("Linea"))
 				new AddLineDialog(_ctrl);
+			else if(cmnd.equals("Horario"))
+				new AddScheduleDialog(_ctrl);
 			else
-				new MapWindow(_ctrl, TransportType.SUBWAY);
+				new AddStationDialog(_ctrl);
 		}
 	}
 	

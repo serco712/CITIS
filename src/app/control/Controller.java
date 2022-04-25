@@ -130,6 +130,7 @@ public class Controller {
 		ASUser a = new ASUser();
 		ASLine l = new ASLine();
 		ASAgency as = new ASAgency();
+		ASStation ast = new ASStation();
 		
 		switch(option) {
 		case ControllerChoices.Check_UserData:
@@ -140,6 +141,8 @@ public class Controller {
 			return l.findLine(data[0]);
 		case ControllerChoices.Check_AgencyExists:
 			return as.findAgency(data[0]);
+		case ControllerChoices.Check_StationExists:
+			return ast.findStation(data[0]);
 		}
 		return true;
 	}
@@ -166,6 +169,11 @@ public class Controller {
 	public List<ASStation> listStations() {
 		ASStation as = new ASStation();
 		return as.searchStations();
+	}
+	
+	public List<ASLine> listLines() {
+		ASLine al = new ASLine();
+		return al.searchLines();
 	}
 	
 	public List<ASLine> searchStationLines(String id) {

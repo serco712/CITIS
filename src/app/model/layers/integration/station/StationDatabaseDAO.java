@@ -29,7 +29,7 @@ public class StationDatabaseDAO implements StationDAO {
 		try {
 			con = getConnection();
 			ps = con.prepareStatement("SELECT * "
-									+ "FROM citis_stop"
+									+ "FROM citis_stop "
 									+ "WHERE stop_id = ?;");
 			ps.setString(1, id);
 			rs = ps.executeQuery();
@@ -91,7 +91,7 @@ public class StationDatabaseDAO implements StationDAO {
 			con = getConnection();
 			ps = con.prepareStatement("UPDATE citis_stop"
 									+ "SET stop_name = ?, x_coor = ?, y_coor = ?, stop_city = ?, parent_id = ?"
-									+ "WHERE stop_id = ?");
+									+ "WHERE stop_id = ?;");
 			
 			ps.setString(1, station.getName());
 			ps.setInt(2, station.getXCoor());
@@ -131,8 +131,8 @@ public class StationDatabaseDAO implements StationDAO {
 		
 		try {
 			con = getConnection();
-			ps = con.prepareStatement("INSERT INTO citis_stop"
-									+ "VALUES (?, ?, ?, ?, ?, ?)");
+			ps = con.prepareStatement("INSERT INTO citis_stop "
+									+ "VALUES (?, ?, ?, ?, ?, ?);");
 			
 			ps.setString(1, station.getId());
 			ps.setString(2, station.getName());

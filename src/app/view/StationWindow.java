@@ -112,15 +112,19 @@ public class StationWindow extends JDialog {
 		p1.add(photoPanel);
 		
 		List<ASLine> ls = _ctrl.searchStationLines(_st.getId());
-		JPanel lineTablePanel = createViewPanel(new JTable(new StationLinesTable(ls)), "Lineas");
-		lineTablePanel.setBackground(Color.WHITE);
+		JTable t1 = new JTable(new StationLinesTable(ls));
+		t1.setBackground(Color.WHITE);
+		JPanel lineTablePanel = createViewPanel(t1, "Lineas");
+		lineTablePanel.setForeground(Color.WHITE);
 		p1.add(lineTablePanel);
 		
 		List<String> l = new ArrayList<>();
 		for(ASLine al : ls)
 			l.add(al.getId());
 		List<Triplet<ASLine, TimeADT, String>> lc = _ctrl.getScheduleList(l);
-		JPanel p2 = createViewPanel(new JTable(new ScheduleTable(lc)), "Horarios");
+		JTable t2 = new JTable(new ScheduleTable(lc));
+		t2.setBackground(Color.WHITE);
+		JPanel p2 = createViewPanel(t2, "Horarios");
 		p2.setBackground(Color.WHITE);
 		centerPanel.add(p2);
 		
@@ -130,6 +134,7 @@ public class StationWindow extends JDialog {
 	
 	private JPanel createViewPanel(JComponent c, String title) {
 		JPanel p = new JPanel(new BorderLayout());
+		c.setBackground(Color.WHITE);
 		p.setBorder(BorderFactory.createTitledBorder(_defaultBorder, title, TitledBorder.LEFT,TitledBorder.TOP));
 		p.add(new JScrollPane(c));
 		return p;
