@@ -11,6 +11,8 @@ public class ASUser {
 	
 	private static final String TYPE_ID = "customer";
 	
+	private static ASUser instance;
+	
 	private int _id;
 	private String _name;
 	private String surname;
@@ -19,7 +21,7 @@ public class ASUser {
 	private List<ASStation> fav;
 	private ImageIcon photo;
 	
-	public ASUser (DTOUser user) {
+	private ASUser (DTOUser user) {
 		_id = user.getId();
 		_name = user.getName();
 		surname = user.getSurname();
@@ -28,8 +30,23 @@ public class ASUser {
 		photo = (ImageIcon) user.getPhoto();
 	}
 	
-	public ASUser() {
+	private ASUser() {
+	}
+	
+	public static ASUser getInstance() {
+		if (instance == null) {
+			instance = new ASUser();
+		}
 		
+		return instance;
+	}
+	
+	public static ASUser getInstance(DTOUser user) {
+		if (instance == null) {
+			instance = new ASUser(user);
+		}
+		
+		return instance;
 	}
 
 	public int getId() {
