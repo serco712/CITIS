@@ -20,6 +20,7 @@ public class ASUser {
 	private String password;
 	private List<ASStation> fav;
 	private ImageIcon photo;
+	private Role rol;
 	
 	private ASUser (DTOUser user) {
 		_id = user.getId();
@@ -28,9 +29,21 @@ public class ASUser {
 		email = user.getSurname();
 		password = user.getPassword();
 		photo = (ImageIcon) user.getPhoto();
+		switch(user.getRole()) {
+		case 0:
+			rol = Role.USER;
+			break;
+		case 1:
+			rol = Role.ADMIN;
+			break;
+		default:
+			rol = Role.GUEST;
+			break;
+		}
 	}
 	
 	private ASUser() {
+		
 	}
 	
 	public static ASUser getInstance() {
@@ -42,13 +55,16 @@ public class ASUser {
 	}
 	
 	public static ASUser getInstance(DTOUser user) {
-		if (instance == null) {
+		if(instance == null)
 			instance = new ASUser(user);
-		}
 		
 		return instance;
 	}
-
+	
+	public static void resetInstance() {
+		instance = null;
+	}
+	
 	public int getId() {
 		return _id;
 	}
@@ -81,6 +97,10 @@ public class ASUser {
 		return photo;
 	}
 	
+	public boolean modify_permissions() {
+		return rol == Role.ADMIN;
+	}
+	
 	public boolean checkUserDataExists(String email, String password) {
 		UserDatabaseDAO dao = new UserDatabaseDAO();
 		return dao.checkUserData(email, password);
@@ -94,5 +114,9 @@ public class ASUser {
 	public boolean checkUserExists(String userEmail) {
 		UserDatabaseDAO dao = new UserDatabaseDAO();
 		return dao.checkUserExists(userEmail);
+	}
+	
+	private enum Role {
+		GUEST, ADMIN, USER;
 	}
 }

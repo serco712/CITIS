@@ -127,22 +127,23 @@ public class Controller {
 	}
 	
 	public boolean checkData(int option, String[] data) {
-		ASUser a = new ASUser();
 		ASLine l = new ASLine();
 		ASAgency as = new ASAgency();
 		ASStation ast = new ASStation();
 		
 		switch(option) {
 		case ControllerChoices.Check_UserData:
-			return a.checkUserDataExists(data[0], data[1]);
+			return ASUser.getInstance().checkUserDataExists(data[0], data[1]);
 		case ControllerChoices.Check_UserExists:
-			return a.checkUserExists(data[0]);
+			return ASUser.getInstance().checkUserExists(data[0]);
 		case ControllerChoices.Check_CorrectId:
 			return l.findLine(data[0]);
 		case ControllerChoices.Check_AgencyExists:
 			return as.findAgency(data[0]);
 		case ControllerChoices.Check_StationExists:
 			return ast.findStation(data[0]);
+		case ControllerChoices.Check_Permission_MenuOperations:
+			return ASUser.getInstance().modify_permissions();
 		}
 		return true;
 	}
@@ -150,8 +151,8 @@ public class Controller {
 	public void addData(int option, Object transfer) {
 		switch(option) {
 		case ControllerChoices.Add_User:
-			ASUser a = new ASUser();
-			a.createUser((DTOUser) transfer);
+			ASUser.resetInstance();
+			ASUser.getInstance((DTOUser) transfer);
 			break;
 		case ControllerChoices.Add_Station:
 			ASStation as = new ASStation();
@@ -162,6 +163,15 @@ public class Controller {
 			al.createLine((DTOLine) transfer);
 			break;
 		case ControllerChoices.Add_Transport:
+			break;
+		}
+	}
+	
+	
+	public void deleteData(int opcion, String[] data) {
+		switch(opcion) {
+		case ControllerChoices.Delete_User:
+			ASUser.resetInstance();
 			break;
 		}
 	}

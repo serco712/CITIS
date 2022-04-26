@@ -16,10 +16,13 @@ public class ASTrip {
 	}
 	
 	public ASTrip(DTOTrip trip) {
-		_id = trip.getId();
-		_name = trip.getName();
-	
+		_id = trip.get_id();
+		_name = trip.get_name();
+		_route_id = trip.get_route_id();
+		trip_notes = trip.get_trip_notes();
+		_stop_id = trip.get_stop_id();
+		_departure_time = trip.get_departureTime();
+		_stop_sequence = trip.get_stop_sequence();
+		_stop_notes = trip.get_stop_notes();
 	}
-	
-	
 }

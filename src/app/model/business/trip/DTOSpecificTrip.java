@@ -1,52 +1,87 @@
 package app.model.business.trip;
 
-import java.sql.Timestamp;
 
 public class DTOSpecificTrip {
 	
-	private String _id;
-	private String _calendar;
-	private Timestamp _departure;
-	private String _sTripId;
-	private String _lineName;
+	private String _id; 
+	private String _name;  
+	private String _route_id; 
+	private String _trip_notes;  
+	private String _stop_id;
+	private String _departureTime;
+	private int _stop_sequence;
+	private String _stop_notes;
+	private String _st_id;
 	
-	public String getId() {
+	public String get_id() {
 		return _id;
 	}
 	
-	public String getCalendar() {
-		return _calendar;
+	public void set_id(String _id) {
+		this._id = _id;
 	}
 	
-	public Timestamp getDepartureTime() {
-		return _departure;
+	public String get_name() {
+		return _name;
 	}
 	
-	public String getTripId() {
-		return _sTripId;
+	public void set_name(String _name) {
+		this._name = _name;
 	}
 	
-	public String getLineName() {
-		return _lineName;
+	public String get_route_id() {
+		return _route_id;
 	}
 	
-	public void setId(String id) {
-		_id = id;
+	public void set_route_id(String _route_id) {
+		this._route_id = _route_id;
 	}
 	
-	public void setCalendar(String calendar) {
-		_calendar = calendar;
+	public String get_trip_notes() {
+		return _trip_notes;
 	}
 	
-	public void setTime(Timestamp time) {
-		_departure = time;
+	public void set_trip_notes(String _trip_notes) {
+		this._trip_notes = _trip_notes;
 	}
 	
-	public void setTripId(String tid) {
-		_sTripId = tid;
+	public String get_stop_id() {
+		return _stop_id;
 	}
 	
-	public void setLineName(String name) {
-		_lineName = name;
+	public void set_stop_id(String _stop_id) {
+		this._stop_id = _stop_id;
+	}
+	
+	public String get_departureTime() {
+		return _departureTime;
+	}
+	
+	public void set_departureTime(String _departureTime) {
+		this._departureTime = _departureTime;
+	}
+	
+	public int get_stop_sequence() {
+		return _stop_sequence;
+	}
+	
+	public void set_stop_sequence(int _stop_sequence) {
+		this._stop_sequence = _stop_sequence;
+	}
+	
+	public String get_stop_notes() {
+		return _stop_notes;
+	}
+	
+	public void set_stop_notes(String _stop_notes) {
+		this._stop_notes = _stop_notes;
+	}
+
+	public String get_st_id() {
+		return _st_id;
+	}
+
+	public void set_st_id(String _st_id) {
+		this._st_id = _st_id;
 	}
 }

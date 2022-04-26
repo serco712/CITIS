@@ -30,11 +30,12 @@ public class SpecificTripDatabaseDAO implements SpecificTripDAO {
 			rs = ps.executeQuery();
 			
 			sTrip = new DTOSpecificTrip();
+			/*
 			sTrip.setId(id);
 			sTrip.setTime(rs.getTimestamp("departure"));
 			sTrip.setCalendar(rs.getString("calendar"));
 			sTrip.setTripId(rs.getString("trip_id"));
-			
+			*/
 			ps.close();
 			rs.close();
 		}
@@ -76,12 +77,12 @@ public class SpecificTripDatabaseDAO implements SpecificTripDAO {
 				ps = con.prepareStatement("UPDATE citis_trip "
 										+ "SET calendar_id = ?, route_id = ?, departure = ?, n_route = ?, trip_id = ? "
 										+ "WHERE specific_trip_id = ?");
-				
+				/*
 				ps.setString(1, sTrip.getCalendar());
 				ps.setTimestamp(2, sTrip.getDepartureTime());
 				ps.setString(3, sTrip.getLineName());
 				ps.setString(4, sTrip.getTripId());
-				
+				*/
 				ps.executeUpdate();
 				ps.close();
 			}
@@ -105,7 +106,7 @@ public class SpecificTripDatabaseDAO implements SpecificTripDAO {
 
 	@Override
 	public DTOSpecificTrip createSpecificTrip(DTOSpecificTrip sTrip) {
-		DTOSpecificTrip u = findSpecificTrip(sTrip.getId());
+		DTOSpecificTrip u = findSpecificTrip(sTrip.get_st_id());
 		if(u != null)
 			return u;
 		
@@ -117,13 +118,13 @@ public class SpecificTripDatabaseDAO implements SpecificTripDAO {
 			ps = con.prepareStatement("INSERT INTO citis_specific_trip "
 									+ "(?, ?, ?, ?, ?)");
 			
-			
+			/*
 			ps.setString(1, sTrip.getCalendar());
 			ps.setTimestamp(2, sTrip.getDepartureTime());
 			ps.setString(3, sTrip.getLineName());
 			ps.setString(4, sTrip.getId());
 			ps.setString(5, sTrip.getTripId());
-			
+			*/
 			
 			
 			ps.executeUpdate();

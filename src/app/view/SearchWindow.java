@@ -28,6 +28,7 @@ import app.model.business.CITISMap;
 import app.model.business.CITISObject;
 import app.model.business.CITISObserver;
 import app.model.business.TransportType;
+import app.model.business.user.ASUser;
 
 public class SearchWindow extends JFrame implements CITISObserver {
 	
@@ -86,22 +87,24 @@ public class SearchWindow extends JFrame implements CITISObserver {
 		transport_table.addActionListener(new TableListener());
 		line_table.addActionListener(new TableListener());
 		
-		JMenu add_obj = new JMenu("Anadir");
-		add_obj.setBorder(BorderFactory.createMatteBorder(2,1,2,0,Color.black));
-		JMenuItem add_station = new JMenuItem("Estacion");
-		JMenuItem add_transport = new JMenuItem("Transporte");
-		JMenuItem add_line = new JMenuItem("Linea");
-		JMenuItem add_schedule = new JMenuItem("Horario");
-		add_obj.add(add_station);
-		add_obj.add(add_transport);
-		add_obj.add(add_line);
-		add_obj.add(add_schedule);
-		jmb.add(add_obj);
-		
-		add_station.addActionListener(new MiMenuListener());
-		add_transport.addActionListener(new MiMenuListener());
-		add_line.addActionListener(new MiMenuListener());
-		add_schedule.addActionListener(new MiMenuListener());
+		if(_ctrl.checkData(8, new String[1])) {
+			JMenu add_obj = new JMenu("Anadir");
+			add_obj.setBorder(BorderFactory.createMatteBorder(2,1,2,0,Color.black));
+			JMenuItem add_station = new JMenuItem("Estacion");
+			JMenuItem add_transport = new JMenuItem("Transporte");
+			JMenuItem add_line = new JMenuItem("Linea");
+			JMenuItem add_schedule = new JMenuItem("Horario");
+			add_obj.add(add_station);
+			add_obj.add(add_transport);
+			add_obj.add(add_line);
+			add_obj.add(add_schedule);
+			jmb.add(add_obj);
+			
+			add_station.addActionListener(new MiMenuListener());
+			add_transport.addActionListener(new MiMenuListener());
+			add_line.addActionListener(new MiMenuListener());
+			add_schedule.addActionListener(new MiMenuListener());
+		}
 		
 		JMenu map_menu = new JMenu("Mapas");
 		map_menu.setBorder(BorderFactory.createMatteBorder(2,1,2,2,Color.black));
@@ -139,6 +142,7 @@ public class SearchWindow extends JFrame implements CITISObserver {
 		logOut.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
+				_ctrl.deleteData(1, new String[1]);
 				dispose();
 				new InitWindow(null, _ctrl);
 			}

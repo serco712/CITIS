@@ -26,6 +26,7 @@ import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
 
 import app.control.Controller;
+import app.model.business.user.DTOUser;
 
 public class InitSesionPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
@@ -98,7 +99,9 @@ public class InitSesionPanel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO enter as a guest
+				DTOUser dto = new DTOUser();
+				dto.setRole(2);
+				_ctrl.addData(1, dto);
 				Window jf = SwingUtilities.getWindowAncestor(InitSesionPanel.this);
 				jf.setVisible(false);
 				new SearchWindow(_ctrl);
@@ -119,6 +122,14 @@ public class InitSesionPanel extends JPanel {
 				if(!jt.getText().isEmpty() && !password.contentEquals("")) {
 					String [] data = {jt.getText(), password};
 					if(_ctrl.checkData(1, data)) {
+						DTOUser dto = new DTOUser();
+						dto.setEmail(jt.getText());
+						dto.setPassword(password);
+						if(jt.getText().contains("@citis.es"))
+							dto.setRole(1);
+						else
+							dto.setRole(0);
+						_ctrl.addData(1, dto);
 						Window jf = SwingUtilities.getWindowAncestor(InitSesionPanel.this);
 						jf.setVisible(false);
 						new SearchWindow(_ctrl);

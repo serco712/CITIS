@@ -3,6 +3,7 @@ package app.model.layers.integration.trip;
 import java.sql.*;
 
 import app.model.business.trip.DTOTrip;
+import app.model.layers.integration.Conectar;
 
 public class TripDatabaseDAO implements TripDAO {
 
@@ -26,10 +27,11 @@ public class TripDatabaseDAO implements TripDAO {
 				return null;
 			
 			trip = new DTOTrip();
+			/*
 			trip.setName(rs.getString("trip_long_name"));
 			trip.setNotes(rs.getString("notes"));
 			trip.setLine(rs.getString("route_id"));
-			
+			*/
 			ps.close();
 			rs.close();
 		}
@@ -56,8 +58,8 @@ public class TripDatabaseDAO implements TripDAO {
 	}
 
 	private Connection getConnection() {
-		// TODO Auto-generated method stub
-		return null;
+		Conectar conectar = new Conectar();
+		return conectar.getConnection();
 	}
 
 	@Override
@@ -70,13 +72,13 @@ public class TripDatabaseDAO implements TripDAO {
 				con = getConnection();
 				ps = con.prepareStatement("UPDATE citis_trip "
 										+ "SET trip_long_name = ?, route_id = ?, notes = ? "
-										+ "WHERE trip_id = ?");
-				
+										+ "WHERE trip_id = ?;");
+				/*
 				ps.setString(1, trip.getName());
 				ps.setString(2, trip.getLine());
-				ps.setString(3, trip.getNotes());
+				//ps.setString(3, trip.getNotes());
 				ps.setString(4, trip.getId());
-				
+				*/
 				ps.executeUpdate();
 				ps.close();
 			}
@@ -100,7 +102,7 @@ public class TripDatabaseDAO implements TripDAO {
 
 	@Override
 	public DTOTrip createTrip(DTOTrip trip) {
-		DTOTrip aux = findTrip(trip.getId());
+		DTOTrip aux = findTrip(trip.get_id());
 		if (aux != null)
 			return aux;
 		else {
@@ -110,14 +112,23 @@ public class TripDatabaseDAO implements TripDAO {
 			try {
 				con = getConnection();
 				ps = con.prepareStatement("INSERT INTO citis_trip "
-										+ "(?, ?, ?, ?)");
+										+ "VALUES (?, ?, ?, ?);");
 				
-				ps.setString(1, trip.getNotes());
-				ps.setString(2, trip.getLine());
-				ps.setString(3, trip.getId());
-				ps.setString(4, trip.getName());
+				ps.setString(1, trip.get_id());
+				ps.setString(2, trip.get_route_id());
+				ps.setString(3, trip.get_name());
+				ps.setString(4, trip.get_trip_notes());
 				
 				ps.executeUpdate();
+				
+				ps = con.prepareStatement("INSERT INTO citis_stop_time "
+										+ "VALUES(?, ?, ?, ?, ?);");
+				
+				ps.setString(1, trip.get_id());
+				ps.setString(2, trip.get_stop_id());
+				ps.setString(3, trip.get_departureTime());
+				ps.setInt(4, trip.get_stop_sequence());
+				ps.setString(5, trip.get_stop_notes());
 				ps.close();
 			}
 			catch (SQLException e) {
