@@ -35,8 +35,10 @@ public class StationMap extends JPanel implements CITISObserver {
 	
 	private TransportType _tp;
 	
+	private Controller _ctrl;
+	
 	public StationMap (Controller ctrl, TransportType tp) {
-		ctrl.addObserver(this);
+		_ctrl = ctrl;
 		_tp = tp;
 		initGUI();
 	}
@@ -58,7 +60,7 @@ public class StationMap extends JPanel implements CITISObserver {
 	
 	private void drawMap(Graphics g) {
 		
-		for(ASStation s : _map.getStations()) {
+		for(ASStation s : _ctrl.listStations()) {
 			if(s.getTransport().equals(_tp)) {
 				g.setColor(STATIONS_BORDER);
 				g.fillOval(s.getX() - _JRADIUS / 2, s.getY() - _JRADIUS / 2, _JRADIUS, _JRADIUS);
@@ -71,7 +73,7 @@ public class StationMap extends JPanel implements CITISObserver {
 			}
 		}
 		
-		for(ASLine l : _map.getLines()) {
+		for(ASLine l : _ctrl.listLines()) {
 			if(l.getTransport().equals(_tp)) {
 				List<String> ls = l.getStations();
 				g.setColor(l.getColorLine());

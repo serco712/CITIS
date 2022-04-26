@@ -1,5 +1,7 @@
 package app.model.business.trip;
 
+import app.model.layers.integration.trip.TripDatabaseDAO;
+
 public class ASTrip {
 	
 	private String _id;
@@ -24,5 +26,11 @@ public class ASTrip {
 		_departure_time = trip.get_departureTime();
 		_stop_sequence = trip.get_stop_sequence();
 		_stop_notes = trip.get_stop_notes();
+	}
+
+	public void createTrip(DTOTrip as) {
+		TripDatabaseDAO dao = new TripDatabaseDAO();
+		dao.createTrip(as);
+		dao.createStopTime(as);
 	}
 }

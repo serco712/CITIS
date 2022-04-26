@@ -34,6 +34,7 @@ import app.model.business.TransportType;
 import app.model.business.line.ASLine;
 import app.model.business.line.DTOLine;
 import app.model.business.station.ASStation;
+import app.model.business.trip.DTOTrip;
 
 public class AddScheduleDialog extends JDialog {
 	private static final long serialVersionUID = 1L;
@@ -223,24 +224,41 @@ public class AddScheduleDialog extends JDialog {
 		if(!trip_id.getText().equals("") && !trip_long_name.getText().equals("")) {
 			TimeADT t = new TimeADT((Integer) hours.getValue(), (Integer) minutes.getValue(), 
 					(Integer) seconds.getValue());
-			String[] dat1 = {trip_id.getText()};
-			String[] dat2 = {((ASStation) stop_id.getSelectedItem()).getId(), 
-					((ASLine) route_id.getSelectedItem()).getId(), t.toString()};
+			int ttype;
+			if(((ASStation) stop_id.getSelectedItem()).getTransport().equals(TransportType.SUBWAY))
+				ttype = 4;
+			else if(((ASStation) stop_id.getSelectedItem()).getTransport().equals(TransportType.TRAIN))
+				ttype = 5;
+			else
+				ttype = 8;
+			StringBuilder str = new StringBuilder();
+			str.append(ttype);
+			str.append("_");
+			str.append(trip_id.getText());
+			String[] dat = {str.toString()};
 			if(((ASStation) stop_id.getSelectedItem()).getTransport() != 
 					((ASLine) route_id.getSelectedItem()).getTransport()) {
 				ImageIcon icon = new ImageIcon("resources/error.png");
 				JOptionPane.showMessageDialog(null, "La estacion y la linea no son del mismo tipo", 
 		        		"Anadir Horario", JOptionPane.DEFAULT_OPTION, icon);
 			}
-			else if (_ctrl.checkData(3, dat1)){
+			else if (_ctrl.checkData(3, dat)){ // TODO check trip id
 				ImageIcon icon = new ImageIcon("resources/error.png");
 				JOptionPane.showMessageDialog(null, "El id introducido ya existe", 
 		        		"Anadir Linea", JOptionPane.DEFAULT_OPTION, icon);
 			}
-			else if(!_ctrl.checkData(4, dat2)) {
-				ImageIcon icon = new ImageIcon("resources/error.png");
-				JOptionPane.showMessageDialog(null, "La agencia introducida no existe", 
-		        		"Anadir Linea", JOptionPane.DEFAULT_OPTION, icon);
+			else {
+				DTOTrip dto = new DTOTrip();
+				dto.set_id(str.toString());
+				dto.set_stop_id(((ASStation)stop_id.getSelectedItem()).getId());
+				dto.set_departureTime(t.toString());
+				dto.set_stop_sequence((Integer) stop_sequence.getValue());
+				dto.set_stop_notes(st_notes.getText());
+				dto.set_route_id(((ASLine)route_id.getSelectedItem()).getId());
+				dto.set_name(trip_long_name.getText());
+				dto.set_trip_notes(trip_notes.getText());
+				_ctrl.addData(5, dto);
+				dispose();
 			}
 		}
 		else {

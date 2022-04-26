@@ -66,6 +66,7 @@ public class MapWindow extends JDialog {
 		mainPanel.add(jtb, BorderLayout.NORTH);
 		JPanel np = new StationMap(_ctrl, _tp);
 		mainPanel.add(np, BorderLayout.CENTER);
+		
 		this.setSize(new Dimension(800, 600));
 		this.setLocationRelativeTo(null);
 		this.setVisible(true);

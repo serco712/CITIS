@@ -22,6 +22,7 @@ public class ControllerChoices {
 	public static final int Add_Station = 2;
 	public static final int Add_Line = 3;
 	public static final int Add_Transport = 4;
+	public static final int Add_Schedule = 5;
 	
 	// Delete Commands
 	public static final int Delete_User = 1;

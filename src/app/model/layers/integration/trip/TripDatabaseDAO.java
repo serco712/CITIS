@@ -18,7 +18,7 @@ public class TripDatabaseDAO implements TripDAO {
 			con = getConnection();
 			ps = con.prepareStatement("SELECT * "
 									+ "FROM citis_trip "
-									+ "WHERE id = ?");
+									+ "WHERE trip_id = ?;");
 			
 			ps.setString(1, id);
 			rs = ps.executeQuery();
@@ -27,11 +27,10 @@ public class TripDatabaseDAO implements TripDAO {
 				return null;
 			
 			trip = new DTOTrip();
-			/*
-			trip.setName(rs.getString("trip_long_name"));
-			trip.setNotes(rs.getString("notes"));
-			trip.setLine(rs.getString("route_id"));
-			*/
+			trip.set_name(rs.getString("trip_long_name"));
+			trip.set_trip_notes(rs.getString("notes"));
+			trip.set_route_id(rs.getString("route_id"));
+			
 			ps.close();
 			rs.close();
 		}
@@ -121,14 +120,6 @@ public class TripDatabaseDAO implements TripDAO {
 				
 				ps.executeUpdate();
 				
-				ps = con.prepareStatement("INSERT INTO citis_stop_time "
-										+ "VALUES(?, ?, ?, ?, ?);");
-				
-				ps.setString(1, trip.get_id());
-				ps.setString(2, trip.get_stop_id());
-				ps.setString(3, trip.get_departureTime());
-				ps.setInt(4, trip.get_stop_sequence());
-				ps.setString(5, trip.get_stop_notes());
 				ps.close();
 			}
 			catch (SQLException e) {
@@ -149,5 +140,45 @@ public class TripDatabaseDAO implements TripDAO {
 			return trip;
 		}
 	}
-
+	
+	@Override
+	public DTOTrip createStopTime(DTOTrip trip) {
+		Connection con = null;
+		PreparedStatement ps = null;
+		
+		try {
+			con = getConnection();
+			ps = con.prepareStatement("INSERT INTO citis_stop_time "
+									+ "VALUES(?, ?, ?, ?, ?);");
+			
+			ps.setString(1, trip.get_id());
+			ps.setString(2, trip.get_stop_id());
+			String[] t = trip.get_departureTime().split(":");
+			Time ti = new Time((Integer.parseInt(t[0])*3600 + Integer.parseInt(t[1]) *60 + 
+					Integer.parseInt(t[2]))/1000);
+			ps.setTime(3, ti);
+			ps.setInt(4, trip.get_stop_sequence());
+			ps.setString(5, trip.get_stop_notes());
+			
+			ps.executeUpdate();
+			
+			ps.close();
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		finally {
+			try {
+				if (ps != null)
+					ps.close();
+				
+				if (con != null)
+					con.close();
+			}
+			catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return trip;
+	}
 }

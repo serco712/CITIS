@@ -24,6 +24,8 @@ import app.model.business.line.DTOLine;
 import app.model.business.station.ASStation;
 import app.model.business.station.DTOStation;
 import app.model.business.transport.ASTransport;
+import app.model.business.trip.ASTrip;
+import app.model.business.trip.DTOTrip;
 import app.model.business.user.ASUser;
 import app.model.business.user.DTOUser;
 import app.model.layers.integration.line.LineDatabaseDAO;
@@ -164,9 +166,12 @@ public class Controller {
 			break;
 		case ControllerChoices.Add_Transport:
 			break;
+		case ControllerChoices.Add_Schedule:
+			ASTrip at = new ASTrip();
+			at.createTrip((DTOTrip) transfer);
+			break;
 		}
 	}
-	
 	
 	public void deleteData(int opcion, String[] data) {
 		switch(opcion) {
