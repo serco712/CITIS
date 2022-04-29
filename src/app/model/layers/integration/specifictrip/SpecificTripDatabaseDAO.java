@@ -104,6 +104,8 @@ public class SpecificTripDatabaseDAO implements SpecificTripDAO {
 		}
 	}
 
+	
+	
 	@Override
 	public DTOSpecificTrip createSpecificTrip(DTOSpecificTrip sTrip) {
 		DTOSpecificTrip u = findSpecificTrip(sTrip.get_st_id());
@@ -147,6 +149,44 @@ public class SpecificTripDatabaseDAO implements SpecificTripDAO {
 		}
 		
 		return sTrip;
+	}
+
+	@Override
+	public void removeSpecificTrip(DTOSpecificTrip sTrip) {
+		if (!createSpecificTrip(sTrip).equals(sTrip)) {
+			Connection con = null;
+			PreparedStatement ps = null;
+			
+			try {
+				con = getConnection();
+				ps = con.prepareStatement("DELETE citis_trip "
+										+ "SET calendar_id = ?, route_id = ?, departure = ?, n_route = ?, trip_id = ? "
+										+ "WHERE specific_trip_id = ?");
+				/*
+				ps.setString(1, sTrip.getCalendar());
+				ps.setTimestamp(2, sTrip.getDepartureTime());
+				ps.setString(3, sTrip.getLineName());
+				ps.setString(4, sTrip.getTripId());
+				*/
+				ps.executeUpdate();
+				ps.close();
+			}
+			catch (SQLException e) {
+				e.printStackTrace();
+			}
+			finally {
+				try {
+					if (ps != null)
+						ps.close();
+					
+					if (con != null)
+						con.close();
+				}
+				catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
 	}
 	
 

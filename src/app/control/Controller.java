@@ -43,7 +43,7 @@ public class Controller {
 	
 	public Controller(MainFactory f, CITISMap cm) throws Exception {
 		if (f == null)
-			throw new IllegalArgumentException("La factor�a no puede ser nula");
+			throw new IllegalArgumentException("La factoria no puede ser nula");
 		else if (cm == null)
 			throw new IllegalArgumentException("El mapa no puede ser nulo");
 		
@@ -110,7 +110,7 @@ public class Controller {
 	public void tableOption(int option) {
 		List<ASStation> stationList;
 		List<ASLine> lineList;
-		List<ASTransport> transportList;
+		//List<ASTransport> transportList;
 		switch (option) {
 		case ControllerChoices.Table_Lines:
 			ASLine al  = new ASLine();
@@ -120,11 +120,11 @@ public class Controller {
 		case ControllerChoices.Table_Stations:
 			ASStation as = new ASStation();
 			stationList = as.searchStations();
-			new TableWindow(new StationTable(stationList, this), "Listado de Estaciones");
+			new TableWindow(new StationTable(stationList, this, null), "Listado de Estaciones");
 			break;
-		case ControllerChoices.Table_Transports:
-			ASTransport at = new ASTransport();
-			break;
+		//case ControllerChoices.Table_Transports:
+			//ASTransport at = new ASTransport();
+			//break;
 		}
 	}
 	
@@ -173,12 +173,15 @@ public class Controller {
 		}
 	}
 	
-	public void deleteData(int opcion, String[] data) {
+	public void deleteData(int opcion, Object transfer) {
 		switch(opcion) {
 		case ControllerChoices.Delete_User:
 			ASUser.resetInstance();
 			break;
-		}
+		case ControllerChoices.Delete_Trip:
+			ASTrip.deleteTrip((DTOTrip) transfer);
+			break;
+		}			
 	}
 	
 	public List<ASStation> listStations() {

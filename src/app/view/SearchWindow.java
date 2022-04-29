@@ -28,7 +28,6 @@ import app.model.business.CITISMap;
 import app.model.business.CITISObject;
 import app.model.business.CITISObserver;
 import app.model.business.TransportType;
-import app.model.business.user.ASUser;
 
 public class SearchWindow extends JFrame implements CITISObserver {
 	
@@ -64,7 +63,7 @@ public class SearchWindow extends JFrame implements CITISObserver {
 		
 		//mainPanel.add(new SearchControlPanel(), BorderLayout.PAGE_START);
 		
-		MiMenuListener menul = new MiMenuListener();
+		//MiMenuListener menul = new MiMenuListener();
 		JMenuBar jmb = new JMenuBar();
 		jmb.setBackground(Color.WHITE);
 		jmb.setPreferredSize(new Dimension(600, 30));
@@ -75,39 +74,40 @@ public class SearchWindow extends JFrame implements CITISObserver {
 		JMenu check_table = new JMenu("Consultar");
 		check_table.setBorder(BorderFactory.createMatteBorder(2,2,2,0,Color.black));
 		JMenuItem station_table = new JMenuItem("Listado de estaciones");
-		JMenuItem transport_table = new JMenuItem("Listado de transportes");
+		//JMenuItem transport_table = new JMenuItem("Listado de transportes");
 		JMenuItem line_table = new JMenuItem("Listado de lineas");
 		
 		check_table.add(station_table);
-		check_table.add(transport_table);
+		//check_table.add(transport_table);
 		check_table.add(line_table);
 		jmb.add(check_table);
 		
 		station_table.addActionListener(new TableListener());
-		transport_table.addActionListener(new TableListener());
+		//transport_table.addActionListener(new TableListener());
 		line_table.addActionListener(new TableListener());
 		
 		if(_ctrl.checkData(8, new String[1])) {
 			JMenu add_obj = new JMenu("Anadir");
 			add_obj.setBorder(BorderFactory.createMatteBorder(2,1,2,0,Color.black));
 			JMenuItem add_station = new JMenuItem("Estacion");
-			JMenuItem add_transport = new JMenuItem("Transporte");
+			//JMenuItem add_transport = new JMenuItem("Transporte");
 			JMenuItem add_line = new JMenuItem("Linea");
 			JMenuItem add_schedule = new JMenuItem("Horario");
 			add_obj.add(add_station);
-			add_obj.add(add_transport);
+			//add_obj.add(add_transport);
 			add_obj.add(add_line);
 			add_obj.add(add_schedule);
 			jmb.add(add_obj);
 			
 			add_station.addActionListener(new MiMenuListener());
-			add_transport.addActionListener(new MiMenuListener());
+			//add_transport.addActionListener(new MiMenuListener());
 			add_line.addActionListener(new MiMenuListener());
 			add_schedule.addActionListener(new MiMenuListener());
 		}
 		
 		JMenu map_menu = new JMenu("Mapas");
-		map_menu.setBorder(BorderFactory.createMatteBorder(2,1,2,2,Color.black));
+		if(_ctrl.checkData(8, new String[1])) map_menu.setBorder(BorderFactory.createMatteBorder(2,1,2,0,Color.black));
+		else map_menu.setBorder(BorderFactory.createMatteBorder(2,1,2,2,Color.black));
 		JMenuItem map_train = new JMenuItem("Trenes");
 		JMenuItem map_bus = new JMenuItem("Autobuses");
 		JMenuItem map_subway = new JMenuItem("Metro");
@@ -121,6 +121,23 @@ public class SearchWindow extends JFrame implements CITISObserver {
 		map_bus.addActionListener(new MapListener());
 		map_subway.addActionListener(new MapListener());
 		
+		if(_ctrl.checkData(8, new String[1])) {
+			JMenu remove_menu = new JMenu("Eliminar");
+			remove_menu.setBorder(BorderFactory.createMatteBorder(2,1,2,2,Color.black));
+			JMenuItem rem_train = new JMenuItem("Horario");
+		
+			remove_menu.add(rem_train);
+			jmb.add(remove_menu);
+			
+			rem_train.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					new DeleteScheduleWindow(_ctrl.listStations(), _ctrl);
+				}
+			
+			});
+		}
 		jmb.add(Box.createHorizontalGlue());
 		
 		JButton miUser = new JButton();
@@ -189,8 +206,8 @@ public class SearchWindow extends JFrame implements CITISObserver {
 			String cmnd = e.getActionCommand();
 			if(cmnd.equals("Listado de estaciones"))
 				_ctrl.tableOption(2);
-			else if(cmnd.contentEquals("Listado de transportes"))
-				_ctrl.tableOption(3);
+			//else if(cmnd.contentEquals("Listado de transportes"))
+			//	_ctrl.tableOption(3);
 			else
 				_ctrl.tableOption(1);
 		}
@@ -201,9 +218,10 @@ public class SearchWindow extends JFrame implements CITISObserver {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			String cmnd = e.getActionCommand();
-			if(cmnd.equals("Trenes"))
+			/*if(cmnd.equals("Trenes"))
 				new MapWindow(_ctrl, TransportType.TRAIN);
-			else if(cmnd.equals("Autobuses"))
+			else*/
+			if(cmnd.equals("Autobuses"))
 				new MapWindow(_ctrl, TransportType.BUS);
 			else
 				new MapWindow(_ctrl, TransportType.SUBWAY);
@@ -214,9 +232,10 @@ public class SearchWindow extends JFrame implements CITISObserver {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			String cmnd = e.getActionCommand();
-			if(cmnd.equals("Transporte"))
+			/*if(cmnd.equals("Transporte"))
 				new MapWindow(_ctrl, TransportType.TRAIN);
-			else if(cmnd.equals("Linea"))
+			else*/
+			if(cmnd.equals("Linea"))
 				new AddLineDialog(_ctrl);
 			else if(cmnd.equals("Horario"))
 				new AddScheduleDialog(_ctrl);

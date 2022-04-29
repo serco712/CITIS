@@ -181,4 +181,42 @@ public class TripDatabaseDAO implements TripDAO {
 		}
 		return trip;
 	}
+	
+	@Override
+	public void deleteTrip(DTOTrip trip) {
+		if (!createTrip(trip).equals(trip)) {
+			Connection con = null;
+			PreparedStatement ps = null;
+			
+			try {
+				con = getConnection();
+				ps = con.prepareStatement("DELETE citis_trip "
+										+ "SET trip_long_name = ?, route_id = ?, notes = ? "
+										+ "WHERE trip_id = ?;");
+				/*
+				ps.setString(1, trip.getName());
+				ps.setString(2, trip.getLine());
+				//ps.setString(3, trip.getNotes());
+				ps.setString(4, trip.getId());
+				*/
+				ps.executeUpdate();
+				ps.close();
+			}
+			catch (SQLException e) {
+				e.printStackTrace();
+			}
+			finally {
+				try {
+					if (ps != null)
+						ps.close();
+					
+					if (con != null)
+						con.close();
+				}
+				catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
 }

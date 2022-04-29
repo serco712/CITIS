@@ -33,4 +33,14 @@ public class ASTrip {
 		dao.createTrip(as);
 		dao.createStopTime(as);
 	}
+	
+	public DTOTrip findTrip(String id) {
+		TripDatabaseDAO dao = new TripDatabaseDAO();
+		return dao.findTrip(id);
+	}
+
+	public static void deleteTrip(DTOTrip as) {
+		TripDatabaseDAO dao = new TripDatabaseDAO();
+		dao.deleteTrip(as);
+	}
 }

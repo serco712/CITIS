@@ -14,8 +14,19 @@ public class ScheduleTable extends AbstractTableModel {
 	private List<Triplet<ASLine, TimeADT, String>> _schedule;
 	private String[] cols = {"Linea", "Tipo de transporte", "Hora salida", "Notas"};
 
-	public ScheduleTable(List<Triplet<ASLine, TimeADT, String>> schedule) {
+	public ScheduleTable(List<Triplet<ASLine, TimeADT, String>> schedule, int option) {
 		_schedule = schedule;
+		
+		switch(option) {
+		case AdminOperations.Consult:
+			break;
+		case AdminOperations.Delete:
+			
+			break;
+		case AdminOperations.Modify:
+			
+			break;
+		}
 	}
 	
 	@Override

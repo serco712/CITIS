@@ -17,8 +17,8 @@ public class StationTable extends JTable {
 	
 	private Controller _ctrl;
 	
-	public StationTable(List<ASStation> stations, Controller ctrl) {
-		super(new StationTableModel(stations));
+	public StationTable(List<ASStation> stations, Controller ctrl, String id) {
+		super(new StationTableModel(stations, id));
 		_ctrl = ctrl;
 		this.addMouseListener(new MouseListener() {
 
@@ -59,8 +59,11 @@ class StationTableModel extends AbstractTableModel {
 	private List<ASStation> stations;
 	private String[] cols = {"ID", "Nombre", "Tipo de transporte", "Linea"};
 
-	public StationTableModel(List<ASStation> stations) {
+	public StationTableModel(List<ASStation> stations, String id) {
 		this.stations = stations;
+		if (id != null) {
+			setFilter(stations, id);
+		}
 	}
 	
 	@Override
@@ -106,6 +109,15 @@ class StationTableModel extends AbstractTableModel {
 			return str.toString();
 		default:
 			return null;
+		}
+	}
+	
+	public void setFilter(List<ASStation> stations, String id) {
+		for (ASStation as: stations) {
+			if (!as.getId().equals(id)) {
+				stations.remove(as);
+				fireTableDataChanged();
+			}
 		}
 	}
 }

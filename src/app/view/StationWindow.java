@@ -122,7 +122,7 @@ public class StationWindow extends JDialog {
 		for(ASLine al : ls)
 			l.add(al.getId());
 		List<Triplet<ASLine, TimeADT, String>> lc = _ctrl.getScheduleList(l);
-		JTable t2 = new JTable(new ScheduleTable(lc));
+		JTable t2 = new JTable(new ScheduleTable(lc, 1));
 		t2.setBackground(Color.WHITE);
 		JPanel p2 = createViewPanel(t2, "Horarios");
 		p2.setBackground(Color.WHITE);

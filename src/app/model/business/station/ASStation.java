@@ -123,4 +123,12 @@ public class ASStation extends CITISObject {
 		StationDatabaseDAO dao = new StationDatabaseDAO();
 		return dao.findStation(id) != null;
 	}
+	
+	public ASStation searchStation(String id) {
+		List<ASStation> as = searchStations();
+		for (ASStation s : as) {
+			if (s.getId().equals(id)) return s;
+		}
+		return null;
+	}
 }
