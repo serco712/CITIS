@@ -2,6 +2,7 @@ package app.view;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JTable;
@@ -17,7 +18,7 @@ public class StationTable extends JTable {
 	
 	private Controller _ctrl;
 	
-	public StationTable(List<ASStation> stations, Controller ctrl, String id) {
+	public StationTable(List<ASStation> stations, Controller ctrl, String id, int option) {
 		super(new StationTableModel(stations, id));
 		_ctrl = ctrl;
 		this.addMouseListener(new MouseListener() {
@@ -25,7 +26,7 @@ public class StationTable extends JTable {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if(e.getClickCount() == 2) {
-					new StationWindow(stations.get(StationTable.this.getSelectedRow()), _ctrl);
+					new StationWindow(stations.get(StationTable.this.getSelectedRow()), _ctrl, option);
 				}
 			}
 
@@ -113,11 +114,14 @@ class StationTableModel extends AbstractTableModel {
 	}
 	
 	public void setFilter(List<ASStation> stations, String id) {
+		List<ASStation> stAux = new ArrayList<ASStation>();
 		for (ASStation as: stations) {
-			if (!as.getId().equals(id)) {
-				stations.remove(as);
-				fireTableDataChanged();
+			if (!as.getId().contains(id)) {
+				stAux.add(as);
 			}
 		}
+		
+		if (!stAux.equals(stations)) stations.removeAll(stAux);
+		fireTableDataChanged();
 	}
 }

@@ -7,5 +7,4 @@ public interface TripDAO {
 	public void saveTrip(DTOTrip trip);
 	public DTOTrip createTrip(DTOTrip trip);
 	public DTOTrip createStopTime(DTOTrip trip);
-	public void deleteTrip(DTOTrip trip);
 }

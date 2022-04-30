@@ -40,13 +40,16 @@ public class StationWindow extends JDialog {
 	
 	private ASStation _st;
 	
+	private int _option;
+	
 	private Controller _ctrl;
 	
 	private Border _defaultBorder = BorderFactory.createLineBorder(Color.black, 2);
-	
-	public StationWindow (ASStation st, Controller ctrl) {
+	// HAY QUE PASARLE UN PARÁMETRO PARA LA OPCIÓN
+	public StationWindow (ASStation st, Controller ctrl, int option) {
 		super(new JFrame(), "Estacion " + st.getName(), true);
 		_st = st;
+		_option = option;
 		_ctrl = ctrl;
 		initGUI();
 	}
@@ -122,7 +125,7 @@ public class StationWindow extends JDialog {
 		for(ASLine al : ls)
 			l.add(al.getId());
 		List<Triplet<ASLine, TimeADT, String>> lc = _ctrl.getScheduleList(l);
-		JTable t2 = new JTable(new ScheduleTable(lc, 1));
+		JTable t2 = new ScheduleTable(lc, _ctrl, _option);
 		t2.setBackground(Color.WHITE);
 		JPanel p2 = createViewPanel(t2, "Horarios");
 		p2.setBackground(Color.WHITE);

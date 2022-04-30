@@ -159,7 +159,7 @@ public class SearchWindow extends JFrame implements CITISObserver {
 		logOut.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				_ctrl.deleteData(1, new String[1]);
+				_ctrl.deleteData(1);
 				dispose();
 				new InitWindow(null, _ctrl);
 			}

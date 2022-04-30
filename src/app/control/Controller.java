@@ -1,7 +1,5 @@
-package app.control;
+ package app.control;
 
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
@@ -9,11 +7,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 
-import javax.swing.table.AbstractTableModel;
-
 import app.factories.Factory;
 import app.factories.MainFactory;
-import app.misc.Pair;
 import app.misc.TimeADT;
 import app.misc.Triplet;
 import app.model.business.CITISMap;
@@ -28,7 +23,6 @@ import app.model.business.trip.ASTrip;
 import app.model.business.trip.DTOTrip;
 import app.model.business.user.ASUser;
 import app.model.business.user.DTOUser;
-import app.model.layers.integration.line.LineDatabaseDAO;
 import app.view.LineTable;
 import app.view.StationTable;
 import app.view.TableWindow;
@@ -120,7 +114,7 @@ public class Controller {
 		case ControllerChoices.Table_Stations:
 			ASStation as = new ASStation();
 			stationList = as.searchStations();
-			new TableWindow(new StationTable(stationList, this, null), "Listado de Estaciones");
+			new TableWindow(new StationTable(stationList, this, null, 1), "Listado de Estaciones");
 			break;
 		//case ControllerChoices.Table_Transports:
 			//ASTransport at = new ASTransport();
@@ -173,13 +167,18 @@ public class Controller {
 		}
 	}
 	
-	public void deleteData(int opcion, Object transfer) {
-		switch(opcion) {
+	public void deleteData(int option) {
+		switch(option) {
 		case ControllerChoices.Delete_User:
 			ASUser.resetInstance();
-			break;
+			break;	
+		}
+	}
+		
+	public void adminOperation(int option, Object t1, Object t2, Object t3) {
+		switch(option) {
 		case ControllerChoices.Delete_Trip:
-			ASTrip.deleteTrip((DTOTrip) transfer);
+			ASLine.removeDepartureTime((ASLine) t1, (TimeADT) t2, (String) t3);
 			break;
 		}			
 	}

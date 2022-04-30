@@ -16,7 +16,6 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -35,6 +34,7 @@ public class DeleteScheduleWindow extends JDialog {
 	private Controller _ctrl;
 	
 	private JTable table;
+	private JTable tableFiltred;
 		
 	private List<ASStation> _list = new ArrayList<ASStation>();
 		
@@ -42,7 +42,7 @@ public class DeleteScheduleWindow extends JDialog {
 		super(new JFrame(), "Eliminar horario", true);
 		_ctrl = ctrl;
 		_list = list;
-		table = new StationTable(list, _ctrl, null);
+		table = new StationTable(list, _ctrl, null, 2);
 		initGUI("Eliminar horario");
 	}
 	
@@ -98,16 +98,9 @@ public class DeleteScheduleWindow extends JDialog {
 		searchButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				ImageIcon icon = new ImageIcon("resources/error.png");
 				String _id = search.getText();
-
-				if (_id != null) {
-					table = new StationTable(_list, _ctrl, _id);
-				}	
-				else {
-					JOptionPane.showMessageDialog(null, "Id vacío o incorrecto", "Buscar linea", JOptionPane.DEFAULT_OPTION, icon);
-				}
-			}			
+				tableFiltred = new StationTable(_list, _ctrl, _id, 2);
+			}		
 		});
 		
 		searchButton.addMouseListener(new MouseAdapter() {
@@ -126,9 +119,15 @@ public class DeleteScheduleWindow extends JDialog {
 		tablesPanel.setLayout(new BoxLayout(tablesPanel, BoxLayout.Y_AXIS));
 		viewsPanel.add(tablesPanel);
 		
-		JPanel eventsView =
-				createViewPanel(table, str);
-		tablesPanel.add(eventsView);
+		if (tableFiltred != null) {
+			JPanel eventsView = createViewPanel(tableFiltred, str);
+			tablesPanel.add(eventsView);
+		}
+		else {
+			JPanel eventsView = createViewPanel(table, str);
+			tablesPanel.add(eventsView);
+		}
+				
 		
 		this.pack();
 		

@@ -38,9 +38,4 @@ public class ASTrip {
 		TripDatabaseDAO dao = new TripDatabaseDAO();
 		return dao.findTrip(id);
 	}
-
-	public static void deleteTrip(DTOTrip as) {
-		TripDatabaseDAO dao = new TripDatabaseDAO();
-		dao.deleteTrip(as);
-	}
 }

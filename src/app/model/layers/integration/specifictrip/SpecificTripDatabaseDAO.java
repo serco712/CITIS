@@ -1,16 +1,9 @@
 package app.model.layers.integration.specifictrip;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.sql.*;
-import java.util.ArrayList;
 
-import app.model.business.TransportType;
-import app.model.business.line.ASLine;
-import app.model.business.station.ASStation;
-import app.model.business.station.DTOStation;
+import java.sql.*;
+
 import app.model.business.trip.DTOSpecificTrip;
-import app.model.business.user.DTOUser;
 
 public class SpecificTripDatabaseDAO implements SpecificTripDAO {
 	
@@ -150,44 +143,4 @@ public class SpecificTripDatabaseDAO implements SpecificTripDAO {
 		
 		return sTrip;
 	}
-
-	@Override
-	public void removeSpecificTrip(DTOSpecificTrip sTrip) {
-		if (!createSpecificTrip(sTrip).equals(sTrip)) {
-			Connection con = null;
-			PreparedStatement ps = null;
-			
-			try {
-				con = getConnection();
-				ps = con.prepareStatement("DELETE citis_trip "
-										+ "SET calendar_id = ?, route_id = ?, departure = ?, n_route = ?, trip_id = ? "
-										+ "WHERE specific_trip_id = ?");
-				/*
-				ps.setString(1, sTrip.getCalendar());
-				ps.setTimestamp(2, sTrip.getDepartureTime());
-				ps.setString(3, sTrip.getLineName());
-				ps.setString(4, sTrip.getTripId());
-				*/
-				ps.executeUpdate();
-				ps.close();
-			}
-			catch (SQLException e) {
-				e.printStackTrace();
-			}
-			finally {
-				try {
-					if (ps != null)
-						ps.close();
-					
-					if (con != null)
-						con.close();
-				}
-				catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-	}
-	
-
 }

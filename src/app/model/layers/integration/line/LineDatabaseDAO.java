@@ -356,4 +356,46 @@ public class LineDatabaseDAO implements LineDAO {
 		
 		return as;
 	}
+
+	@Override
+	public void removeDeparture(ASLine as, TimeADT adt, String notes) {
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		try {
+			con = getConnection();
+			ps = con.prepareStatement("DELETE "
+									+ "FROM citis_stop_time cst "
+									+ 	"INNER JOIN citis_trip ct ON cst.trip_id = ct.trip_id "
+									+	"INNER JOIN citis_route cr ON ct.route_id = cr.route_id "
+									+ "WHERE route_id = ? AND departure_time = ? AND notes = ?;");
+			
+			ps.setString(1, as.getId());
+			ps.setString(2, adt.toString());
+			
+			ps.executeQuery();
+			ps.close();
+			
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		finally {
+			try {
+				if (rs != null)
+					rs.close();
+				
+				if (ps != null)
+					ps.close();
+				
+				if (con != null)
+					con.close();
+			}
+			catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
 }

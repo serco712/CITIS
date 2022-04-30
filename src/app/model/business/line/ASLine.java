@@ -10,7 +10,6 @@ import app.misc.Triplet;
 import app.model.business.CITISObject;
 import app.model.business.TransportType;
 import app.model.business.station.ASStation;
-import app.model.business.transport.ASTransport;
 import app.model.layers.integration.line.LineDatabaseDAO;
 
 public class ASLine extends CITISObject {
@@ -127,5 +126,10 @@ public class ASLine extends CITISObject {
 	public List<Triplet<ASLine, TimeADT, String>> searchDepartureTimes(List<String> route_id) {
 		LineDatabaseDAO dao = new LineDatabaseDAO();
 		return dao.findDepartures(route_id);
+	}
+	
+	public static void removeDepartureTime(ASLine as, TimeADT adt, String note) {
+		LineDatabaseDAO dao = new LineDatabaseDAO();
+		dao.removeDeparture(as, adt, note);
 	}
 }
