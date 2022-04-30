@@ -45,7 +45,7 @@ public class StationWindow extends JDialog {
 	private Controller _ctrl;
 	
 	private Border _defaultBorder = BorderFactory.createLineBorder(Color.black, 2);
-	// HAY QUE PASARLE UN PARÁMETRO PARA LA OPCIÓN
+
 	public StationWindow (ASStation st, Controller ctrl, int option) {
 		super(new JFrame(), "Estacion " + st.getName(), true);
 		_st = st;

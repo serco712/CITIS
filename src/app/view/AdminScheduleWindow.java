@@ -25,7 +25,7 @@ import javax.swing.JToolBar;
 import app.control.Controller;
 import app.model.business.station.ASStation;
 
-public class DeleteScheduleWindow extends JDialog {
+public class AdminScheduleWindow extends JDialog {
 
 	private static final long serialVersionUID = 1L;
 
@@ -35,15 +35,18 @@ public class DeleteScheduleWindow extends JDialog {
 	
 	private JTable table;
 	private JTable tableFiltred;
+	
+	private int _option;
 		
 	private List<ASStation> _list = new ArrayList<ASStation>();
 		
-	public DeleteScheduleWindow(List<ASStation> list, Controller ctrl) {
-		super(new JFrame(), "Eliminar horario", true);
+	public AdminScheduleWindow(List<ASStation> list, Controller ctrl, int option, String name) {
+		super(new JFrame(), name, true);
 		_ctrl = ctrl;
 		_list = list;
-		table = new StationTable(list, _ctrl, null, 2);
-		initGUI("Eliminar horario");
+		_option = option;
+		table = new StationTable(list, _ctrl, null, option);
+		initGUI(name);
 	}
 	
 	public void initGUI(String str) {
@@ -99,7 +102,7 @@ public class DeleteScheduleWindow extends JDialog {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String _id = search.getText();
-				tableFiltred = new StationTable(_list, _ctrl, _id, 2);
+				tableFiltred = new StationTable(_list, _ctrl, _id, _option);
 			}		
 		});
 		

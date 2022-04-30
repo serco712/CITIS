@@ -123,17 +123,31 @@ public class SearchWindow extends JFrame implements CITISObserver {
 		
 		if(_ctrl.checkData(8, new String[1])) {
 			JMenu remove_menu = new JMenu("Eliminar");
-			remove_menu.setBorder(BorderFactory.createMatteBorder(2,1,2,2,Color.black));
+			remove_menu.setBorder(BorderFactory.createMatteBorder(2,1,2,0,Color.black));
 			JMenuItem rem_train = new JMenuItem("Horario");
 		
 			remove_menu.add(rem_train);
 			jmb.add(remove_menu);
 			
 			rem_train.addActionListener(new ActionListener() {
-
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
-					new DeleteScheduleWindow(_ctrl.listStations(), _ctrl);
+					new AdminScheduleWindow(_ctrl.listStations(), _ctrl, 2, "Eliminar horario");
+				}
+			
+			});
+			
+			JMenu modify_menu = new JMenu("Modificar");
+			modify_menu.setBorder(BorderFactory.createMatteBorder(2,1,2,2,Color.black));
+			JMenuItem mod_train = new JMenuItem("Horario");
+		
+			modify_menu.add(mod_train);
+			jmb.add(modify_menu);
+			
+			mod_train.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					new AdminScheduleWindow(_ctrl.listStations(), _ctrl, 3, "Modificar horario");
 				}
 			
 			});

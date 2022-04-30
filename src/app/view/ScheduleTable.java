@@ -21,18 +21,21 @@ public class ScheduleTable extends JTable {
 		this.addMouseListener(new MouseListener() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if(e.getClickCount() == 2) {
-					switch(option) {
-					case AdminOperations.Consult:
-						break;
-					case AdminOperations.Delete:
+				switch(option) {
+				case AdminOperations.Consult:
+					break;
+				case AdminOperations.Delete:
+					if(e.getClickCount() == 2) {
 						Triplet<ASLine, TimeADT, String> obj = schedule.get(ScheduleTable.this.getSelectedRow());
 						ctrl.adminOperation(2, obj.getFirst(), obj.getSecond(), obj.getThird());
-						break;
-					case AdminOperations.Modify:
-						break;
 					}
-				}
+					break;
+				case AdminOperations.Modify:
+					if(e.getClickCount() == 1) {
+										
+					}
+					break;
+				}	
 			}
 			
 			@Override
