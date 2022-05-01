@@ -305,7 +305,7 @@ public class LineDatabaseDAO implements LineDAO {
 		
 		try {
 			con = getConnection();
-			ps = con.prepareStatement("SELECT ct.route_id, route_short_name, calendar_id, trip_long_name, sec_to_time(cst.departure + csti.departure_time) AS schedule " + 
+			ps = con.prepareStatement("SELECT ct.route_id, route_short_name, calendar_id, trip_long_name, sec_to_time((cst.departure + csti.departure_time) % 86400) AS schedule " + 
 					                  "FROM citis_route cr " + 
 					                  "INNER JOIN citis_trip ct ON cr.route_id = ct.route_id " + 
 					                  "INNER JOIN citis_specific_trip cst ON cst.trip_id = ct.trip_id " + 

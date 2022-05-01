@@ -32,6 +32,10 @@ public class UserDatabaseDAO implements UserDAO {
 			user.setName(rs.getString("name"));
 			user.setSurname(rs.getString("surname"));
 			user.setEmail(rs.getString("email"));
+			if(user.getEmail().endsWith("@citis.es"))
+				user.setRole(1);
+			else
+				user.setRole(0);
 			user.setPassword(rs.getString("password"));
 			user.setBlob(rs.getBlob("photo"));
 			
@@ -123,7 +127,7 @@ public class UserDatabaseDAO implements UserDAO {
 			ps.setString(4, user.getEmail());
 			ps.setString(5, user.getPassword());
 			
-			if (user.getEmail().contains("@citis.es"))
+			if (user.getEmail().endsWith("@citis.es"))
 				ps.setInt(6, 1);
 			else
 				ps.setInt(6, 0);
