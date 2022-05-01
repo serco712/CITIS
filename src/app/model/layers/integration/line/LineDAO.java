@@ -13,6 +13,6 @@ public interface LineDAO {
 	public DTOLine createLine(DTOLine line);
 	public List<String> findRouteStations(String line_id);
 	public List<ASLine> searchLines();
-	public List<Triplet<ASLine, TimeADT, String>> findDepartures(List<String> route_ids);
 	public void removeDeparture(ASLine as, TimeADT adt, String notes);
+	List<Triplet<ASLine, TimeADT, String>> findDepartures(String stop_id);
 }

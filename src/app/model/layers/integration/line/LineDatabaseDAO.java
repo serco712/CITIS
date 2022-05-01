@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -294,7 +295,7 @@ public class LineDatabaseDAO implements LineDAO {
 	}
 
 	@Override
-	public List<Triplet<ASLine, TimeADT, String>> findDepartures(List<String> route_ids) {
+	public List<Triplet<ASLine, TimeADT, String>> findDepartures(String stop_id) {
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -303,36 +304,39 @@ public class LineDatabaseDAO implements LineDAO {
 		
 		try {
 			con = getConnection();
-			ps = con.prepareStatement("SELECT * "
-									+ "FROM citis_route cr "
-									+ 	"INNER JOIN citis_trip ct ON cr.route_id = ct.route_id "
-									+	"INNER JOIN citis_stop_time cst ON ct.trip_id = cst.trip_id "
-									+	"INNER JOIN citis_stop cs ON cs.stop_id = cst.stop_id "
-									+ "ORDER BY departure_time;");
+			ps = con.prepareStatement("SELECT ct.route_id, route_short_name, calendar_id, trip_long_name, (cst.departure + csti.departure_time) AS schedule "
+					+ "FROM citis_route cr "
+					+ "INNER JOIN citis_trip ct ON cr.route_id = ct.route_id "
+					+ "INNER JOIN citis_specific_trip cst ON cst.trip_id = ct.trip_id "
+					+ "INNER JOIN citis_stop_time csti ON ct.trip_id = csti.trip_id "
+					+ "WHERE stop_id = ?"
+					+ "ORDER BY schedule ASC;");
+			ps.setString(1, stop_id);
 			rs = ps.executeQuery();
 			
 			while(rs.next()){
-				if(route_ids.contains(rs.getString("cr.route_id"))) {
-					DTOLine dt = new DTOLine();
-	                dt.setId(rs.getString("cr.route_id"));
-	                dt.setShortName(rs.getString("route_short_name"));
-	                int ttype = Integer.parseInt(rs.getString("cr.route_id").substring(0, 1));
-	    			if(ttype == 4)
-	    				dt.setTransportType(TransportType.SUBWAY);
-	    			else if(ttype == 5)
-	    				dt.setTransportType(TransportType.TRAIN);
-	    			else
-	    				dt.setTransportType(TransportType.BUS);
-	    			
-	    			String[] t = rs.getString("departure_time").split(":");
-	    			TimeADT time = new TimeADT(Integer.parseInt(t[0]), Integer.parseInt(t[1]),
-	    					Integer.parseInt(t[2]));
-	    			
-	    			String notes = rs.getString("cst.notes");
-	    			
-	    			Triplet<ASLine, TimeADT, String> p = new Triplet<ASLine, TimeADT, String>(new ASLine(dt), time, notes);
-	    			as.add(p);
-				}
+				DTOLine dt = new DTOLine();
+                dt.setId(rs.getString("ct.route_id"));
+                dt.setShortName(rs.getString("route_short_name"));
+                int ttype = Integer.parseInt(rs.getString("ct.route_id").substring(0, 1));
+    			if(ttype == 4)
+    				dt.setTransportType(TransportType.SUBWAY);
+    			else if(ttype == 5)
+    				dt.setTransportType(TransportType.TRAIN);
+    			else
+    				dt.setTransportType(TransportType.BUS);
+    			
+    			Time t = new Time(Integer.parseInt(rs.getString("schedule")) * 1000);
+    			String[] s = t.toString().split(":");
+    			TimeADT time = new TimeADT(Integer.parseInt(s[0]), Integer.parseInt(s[1]),
+    					Integer.parseInt(s[2]));
+    			
+    			StringBuilder str = new StringBuilder();
+    			str.append(rs.getString("trip_long_name") + ' ');
+    			str.append('(' + rs.getString("calendar_id") + ')');
+    			
+    			Triplet<ASLine, TimeADT, String> p = new Triplet<ASLine, TimeADT, String>(new ASLine(dt), time, str.toString());
+    			as.add(p);
             }
 		}
 		catch (SQLException e) {

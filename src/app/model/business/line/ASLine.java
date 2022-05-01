@@ -123,9 +123,9 @@ public class ASLine extends CITISObject {
 		return dao.findLine(id) != null;
 	}
 
-	public List<Triplet<ASLine, TimeADT, String>> searchDepartureTimes(List<String> route_id) {
+	public List<Triplet<ASLine, TimeADT, String>> searchDepartureTimes(String stop_id) {
 		LineDatabaseDAO dao = new LineDatabaseDAO();
-		return dao.findDepartures(route_id);
+		return dao.findDepartures(stop_id);
 	}
 	
 	public static void removeDepartureTime(ASLine as, TimeADT adt, String note) {

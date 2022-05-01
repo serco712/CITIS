@@ -148,7 +148,7 @@ public class Controller {
 		switch(option) {
 		case ControllerChoices.Add_User:
 			ASUser.resetInstance();
-			ASUser.getInstance((DTOUser) transfer);
+			ASUser.getInstance((DTOUser) transfer).createUser((DTOUser) transfer);
 			break;
 		case ControllerChoices.Add_Station:
 			ASStation as = new ASStation();
@@ -198,9 +198,9 @@ public class Controller {
 		return as.searchLines(id);
 	}
 	
-	public List<Triplet<ASLine, TimeADT, String>> getScheduleList(List<String> route_id) {
+	public List<Triplet<ASLine, TimeADT, String>> getScheduleList(String stop_id) {
 		ASLine al = new ASLine();
-		return al.searchDepartureTimes(route_id);
+		return al.searchDepartureTimes(stop_id);
 	}
 	
 	public void addObserver(CITISObserver co) {

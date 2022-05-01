@@ -121,10 +121,7 @@ public class StationWindow extends JDialog {
 		lineTablePanel.setForeground(Color.WHITE);
 		p1.add(lineTablePanel);
 		
-		List<String> l = new ArrayList<>();
-		for(ASLine al : ls)
-			l.add(al.getId());
-		List<Triplet<ASLine, TimeADT, String>> lc = _ctrl.getScheduleList(l);
+		List<Triplet<ASLine, TimeADT, String>> lc = _ctrl.getScheduleList(_st.getId());
 		JTable t2 = new ScheduleTable(lc, _ctrl, _option);
 		t2.setBackground(Color.WHITE);
 		JPanel p2 = createViewPanel(t2, "Horarios");

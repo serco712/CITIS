@@ -12,10 +12,23 @@ public class TimeADT {
 			throw new IllegalArgumentException("Los minutos deben estar entre 0 y 60");
 		else if (s < 0 || s >= 60)
 			throw new IllegalArgumentException("Los segundos deben estar entre 0 y 60");
+		StringBuilder hb = new StringBuilder(h);
+		if(hb.length() > 2)
+			hour = Integer.parseInt((String) hb.subSequence(hb.length() - 2, hb.length()));
+		else
+			hour = h;
 		
-		hour = h;
-		minute = m;
-		second = s;
+		StringBuilder mb = new StringBuilder(m);
+		if(mb.length() > 2)
+			minute = Integer.parseInt((String) mb.subSequence(mb.length() - 2, mb.length()));
+		else
+			minute = m;
+		
+		StringBuilder sb = new StringBuilder(s);
+		if(sb.length() > 2)
+			second = Integer.parseInt((String) sb.subSequence(sb.length() - 2, sb.length()));
+		else
+			second = s;
 	}
 	
 	public String toString() {
