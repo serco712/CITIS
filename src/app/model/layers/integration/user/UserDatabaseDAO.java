@@ -11,7 +11,7 @@ import app.model.layers.integration.Conectar;
 public class UserDatabaseDAO implements UserDAO {
 
 	@Override
-	public DTOUser findUser(int id) {
+	public DTOUser findUser(String mail) {
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -21,8 +21,8 @@ public class UserDatabaseDAO implements UserDAO {
 			con = getConnection();
 			ps = con.prepareStatement("SELECT * "
 									+ "FROM citis_users "
-									+ "WHERE id = ?;");
-			ps.setInt(1, id);
+									+ "WHERE email = ?;");
+			ps.setString(1, mail);
 			rs = ps.executeQuery();
 			
 			if (!rs.next())
@@ -62,7 +62,7 @@ public class UserDatabaseDAO implements UserDAO {
 
 	@Override
 	public void saveUser(DTOUser user) {
-		DTOUser u = findUser(user.getId());
+		DTOUser u = findUser(user.getEmail());
 		if(u == null)
 			createUser(user);
 
@@ -105,7 +105,7 @@ public class UserDatabaseDAO implements UserDAO {
 	
 	@Override
 	public DTOUser createUser(DTOUser user) {
-		DTOUser u = findUser(user.getId());
+		DTOUser u = findUser(user.getEmail());
 		if(u != null)
 			return u;
 		

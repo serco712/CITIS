@@ -101,7 +101,7 @@ public class InitSesionPanel extends JPanel {
 			public void actionPerformed(ActionEvent arg0) {
 				DTOUser dto = new DTOUser();
 				dto.setRole(2);
-				_ctrl.addData(1, dto);
+				_ctrl.registerUser(dto);
 				Window jf = SwingUtilities.getWindowAncestor(InitSesionPanel.this);
 				jf.setVisible(false);
 				new SearchWindow(_ctrl);
@@ -122,14 +122,7 @@ public class InitSesionPanel extends JPanel {
 				if(!jt.getText().isEmpty() && !password.contentEquals("")) {
 					String [] data = {jt.getText(), password};
 					if(_ctrl.checkData(1, data)) {
-						DTOUser dto = new DTOUser();
-						dto.setEmail(jt.getText());
-						dto.setPassword(password);
-						if(jt.getText().contains("@citis.es"))
-							dto.setRole(1);
-						else
-							dto.setRole(0);
-						_ctrl.addData(1, dto);
+						_ctrl.registerUser((DTOUser) _ctrl.findData(1, jt.getText()));
 						Window jf = SwingUtilities.getWindowAncestor(InitSesionPanel.this);
 						jf.setVisible(false);
 						new SearchWindow(_ctrl);

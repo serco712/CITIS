@@ -1,7 +1,12 @@
 package app.model.business.user;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
 import app.model.business.station.ASStation;
@@ -28,7 +33,19 @@ public class ASUser {
 		surname = user.getSurname();
 		email = user.getSurname();
 		password = user.getPassword();
-		photo = (ImageIcon) user.getPhoto();
+		
+        BufferedImage bufferedImage;
+		try {
+			int blobLength = (int) user.getPhoto().length();
+	        byte[] blobAsBytes = user.getPhoto().getBytes(1, blobLength);
+			bufferedImage = ImageIO.read(new ByteArrayInputStream(blobAsBytes));
+			photo = new ImageIcon(bufferedImage);
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+        
 		switch(user.getRole()) {
 		case 0:
 			rol = Role.USER;
@@ -99,6 +116,11 @@ public class ASUser {
 	
 	public boolean modify_permissions() {
 		return rol == Role.ADMIN;
+	}
+	
+	public DTOUser findUser (String key) {
+		UserDatabaseDAO dao = new UserDatabaseDAO();
+		return dao.findUser(key);
 	}
 	
 	public boolean checkUserDataExists(String email, String password) {

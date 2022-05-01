@@ -27,4 +27,7 @@ public class ControllerChoices {
 	// Delete Commands
 	public static final int Delete_User = 1;
 	public static final int Delete_Trip = 2;
+	
+	// Find Commands
+	public static final int Find_User = 1;
 }
