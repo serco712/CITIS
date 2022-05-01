@@ -141,4 +141,8 @@ public class ASUser {
 	private enum Role {
 		GUEST, ADMIN, USER;
 	}
+
+	public void setPhoto(ImageIcon profilePhoto) {
+		photo = profilePhoto;
+	}
 }

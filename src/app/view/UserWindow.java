@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -14,6 +15,7 @@ import java.io.File;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -30,6 +32,7 @@ import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
 
 import app.model.business.CITISMap;
+import app.model.business.user.ASUser;
 
 // HAY QUE ANADIR CARGAR FOTO Y MOSTRARLA
 // MOSTRAR EL NOMBRE, APELLIDO Y CORREO
@@ -42,11 +45,13 @@ public class UserWindow extends JDialog {
 
 	private CITISMap cm;
 	
-	private ImageIcon profilePhoto = new ImageIcon("resources/profileImg.png"); // IMAGEN PREDETERMINADA
+	//private ImageIcon profilePhoto = new ImageIcon("resources/profileImg.png"); // IMAGEN PREDETERMINADA
+	private ImageIcon profilePhoto = ASUser.getInstance().getPhoto();
 	
 	private JTextField emaT;
 	private JTextField apeT;
 	private JTextField nomT;
+	private JButton changePhoto;
 	
 	private int _statusEditNom = 1;
 	private int _statusEditApe = 1;
@@ -399,12 +404,7 @@ public class UserWindow extends JDialog {
 		photoPanel.setBackground(Color.white);
 		photoPanel.add(Box.createRigidArea(new Dimension(15, 0)));
 		
-		JLabel photo = new JLabel();
-		photo.setIcon(profilePhoto);
-		photo.setAlignmentX(CENTER_ALIGNMENT);
-		photoPanel.add(photo);
-		
-		JButton changePhoto = new JButton("Cambiar foto");
+		changePhoto = new JButton("Cambiar foto");
 		formatButton(changePhoto);
 		changePhoto.setPreferredSize(new Dimension(40, 25));
 		changePhoto.setAlignmentX(CENTER_ALIGNMENT);
@@ -414,10 +414,20 @@ public class UserWindow extends JDialog {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				loadFile();
-				// CAMBIARLO EN LA BASE DE DATOS (?
 			}
 			
 		});
+		
+		JLabel photo = new JLabel();
+		photo.setIcon(profilePhoto);
+		ImageIcon imgIcon = profilePhoto;
+        Image imgEscalada = imgIcon.getImage().getScaledInstance(100,
+                100, Image.SCALE_SMOOTH);
+        Icon iconoEscalado = new ImageIcon(imgEscalada);
+        photo.setIcon(iconoEscalado);
+		photo.setAlignmentX(CENTER_ALIGNMENT);
+		photoPanel.add(photo);
+		
 		photoPanel.add(Box.createRigidArea(new Dimension(0, 10)));
 		photoPanel.add(changePhoto);
 		return photoPanel;
@@ -432,6 +442,7 @@ public class UserWindow extends JDialog {
 			
 			try {
 				profilePhoto = new ImageIcon(file.getAbsolutePath());
+				ASUser.getInstance().setPhoto(profilePhoto);
 			} catch (Exception e) {
 				JOptionPane.showMessageDialog(this, "An error occurred.");
 			}
