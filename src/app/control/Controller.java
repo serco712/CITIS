@@ -182,6 +182,14 @@ public class Controller {
 		}
 		return null;
 	}
+	
+	public void updateData(int option, Object transfer) {
+		switch(option) {
+		case ControllerChoices.Update_User:
+			ASUser.getInstance().updateData((DTOUser) transfer);
+		}
+	}
+	
 	public void registerUser(DTOUser user) {
 		ASUser.resetInstance();
 		ASUser.getInstance(user);

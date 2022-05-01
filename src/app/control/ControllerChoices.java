@@ -30,4 +30,7 @@ public class ControllerChoices {
 	
 	// Find Commands
 	public static final int Find_User = 1;
+	
+	// Update Commands
+	public static final int Update_User = 1;
 }

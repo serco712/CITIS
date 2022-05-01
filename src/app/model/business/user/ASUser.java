@@ -31,21 +31,22 @@ public class ASUser {
 		_id = user.getId();
 		_name = user.getName();
 		surname = user.getSurname();
-		email = user.getSurname();
+		email = user.getEmail();
 		password = user.getPassword();
 		
         BufferedImage bufferedImage;
-		try {
-			int blobLength = (int) user.getPhoto().length();
-	        byte[] blobAsBytes = user.getPhoto().getBytes(1, blobLength);
-			bufferedImage = ImageIO.read(new ByteArrayInputStream(blobAsBytes));
-			photo = new ImageIcon(bufferedImage);
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-        
+        if(user.getPhoto() != null) {
+        	try {
+    			int blobLength = (int) user.getPhoto().length();
+    	        byte[] blobAsBytes = user.getPhoto().getBytes(1, blobLength);
+    			bufferedImage = ImageIO.read(new ByteArrayInputStream(blobAsBytes));
+    			photo = new ImageIcon(bufferedImage);
+    		} catch (IOException e) {
+    			e.printStackTrace();
+    		} catch (SQLException e) {
+    			e.printStackTrace();
+    		}
+        }
 		switch(user.getRole()) {
 		case 0:
 			rol = Role.USER;
@@ -86,10 +87,6 @@ public class ASUser {
 		return _id;
 	}
 	
-	public void setPassword(String s) {
-		password = s;
-	}
-	
 	public String getEmail () {
 		return email;
 	}
@@ -112,6 +109,31 @@ public class ASUser {
 	
 	public ImageIcon getPhoto() {
 		return photo;
+	}
+	
+	public int getRol() {
+		if(rol == Role.ADMIN)
+			return 1;
+		else if(rol == Role.GUEST)
+			return 2;
+		else
+			return 0;
+	}
+	
+	public void setName(String name) {
+		_name = name;
+	}
+	
+	public void setSurname(String surname) {
+		this.surname = surname;
+	}
+	
+	public void setPhoto(ImageIcon profilePhoto) {
+		photo = profilePhoto;
+	}
+	
+	public void setPassword(String s) {
+		password = s;
 	}
 	
 	public boolean modify_permissions() {
@@ -138,11 +160,15 @@ public class ASUser {
 		return dao.checkUserExists(userEmail);
 	}
 	
+	public void updateData(DTOUser transfer) {
+		UserDatabaseDAO dao = new UserDatabaseDAO();
+		dao.saveUser(transfer);
+	}
+	
 	private enum Role {
 		GUEST, ADMIN, USER;
 	}
 
-	public void setPhoto(ImageIcon profilePhoto) {
-		photo = profilePhoto;
-	}
+	
+
 }

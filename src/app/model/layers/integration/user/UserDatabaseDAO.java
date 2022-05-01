@@ -29,6 +29,7 @@ public class UserDatabaseDAO implements UserDAO {
 				return null;
 			
 			user = new DTOUser();
+			user.setId(rs.getInt("id"));
 			user.setName(rs.getString("name"));
 			user.setSurname(rs.getString("surname"));
 			user.setEmail(rs.getString("email"));
@@ -75,8 +76,8 @@ public class UserDatabaseDAO implements UserDAO {
 		
 		try {
 			con = getConnection();
-			ps = con.prepareStatement("UPDATE citis_users"
-									+ "SET name = ?, surname = ?, email = ?, password = ?, rol = ?, photo = ?"
+			ps = con.prepareStatement("UPDATE citis_users "
+									+ "SET name = ?, surname = ?, email = ?, password = ?, rol = ?, photo = ? "
 									+ "WHERE id = ?;");
 			
 			ps.setString(1, user.getName());
@@ -133,7 +134,7 @@ public class UserDatabaseDAO implements UserDAO {
 				ps.setInt(6, 0);
 			
 			try {
-				ps.setBlob(7, new FileInputStream("resources/check.jpg"));
+				ps.setBlob(7, new FileInputStream("resources/profile.jpg"));
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			}
