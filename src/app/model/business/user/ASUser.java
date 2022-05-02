@@ -47,6 +47,9 @@ public class ASUser {
     			e.printStackTrace();
     		}
         }
+        else
+        	photo = new ImageIcon("resources/profileImg.png");
+        
 		switch(user.getRole()) {
 		case 0:
 			rol = Role.USER;
