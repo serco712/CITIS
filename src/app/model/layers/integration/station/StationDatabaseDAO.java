@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +16,7 @@ import app.model.business.line.ASLine;
 import app.model.business.line.DTOLine;
 import app.model.business.station.ASStation;
 import app.model.business.station.DTOStation;
+import app.model.business.trip.ASSpecificTrip;
 import app.model.layers.integration.Conectar;
 
 public class StationDatabaseDAO implements StationDAO {
@@ -78,9 +80,6 @@ public class StationDatabaseDAO implements StationDAO {
 				
 				if (ps != null)
 					ps.close();
-				
-				if (con != null)
-					con.close();
 			}
 			catch (SQLException e) {
 				e.printStackTrace();
@@ -96,11 +95,9 @@ public class StationDatabaseDAO implements StationDAO {
 		if(dt == null)
 			createStation(station);
 
-		Connection con = null;
 		PreparedStatement ps = null;
 		
 		try {
-			con = getConnection();
 			ps = con.prepareStatement("UPDATE citis_stop"
 									+ "SET stop_name = ?, x_coor = ?, y_coor = ?, stop_city = ?, parent_id = ?"
 									+ "WHERE stop_id = ?;");
@@ -138,11 +135,9 @@ public class StationDatabaseDAO implements StationDAO {
 		if(dt != null)
 			return dt;
 
-		Connection con = null;
 		PreparedStatement ps = null;
 		
 		try {
-			con = getConnection();
 			ps = con.prepareStatement("INSERT INTO citis_stop "
 									+ "VALUES (?, ?, ?, ?, ?, ?);");
 			
@@ -163,9 +158,6 @@ public class StationDatabaseDAO implements StationDAO {
 			try {
 				if (ps != null)
 					ps.close();
-				
-				if (con != null)
-					con.close();
 			}
 			catch (SQLException e) {
 				e.printStackTrace();
@@ -183,13 +175,11 @@ public class StationDatabaseDAO implements StationDAO {
 	@Override
 	public List<ASStation> searchStations() {
 		List<ASStation> ls = new ArrayList<>();
-		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		DTOStation st = null;
 		
 		try {
-			con = getConnection();
 			ps = con.prepareStatement("SELECT * "
 									+ "FROM citis_stop;");
 			rs = ps.executeQuery();
@@ -226,9 +216,6 @@ public class StationDatabaseDAO implements StationDAO {
 				
 				if (ps != null)
 					ps.close();
-				
-				if (con != null)
-					con.close();
 			}
 			catch (SQLException e) {
 				e.printStackTrace();
@@ -240,12 +227,10 @@ public class StationDatabaseDAO implements StationDAO {
 
 	@Override
 	public List<ASLine> searchLines(String id) {
-		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		List<ASLine> al = new ArrayList<>();
 		try {
-			con = getConnection();
 			ps = con.prepareStatement("SELECT cr.route_id, route_short_name, route_long_name, route_color, route_text_color, agency_name "
 							+   "FROM citis_route cr "
 							+ 	"INNER JOIN citis_trip ct ON cr.route_id = ct.route_id "
@@ -294,7 +279,6 @@ public class StationDatabaseDAO implements StationDAO {
 			
 			ps.close();
 			rs.close();
-			con.close();
 		}
 		catch (SQLException e) {
 			e.printStackTrace();
@@ -303,9 +287,6 @@ public class StationDatabaseDAO implements StationDAO {
 			try {
 				if (ps != null)
 					ps.close();
-				
-				if (con != null)
-					con.close();
 			}
 			catch (SQLException e) {
 				e.printStackTrace();
@@ -313,5 +294,61 @@ public class StationDatabaseDAO implements StationDAO {
 		}
 		
 		return al;
+	}
+	
+	@SuppressWarnings("deprecation")
+	@Override
+	public List<Pair<TimeADT, String>> searchTimes(String id) {
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		List<Pair<TimeADT, String>> time = new ArrayList<>();
+		
+		try {
+			ps = con.prepareStatement("SELECT departure_time, notes "
+									+ "FROM citis_stop_time "
+									+ "WHERE stop_id = ? "
+									+ "ORDER BY departure_time;");
+			
+			ps.setString(1, id);
+			rs = ps.executeQuery();
+			
+			List<Pair<Time, String>> aux = new ArrayList<>();
+			while (rs.next()) {
+				Time t = rs.getTime("departure_time");
+				String s = rs.getString("notes");
+				aux.add(new Pair<Time, String>(t, s));
+			}
+			
+			for (Pair<Time, String> p : aux) {
+				if (p.getFirst().getTime() > System.currentTimeMillis())
+					time.add(new Pair<TimeADT, String>(new TimeADT(p.getFirst().getHours(), p.getFirst().getMinutes(), p.getFirst().getSeconds()), p.getSecond()));
+			}
+			
+			for (Pair<Time, String> p : aux) {
+				if (p.getFirst().getTime() < System.currentTimeMillis())
+					time.add(new Pair<TimeADT, String>(new TimeADT(p.getFirst().getHours(), p.getFirst().getMinutes(), p.getFirst().getSeconds()), p.getSecond()));
+			}
+			
+			ps.close();
+			rs.close();
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
+		finally {
+			try {
+				if (ps != null)
+					ps.close();
+				
+				if (rs != null)
+					rs.close();
+			}
+			catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		
+		return time;
 	}
 }
