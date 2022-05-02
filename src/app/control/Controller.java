@@ -198,15 +198,11 @@ public class Controller {
 		case ControllerChoices.Find_Calendar_Ids:
 			return as.findCalendarIds();
 		case ControllerChoices.Find_Last_Sequence_Id:
-<<<<<<< Updated upstream
 			return at.findLastSequenceId(key);
 		case ControllerChoices.Find_Trips:
 			return at.findListTrips();
-=======
-			return at.findTrip(key);
 		case ControllerChoices.Find_Next_Time:
 			return StationDatabaseDAO.getInstance().searchTimes(key);
->>>>>>> Stashed changes
 		}
 		return null;
 	}
