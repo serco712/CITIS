@@ -398,32 +398,18 @@ public class LineDatabaseDAO implements LineDAO {
 	}
 
 	@Override
-	public void updateShortName(String name) {
-		/*DTOLine dl = findLine(line.getId());
-		if(dl == null)
-			createLine(line);
-
+	public void updateShortName(String oldName, String newName) {
 		Connection con = null;
 		PreparedStatement ps = null;
 		
 		try {
 			con = getConnection();
 			ps = con.prepareStatement("UPDATE citis_route "
-									+ "SET route_short_name = ?, route_long_name = ?, route_color = ?, route_text_color = ?, agency_name = ? "
-									+ "WHERE route_id = ?;");
+									  + "SET route_short_name = ? "
+									  + "WHERE route_short_name = ?;");
 			
-			ps.setString(1, line.getShortName());
-			ps.setString(2, line.getLongName());
-			StringBuilder str = new StringBuilder();
-			str.append("(" + line.getLineColor().getRed() + ',' + line.getLineColor().getGreen() + ',' +
-					line.getLineColor().getBlue() + ")");
-			ps.setString(3, str.toString());
-			str = new StringBuilder();
-			str.append("(" + line.getColorText().getRed() + ',' + line.getColorText().getGreen() + ',' +
-					line.getColorText().getBlue() + ")");
-			ps.setString(4, str.toString());
-			ps.setString(5, line.getAgency());
-			ps.setString(6, line.getId());
+			ps.setString(1, newName);
+			ps.setString(2, oldName);
 			
 			ps.executeUpdate();
 			ps.close();
@@ -442,7 +428,7 @@ public class LineDatabaseDAO implements LineDAO {
 			catch (SQLException e) {
 				e.printStackTrace();
 			}
-		}*/
+		}
 	}
 	
 }

@@ -81,6 +81,7 @@ public class ScheduleTable extends AbstractTableModel {
 	
 	@Override
 	public boolean isCellEditable(int x, int y) {
+		if (y == 1) return false;
 		return true;
 	}
 	
@@ -94,15 +95,15 @@ public class ScheduleTable extends AbstractTableModel {
 		
 		switch (y) {
 		case 0:
-			obj = _schedule.get(x).getFirst().getFirst().getShortName();
+			_schedule.get(x).getFirst().getFirst().setShortName(_schedule.get(x).getFirst().getFirst().getShortName(), (String) obj);
 		case 1:
-			obj = _schedule.get(x).getFirst().getFirst().getTransport().toString();
+			
 		case 2:
-			obj = _schedule.get(x).getFirst().getSecond().toString();
+			//_schedule.get(x).getFirst().getSecond().toString();
 		case 3:
-			obj = _schedule.get(x).getSecond().getFirst().toString();
+			//return _schedule.get(x).getSecond().getFirst().toString();
 		case 4:
-			obj = _schedule.get(x).getSecond().getSecond().toString();
+			//return _schedule.get(x).getSecond().getSecond().toString();
 		}
 	}
 }
