@@ -241,7 +241,7 @@ public class SearchWindow extends JFrame implements CITISObserver {
 			else if(cmnd.equals("Nuevo Viaje Especifico"))
 				new AddScheduleDialog(_ctrl, 0);
 			else if(cmnd.equals("Viaje Especifico Existente"))
-				new AddScheduleDialog(_ctrl, 1);
+				new AddExistingScheduleDialog(_ctrl);
 			else
 				new AddStationDialog(_ctrl);
 		}

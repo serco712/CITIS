@@ -33,18 +33,7 @@ public class Main {
 		}
 	}
 	
-	public static void endExecution() {
-		try {
-			df.saveData();
-			System.exit(1);
-		} 
-		catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
 	public static void main(String[] args) {
 		start();
-		endExecution();
 	}
 }

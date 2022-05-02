@@ -27,7 +27,10 @@ public class ASTrip {
 		_stop_sequence = trip.get_stop_sequence();
 		_stop_notes = trip.get_stop_notes();
 	}
-
+	
+	public String getId() {
+		return _id;
+	}
 	public void createTrip(DTOTrip as) {
 		TripDatabaseDAO.getInstance().createTrip(as);
 		TripDatabaseDAO.getInstance().createStopTime(as);
