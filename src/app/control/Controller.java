@@ -132,6 +132,7 @@ public class Controller {
 		ASLine l = new ASLine();
 		ASAgency as = new ASAgency();
 		ASStation ast = new ASStation();
+		ASSpecificTrip astr = new ASSpecificTrip();
 		
 		switch(option) {
 		case ControllerChoices.Check_UserData:
@@ -146,6 +147,8 @@ public class Controller {
 			return ast.findStation(data[0]);
 		case ControllerChoices.Check_Permission_MenuOperations:
 			return ASUser.getInstance().modify_permissions();
+		case ControllerChoices.Check_Specific_Trip_Exists:
+			return astr.findSpecificTrip(data[0]);
 		}
 		return true;
 	}

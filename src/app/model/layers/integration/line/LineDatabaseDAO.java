@@ -296,7 +296,7 @@ public class LineDatabaseDAO implements LineDAO {
 		List<Triplet<Pair<ASLine, TimeADT>, Pair<String, String>, String>> as = new ArrayList<>();
 		
 		try {
-			ps = con.prepareStatement("SELECT ct.route_id, route_short_name, calendar_id, trip_long_name, sec_to_time((cst.departure + csti.departure_time) % 86400) AS schedule, cst.specific_trip_id AS strip_id " + 
+			ps = con.prepareStatement("SELECT ct.route_id, route_short_name, calendar_id, trip_long_name, sec_to_time((cst.departure DIV 10000*60*60+(cst.departure-cst.departure DIV 10000*10000) DIV 100*60+(cst.departure-cst.departure DIV 100*100))+(csti.departure_time DIV 10000*60*60+(csti.departure_time-csti.departure_time DIV 10000*10000) DIV 100*60+(csti.departure_time-csti.departure_time DIV 100*100)) % 86400) AS schedule, cst.specific_trip_id AS strip_id " + 
 					                  "FROM citis_route cr " + 
 					                  "INNER JOIN citis_trip ct ON cr.route_id = ct.route_id " + 
 					                  "INNER JOIN citis_specific_trip cst ON cst.trip_id = ct.trip_id " + 
@@ -389,32 +389,18 @@ public class LineDatabaseDAO implements LineDAO {
 	}
 
 	@Override
-	public void updateShortName(String name) {
-		/*DTOLine dl = findLine(line.getId());
-		if(dl == null)
-			createLine(line);
-
+	public void updateShortName(String oldName, String newName) {
 		Connection con = null;
 		PreparedStatement ps = null;
 		
 		try {
 			con = getConnection();
 			ps = con.prepareStatement("UPDATE citis_route "
-									+ "SET route_short_name = ?, route_long_name = ?, route_color = ?, route_text_color = ?, agency_name = ? "
-									+ "WHERE route_id = ?;");
+									  + "SET route_short_name = ? "
+									  + "WHERE route_short_name = ?;");
 			
-			ps.setString(1, line.getShortName());
-			ps.setString(2, line.getLongName());
-			StringBuilder str = new StringBuilder();
-			str.append("(" + line.getLineColor().getRed() + ',' + line.getLineColor().getGreen() + ',' +
-					line.getLineColor().getBlue() + ")");
-			ps.setString(3, str.toString());
-			str = new StringBuilder();
-			str.append("(" + line.getColorText().getRed() + ',' + line.getColorText().getGreen() + ',' +
-					line.getColorText().getBlue() + ")");
-			ps.setString(4, str.toString());
-			ps.setString(5, line.getAgency());
-			ps.setString(6, line.getId());
+			ps.setString(1, newName);
+			ps.setString(2, oldName);
 			
 			ps.executeUpdate();
 			ps.close();
@@ -433,7 +419,7 @@ public class LineDatabaseDAO implements LineDAO {
 			catch (SQLException e) {
 				e.printStackTrace();
 			}
-		}*/
+		}
 	}
 	
 }

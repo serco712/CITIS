@@ -12,23 +12,29 @@ public class TimeADT {
 			throw new IllegalArgumentException("Los minutos deben estar entre 0 y 60");
 		else if (s < 0 || s >= 60)
 			throw new IllegalArgumentException("Los segundos deben estar entre 0 y 60");
-		StringBuilder hb = new StringBuilder(h);
-		if(hb.length() > 2)
-			hour = Integer.parseInt((String) hb.subSequence(hb.length() - 2, hb.length()));
-		else
-			hour = h;
-		
-		StringBuilder mb = new StringBuilder(m);
-		if(mb.length() > 2)
-			minute = Integer.parseInt((String) mb.subSequence(mb.length() - 2, mb.length()));
-		else
-			minute = m;
-		
-		StringBuilder sb = new StringBuilder(s);
+		hour = toTime(h);
+		minute = toTime(m);
+		second = toTime(s);
+	}
+	
+	public int toTime(int num) {
+		StringBuilder sb = new StringBuilder(num);
 		if(sb.length() > 2)
-			second = Integer.parseInt((String) sb.subSequence(sb.length() - 2, sb.length()));
+			return Integer.parseInt((String) sb.subSequence(sb.length() - 2, sb.length()));
 		else
-			second = s;
+			return num;
+	}
+	
+	public void setHour(int h) {
+		hour = h;
+	}
+	
+	public void setMinute(int m) {
+		minute = m;
+	}
+	
+	public void setSecond(int s) {
+		second = s;
 	}
 	
 	public String toString() {
@@ -45,5 +51,16 @@ public class TimeADT {
 		sb.append(second);
 		
 		return sb.toString();
+	}
+	
+	public TimeADT toTimeADT(String time) {
+		TimeADT ret = new TimeADT(0,0,0);
+		String [] adt = time.split(":");
+		
+		ret.setHour(toTime(Integer.parseInt(adt[0])));
+		ret.setMinute(toTime(Integer.parseInt(adt[1])));
+		ret.setSecond(toTime(Integer.parseInt(adt[2])));
+		
+		return ret;
 	}
 }
