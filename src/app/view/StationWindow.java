@@ -149,8 +149,6 @@ public class StationWindow extends JDialog {
 								"Error", JOptionPane.DEFAULT_OPTION, icon);
 					} else {
 						sch.operations(_ctrl, 2, schedule.getSelectedRow());
-						sch = new ScheduleTable(lc);
-						schedule = new JTable(sch);
 					}
 				}			
 			});
@@ -180,8 +178,6 @@ public class StationWindow extends JDialog {
 								"Error", JOptionPane.DEFAULT_OPTION, icon);
 					} else {
 						sch.operations(_ctrl, 3, schedule.getSelectedRow());
-						sch = new ScheduleTable(lc);
-						schedule = new JTable(sch);
 					}
 				}		
 			});

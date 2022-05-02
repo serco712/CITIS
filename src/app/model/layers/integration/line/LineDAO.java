@@ -15,4 +15,5 @@ public interface LineDAO {
 	public List<ASLine> searchLines();
 	public void removeDeparture(ASLine as, TimeADT adt, String destiny, String calend_id);
 	List<Pair<Pair<ASLine, TimeADT>, Pair<String, String>>> findDepartures(String stop_id);
+	public void updateShortName(String name);
 }
