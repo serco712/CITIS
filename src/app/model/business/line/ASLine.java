@@ -126,11 +126,11 @@ public class ASLine extends CITISObject {
 		return LineDatabaseDAO.getInstance().findLine(id) != null;
 	}
 
-	public List<Pair<Pair<ASLine, TimeADT>, Pair<String, String>>> searchDepartureTimes(String stop_id) {
+	public List<Triplet<Pair<ASLine, TimeADT>, Pair<String, String>, String>> searchDepartureTimes(String stop_id) {
 		return LineDatabaseDAO.getInstance().findDepartures(stop_id);
 	}
 	
-	public static void removeDepartureTime(ASLine as, TimeADT adt, String destiny, String calend_id) {
-		LineDatabaseDAO.getInstance().removeDeparture(as, adt, destiny, calend_id);
+	public static void removeDepartureTime(ASLine as, TimeADT adt, String destiny, String calend_id, String st_id, String strip_id) {
+		LineDatabaseDAO.getInstance().removeDeparture(as, adt, destiny, calend_id, st_id, strip_id);
 	}
 }

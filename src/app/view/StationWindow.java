@@ -32,6 +32,7 @@ import javax.swing.border.TitledBorder;
 import app.control.Controller;
 import app.misc.Pair;
 import app.misc.TimeADT;
+import app.misc.Triplet;
 import app.model.business.line.ASLine;
 import app.model.business.station.ASStation;
 
@@ -126,8 +127,8 @@ public class StationWindow extends JDialog {
 		lineTablePanel.setForeground(Color.WHITE);
 		p1.add(lineTablePanel);
 		
-		List<Pair<Pair<ASLine, TimeADT>, Pair<String, String>>> lc = _ctrl.getScheduleList(_st.getId());
-		sch = new ScheduleTable(lc);
+		List<Triplet<Pair<ASLine, TimeADT>, Pair<String, String>, String>> lc = _ctrl.getScheduleList(_st.getId());
+		sch = new ScheduleTable(lc, _st.getId());
 		schedule = new JTable(sch);
 		schedule.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		

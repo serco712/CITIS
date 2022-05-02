@@ -219,10 +219,10 @@ public class Controller {
 		ASUser.getInstance(user);
 	}
 	
-	public void adminOperation(int option, Object t1, Object t2, Object t3, Object t4) {
+	public void adminOperation(int option, Object t1, Object t2, Object t3, Object t4, Object t5, Object t6) {
 		switch(option) {
 		case ControllerChoices.Delete_Trip:
-			ASLine.removeDepartureTime((ASLine) t1, (TimeADT) t2, (String) t3, (String) t4);
+			ASLine.removeDepartureTime((ASLine) t1, (TimeADT) t2, (String) t3, (String) t4, (String) t5, (String) t6);
 			break;
 		}			
 	}
@@ -242,7 +242,7 @@ public class Controller {
 		return as.searchLines(id);
 	}
 	
-	public List<Pair<Pair<ASLine, TimeADT>, Pair<String, String>>> getScheduleList(String stop_id) {
+	public List<Triplet<Pair<ASLine, TimeADT>, Pair<String, String>, String>> getScheduleList(String stop_id) {
 		ASLine al = new ASLine();
 		return al.searchDepartureTimes(stop_id);
 	}

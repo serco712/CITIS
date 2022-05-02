@@ -10,15 +10,19 @@ import app.control.Controller;
 import app.control.ControllerChoices;
 import app.misc.Pair;
 import app.misc.TimeADT;
+import app.misc.Triplet;
 import app.model.business.line.ASLine;
 
 public class ScheduleTable extends AbstractTableModel {
 	private static final long serialVersionUID = 1L;	
-	private List<Pair<Pair<ASLine, TimeADT>, Pair<String, String>>> _schedule;
+	private List<Triplet<Pair<ASLine, TimeADT>, Pair<String, String>, String>> _schedule;
+	private String _st;
+	
 	private String[] cols = {"Linea", "Tipo de transporte", "Hora salida", "Destino", "Calendario"};
 
-	public ScheduleTable(List<Pair<Pair<ASLine, TimeADT>, Pair<String, String>>> schedule) {
+	public ScheduleTable(List<Triplet<Pair<ASLine, TimeADT>, Pair<String, String>, String>> schedule, String station) {
 		_schedule = schedule;
+		_st = station;
 	}
 	
 	public void operations(Controller ctrl, int option, int row) {
@@ -26,8 +30,8 @@ public class ScheduleTable extends AbstractTableModel {
 		case ControllerChoices.Admin_Consult:
 			break;
 		case ControllerChoices.Admin_Delete:
-			Pair<Pair<ASLine, TimeADT>, Pair<String, String>> obj = _schedule.get(row);
-			ctrl.adminOperation(2, obj.getFirst().getFirst(), obj.getFirst().getSecond(), obj.getSecond().getFirst(), obj.getSecond().getSecond());
+			Triplet<Pair<ASLine, TimeADT>, Pair<String, String>, String> obj = _schedule.get(row);
+			ctrl.adminOperation(2, obj.getFirst().getFirst(), obj.getFirst().getSecond(), obj.getSecond().getFirst(), obj.getSecond().getSecond(), _st, obj.getThird());
 			ImageIcon icon = new ImageIcon("resources/success.png");
 			JOptionPane.showMessageDialog(null, "Se ha eliminado con exito",
 					"Eliminar horario", JOptionPane.DEFAULT_OPTION, icon);
