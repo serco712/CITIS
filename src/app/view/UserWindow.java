@@ -4,16 +4,28 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Graphics;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.sql.SQLException;
 
+import javax.imageio.ImageIO;
+import javax.sql.rowset.serial.SerialBlob;
+import javax.sql.rowset.serial.SerialException;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -29,7 +41,12 @@ import javax.swing.JTextField;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
 
+import com.mysql.jdbc.Blob;
+
+import app.control.Controller;
 import app.model.business.CITISMap;
+import app.model.business.user.ASUser;
+import app.model.business.user.DTOUser;
 
 // HAY QUE ANADIR CARGAR FOTO Y MOSTRARLA
 // MOSTRAR EL NOMBRE, APELLIDO Y CORREO
@@ -42,17 +59,21 @@ public class UserWindow extends JDialog {
 
 	private CITISMap cm;
 	
-	private ImageIcon profilePhoto = new ImageIcon("resources/profileImg.png"); // IMAGEN PREDETERMINADA
+	private ImageIcon profilePhoto = ASUser.getInstance().getPhoto();
 	
 	private JTextField emaT;
 	private JTextField apeT;
 	private JTextField nomT;
+	private JButton changePhoto;
+	
+	private Controller _ctrl;
 	
 	private int _statusEditNom = 1;
 	private int _statusEditApe = 1;
 
-	public UserWindow(CITISMap cm) {
+	public UserWindow(CITISMap cm, Controller ctrl) {
 		super(new JFrame(), "Mi perfil", true);
+		_ctrl = ctrl;
 		InitGUI();
 		this.cm = cm;
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -123,14 +144,14 @@ public class UserWindow extends JDialog {
 		JLabel nom = new JLabel("Nombre: ", JLabel.TRAILING);
 		nom_panel.add(nom);
 		panelDrch.add(nom_panel);
-
+		
 		JPanel nomT_panel = new JPanel();
 		nomT_panel.setBackground(Color.WHITE);
 		nomT_panel.setLayout(new FlowLayout(FlowLayout.LEFT));
-		// DEBERIA MOSTRARSE EL NOMBRE DEL USUARIO QUE HAY GUARDADO EN LA BASE DATOS
 		nomT = new JTextField(25);
 		nomT.setBorder(BorderFactory.createTitledBorder(_defaultBorder));
 		nomT.setEnabled(false);
+		nomT.setText(ASUser.getInstance().getName());
 		nom.setLabelFor(nomT);
 		nomT_panel.add(nomT);
 		
@@ -148,7 +169,8 @@ public class UserWindow extends JDialog {
 					_statusEditNom = 0;
 				}
 				else {
-					// AQUI DEBERIA GUARDARSE EN LA BASE DE DATOS
+					ASUser.getInstance().setName(nomT.getText());
+					updateData();
 					nomT.setEnabled(false);
 					_statusEditNom = 1;
 				}
@@ -178,10 +200,10 @@ public class UserWindow extends JDialog {
 		JPanel apeT_panel = new JPanel();
 		apeT_panel.setBackground(Color.WHITE);
 		apeT_panel.setLayout(new FlowLayout(FlowLayout.LEFT));
-		// DEBERIA MOSTRARSE LOS APELLIDOS DEL USUARIO QUE HAY GUARDADO EN LA BASE DATOS
 		apeT = new JTextField(25);
 		apeT.setBorder(BorderFactory.createTitledBorder(_defaultBorder));
 		apeT.setEnabled(false);
+		apeT.setText(ASUser.getInstance().getSurname());
 		ape.setLabelFor(apeT);
 		apeT_panel.add(apeT);
 		
@@ -199,7 +221,8 @@ public class UserWindow extends JDialog {
 					_statusEditApe = 0;
 				}
 				else {
-					// AQUI DEBERIA GUARDARSE EN LA BASE DE DATOS
+					ASUser.getInstance().setSurname(apeT.getText());
+					updateData();
 					apeT.setEnabled(false);
 					_statusEditApe = 1;
 				}
@@ -230,10 +253,10 @@ public class UserWindow extends JDialog {
 		JPanel emaT_panel = new JPanel();
 		emaT_panel.setBackground(Color.WHITE);
 		emaT_panel.setLayout(new FlowLayout(FlowLayout.LEFT));
-		// DEBERIA MOSTRARSE EL EMAIL DEL USUARIO QUE HAY GUARDADO EN LA BASE DATOS
 		emaT = new JTextField(25);
 		emaT.setBorder(BorderFactory.createTitledBorder(_defaultBorder));
 		emaT.setEnabled(false);
+		emaT.setText(ASUser.getInstance().getEmail());
 		ema.setLabelFor(emaT);
 		emaT_panel.add(emaT);
 		panelDrch.add(emaT_panel);
@@ -355,8 +378,7 @@ public class UserWindow extends JDialog {
 						JOptionPane.showMessageDialog(null, "Faltan algunos datos requeridos", "Cambiar contrasena",
 								JOptionPane.DEFAULT_OPTION, icon);
 					} else if (str1.contentEquals(str2)) {
-						// cm.addUser(new ASUser(nomT.getText(), apeT.getText(),
-						// emaT.getText(), str1));
+						updateData();
 						ImageIcon icon = new ImageIcon("resources/check.jpg");
 						JOptionPane.showMessageDialog(null, "Los datos introducidos son correctos",
 								"Cambiar contrasena", JOptionPane.DEFAULT_OPTION, icon);
@@ -399,12 +421,7 @@ public class UserWindow extends JDialog {
 		photoPanel.setBackground(Color.white);
 		photoPanel.add(Box.createRigidArea(new Dimension(15, 0)));
 		
-		JLabel photo = new JLabel();
-		photo.setIcon(profilePhoto);
-		photo.setAlignmentX(CENTER_ALIGNMENT);
-		photoPanel.add(photo);
-		
-		JButton changePhoto = new JButton("Cambiar foto");
+		changePhoto = new JButton("Cambiar foto");
 		formatButton(changePhoto);
 		changePhoto.setPreferredSize(new Dimension(40, 25));
 		changePhoto.setAlignmentX(CENTER_ALIGNMENT);
@@ -414,10 +431,20 @@ public class UserWindow extends JDialog {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				loadFile();
-				// CAMBIARLO EN LA BASE DE DATOS (?
 			}
 			
 		});
+		
+		JLabel photo = new JLabel();
+		photo.setIcon(profilePhoto);
+		ImageIcon imgIcon = profilePhoto;
+        Image imgEscalada = imgIcon.getImage().getScaledInstance(100,
+                100, Image.SCALE_SMOOTH);
+        Icon iconoEscalado = new ImageIcon(imgEscalada);
+        photo.setIcon(iconoEscalado);
+		photo.setAlignmentX(CENTER_ALIGNMENT);
+		photoPanel.add(photo);
+		
 		photoPanel.add(Box.createRigidArea(new Dimension(0, 10)));
 		photoPanel.add(changePhoto);
 		return photoPanel;
@@ -432,10 +459,49 @@ public class UserWindow extends JDialog {
 			
 			try {
 				profilePhoto = new ImageIcon(file.getAbsolutePath());
+				ASUser.getInstance().setPhoto(profilePhoto);
+				updateData();
 			} catch (Exception e) {
 				JOptionPane.showMessageDialog(this, "An error occurred.");
 			}
 		}
+	}
+	
+	private void updateData() {
+		ASUser.getInstance().setSurname(apeT.getText());
+		DTOUser ds = new DTOUser();
+		ds.setId(ASUser.getInstance().getId());
+		ds.setSurname(ASUser.getInstance().getSurname());
+		ds.setName(ASUser.getInstance().getName());
+		ds.setEmail(ASUser.getInstance().getEmail());
+		ds.setPassword(ASUser.getInstance().getPassword());
+		ds.setRole(ASUser.getInstance().getRol());
+		SerialBlob imagenBlob = null;
+        BufferedImage bi = new BufferedImage (ASUser.getInstance().getPhoto().getIconWidth(), ASUser.getInstance().getPhoto().getIconHeight(), BufferedImage.TYPE_INT_ARGB );
+        Graphics bg = bi.getGraphics ();
+	    bg.drawImage (ASUser.getInstance().getPhoto().getImage(), 0, 0, null );
+	    bg.dispose();
+	    ByteArrayOutputStream baos = new ByteArrayOutputStream ();
+	      try {
+	         ImageIO.write (bi, "png", baos);
+	         baos.flush ();
+	         baos.close ();
+	      } catch ( IOException e ) {
+	         e.printStackTrace ();
+	      }
+
+	      byte [] imagenByte = baos.toByteArray ();
+
+	      try {
+	         imagenBlob = new SerialBlob ( imagenByte );
+	      } catch ( SerialException se ) {
+	         se.printStackTrace ();
+	      } catch ( SQLException sqle ) {
+	         sqle.printStackTrace ();
+	      }
+	      
+	      ds.setBlob(imagenBlob);
+	    UserWindow.this._ctrl.updateData(1, ds);
 	}
 }
 

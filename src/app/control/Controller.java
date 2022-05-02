@@ -174,7 +174,27 @@ public class Controller {
 			break;	
 		}
 	}
-		
+	
+	public Object findData(int opt, String key) {
+		switch (opt) {
+		case ControllerChoices.Find_User:
+			return ASUser.getInstance().findUser(key);
+		}
+		return null;
+	}
+	
+	public void updateData(int option, Object transfer) {
+		switch(option) {
+		case ControllerChoices.Update_User:
+			ASUser.getInstance().updateData((DTOUser) transfer);
+		}
+	}
+	
+	public void registerUser(DTOUser user) {
+		ASUser.resetInstance();
+		ASUser.getInstance(user);
+	}
+	
 	public void adminOperation(int option, Object t1, Object t2, Object t3) {
 		switch(option) {
 		case ControllerChoices.Delete_Trip:

@@ -3,7 +3,7 @@ package app.model.layers.integration.user;
 import app.model.business.user.DTOUser;
 
 public interface UserDAO {
-	public DTOUser findUser(int id);
+	public DTOUser findUser(String mail);
 	public void saveUser(DTOUser user);
 	public DTOUser createUser(DTOUser user);
 	public boolean checkUserData(String email, String password);

@@ -11,7 +11,7 @@ import app.model.layers.integration.Conectar;
 public class UserDatabaseDAO implements UserDAO {
 
 	@Override
-	public DTOUser findUser(int id) {
+	public DTOUser findUser(String mail) {
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -21,17 +21,22 @@ public class UserDatabaseDAO implements UserDAO {
 			con = getConnection();
 			ps = con.prepareStatement("SELECT * "
 									+ "FROM citis_users "
-									+ "WHERE id = ?;");
-			ps.setInt(1, id);
+									+ "WHERE email = ?;");
+			ps.setString(1, mail);
 			rs = ps.executeQuery();
 			
 			if (!rs.next())
 				return null;
 			
 			user = new DTOUser();
+			user.setId(rs.getInt("id"));
 			user.setName(rs.getString("name"));
 			user.setSurname(rs.getString("surname"));
 			user.setEmail(rs.getString("email"));
+			if(user.getEmail().endsWith("@citis.es"))
+				user.setRole(1);
+			else
+				user.setRole(0);
 			user.setPassword(rs.getString("password"));
 			user.setBlob(rs.getBlob("photo"));
 			
@@ -62,7 +67,7 @@ public class UserDatabaseDAO implements UserDAO {
 
 	@Override
 	public void saveUser(DTOUser user) {
-		DTOUser u = findUser(user.getId());
+		DTOUser u = findUser(user.getEmail());
 		if(u == null)
 			createUser(user);
 
@@ -71,8 +76,8 @@ public class UserDatabaseDAO implements UserDAO {
 		
 		try {
 			con = getConnection();
-			ps = con.prepareStatement("UPDATE citis_users"
-									+ "SET name = ?, surname = ?, email = ?, password = ?, rol = ?, photo = ?"
+			ps = con.prepareStatement("UPDATE citis_users "
+									+ "SET name = ?, surname = ?, email = ?, password = ?, rol = ?, photo = ? "
 									+ "WHERE id = ?;");
 			
 			ps.setString(1, user.getName());
@@ -105,7 +110,7 @@ public class UserDatabaseDAO implements UserDAO {
 	
 	@Override
 	public DTOUser createUser(DTOUser user) {
-		DTOUser u = findUser(user.getId());
+		DTOUser u = findUser(user.getEmail());
 		if(u != null)
 			return u;
 		
@@ -123,13 +128,13 @@ public class UserDatabaseDAO implements UserDAO {
 			ps.setString(4, user.getEmail());
 			ps.setString(5, user.getPassword());
 			
-			if (user.getEmail().contains("@citis.es"))
+			if (user.getEmail().endsWith("@citis.es"))
 				ps.setInt(6, 1);
 			else
 				ps.setInt(6, 0);
 			
 			try {
-				ps.setBlob(7, new FileInputStream("resources/check.jpg"));
+				ps.setBlob(7, new FileInputStream("resources/profile.jpg"));
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			}
