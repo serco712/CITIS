@@ -126,15 +126,17 @@ public class SpecificTripDatabaseDAO implements SpecificTripDAO {
 		try {
 			con = getConnection();
 			ps = con.prepareStatement("INSERT INTO citis_specific_trip "
-									+ "(?, ?, ?, ?, ?)");
-			
-			/*
-			ps.setString(1, sTrip.getCalendar());
-			ps.setTimestamp(2, sTrip.getDepartureTime());
-			ps.setString(3, sTrip.getLineName());
-			ps.setString(4, sTrip.getId());
-			ps.setString(5, sTrip.getTripId());
-			*/
+									+ "VALUES (?, ?, ?, ?, ?);");
+
+
+			ps.setString(1, sTrip.get_st_id());
+			String[] s = sTrip.get_departureTime().split(":");
+			int milis = Integer.parseInt(s[0])*3600 + Integer.parseInt(s[1]) * 60 +
+					Integer.parseInt(s[2]);
+			ps.setTime(2, new Time(milis * 1000));
+			ps.setString(3, "");
+			ps.setString(4, sTrip.get_id());
+			ps.setString(5, sTrip.getCalendarId());
 			
 			
 			ps.executeUpdate();

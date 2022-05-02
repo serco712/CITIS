@@ -12,6 +12,15 @@ public class DTOSpecificTrip {
 	private int _stop_sequence;
 	private String _stop_notes;
 	private String _st_id;
+	private String _calendar_id;
+	
+	public String getCalendarId() {
+		return _calendar_id;
+	}
+	
+	public void setCalendarId(String cal) {
+		_calendar_id = cal;
+	}
 	
 	public String get_id() {
 		return _id;

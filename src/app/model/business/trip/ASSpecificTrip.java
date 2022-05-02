@@ -34,4 +34,8 @@ public class ASSpecificTrip extends ASTrip {
 	public List<String> findCalendarIds() {
 		return SpecificTripDatabaseDAO.getInstance().findCalendarIds();
 	}
+	
+	public void createSpecificTrip(DTOSpecificTrip transfer) {
+		SpecificTripDatabaseDAO.getInstance().createSpecificTrip(transfer);
+	}
 }

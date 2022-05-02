@@ -1,7 +1,10 @@
 package app.model.layers.integration.trip;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
+import app.model.business.trip.ASTrip;
 import app.model.business.trip.DTOTrip;
 import app.model.layers.integration.Conectar;
 
@@ -237,5 +240,46 @@ public class TripDatabaseDAO implements TripDAO {
 		}
 		
 		return seq_id;
+	}
+
+	@Override
+	public List<ASTrip> listTrips() {
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		List<ASTrip> ls = new ArrayList<>();
+		
+		try {
+			con = getConnection();
+			ps = con.prepareStatement("SELECT * "
+									+ "FROM citis_trip;");
+
+			rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				DTOTrip dto = new DTOTrip();
+				dto.set_id(rs.getString("trip_id"));
+				ASTrip as = new ASTrip(dto);
+				ls.add(as);	
+			}
+			ps.close();
+			rs.close();
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		finally {
+			try {
+				if (rs != null)
+					rs.close();
+				
+				if (ps != null)
+					ps.close();
+			}
+			catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return ls;
 	}
 }

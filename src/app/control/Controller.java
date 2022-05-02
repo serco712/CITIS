@@ -21,6 +21,7 @@ import app.model.business.station.DTOStation;
 import app.model.business.transport.ASTransport;
 import app.model.business.trip.ASSpecificTrip;
 import app.model.business.trip.ASTrip;
+import app.model.business.trip.DTOSpecificTrip;
 import app.model.business.trip.DTOTrip;
 import app.model.business.user.ASUser;
 import app.model.business.user.DTOUser;
@@ -161,9 +162,17 @@ public class Controller {
 			break;
 		case ControllerChoices.Add_Transport:
 			break;
-		case ControllerChoices.Add_Schedule:
+		case ControllerChoices.Add_Stop_Time:
 			ASTrip at = new ASTrip();
-			at.createTrip((DTOTrip) transfer);
+			at.createStopTime((DTOTrip) transfer);
+			break;
+		case ControllerChoices.Add_Trip:
+			ASTrip a = new ASTrip();
+			a.createTrip((DTOTrip) transfer);
+			break;
+		case ControllerChoices.Add_Specific_Trip:
+			ASSpecificTrip ast = new ASSpecificTrip();
+			ast.createSpecificTrip((DTOSpecificTrip) transfer);
 			break;
 		}
 	}
@@ -185,7 +194,9 @@ public class Controller {
 		case ControllerChoices.Find_Calendar_Ids:
 			return as.findCalendarIds();
 		case ControllerChoices.Find_Last_Sequence_Id:
-			return at.findTrip(key);
+			return at.findLastSequenceId(key);
+		case ControllerChoices.Find_Trips:
+			return at.findListTrips();
 		}
 		return null;
 	}

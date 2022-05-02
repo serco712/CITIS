@@ -1,5 +1,7 @@
 package app.model.business.trip;
 
+import java.util.List;
+
 import app.model.layers.integration.trip.TripDatabaseDAO;
 
 public class ASTrip {
@@ -33,10 +35,25 @@ public class ASTrip {
 	}
 	public void createTrip(DTOTrip as) {
 		TripDatabaseDAO.getInstance().createTrip(as);
-		TripDatabaseDAO.getInstance().createStopTime(as);
 	}
 	
 	public DTOTrip findTrip(String id) {
 		return TripDatabaseDAO.getInstance().findTrip(id);
+	}
+	
+	public int findLastSequenceId(String key) {
+		return TripDatabaseDAO.getInstance().findLastSequence_Id(key);
+	}
+	
+	@Override
+	public String toString() {
+		return _id;
+	}
+	public List<ASTrip> findListTrips() {
+		return TripDatabaseDAO.getInstance().listTrips();
+	}
+
+	public void createStopTime(DTOTrip transfer) {
+		TripDatabaseDAO.getInstance().createStopTime(transfer);
 	}
 }
