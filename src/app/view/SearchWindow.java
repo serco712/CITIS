@@ -92,7 +92,11 @@ public class SearchWindow extends JFrame implements CITISObserver {
 			JMenuItem add_station = new JMenuItem("Estacion");
 			//JMenuItem add_transport = new JMenuItem("Transporte");
 			JMenuItem add_line = new JMenuItem("Linea");
-			JMenuItem add_schedule = new JMenuItem("Horario");
+			JMenu add_schedule = new JMenu("Horario");
+			JMenuItem add_sptr = new JMenuItem("Nuevo Viaje Especifico");
+			JMenuItem add_exsptr = new JMenuItem("Viaje Especifico Existente");
+			add_schedule.add(add_sptr);
+			add_schedule.add(add_exsptr);
 			add_obj.add(add_station);
 			//add_obj.add(add_transport);
 			add_obj.add(add_line);
@@ -102,7 +106,8 @@ public class SearchWindow extends JFrame implements CITISObserver {
 			add_station.addActionListener(new MiMenuListener());
 			//add_transport.addActionListener(new MiMenuListener());
 			add_line.addActionListener(new MiMenuListener());
-			add_schedule.addActionListener(new MiMenuListener());
+			add_sptr.addActionListener(new MiMenuListener());
+			add_exsptr.addActionListener(new MiMenuListener());
 		}
 		
 		JMenu map_menu = new JMenu("Mapas");
@@ -251,8 +256,10 @@ public class SearchWindow extends JFrame implements CITISObserver {
 			else*/
 			if(cmnd.equals("Linea"))
 				new AddLineDialog(_ctrl);
-			else if(cmnd.equals("Horario"))
-				new AddScheduleDialog(_ctrl);
+			else if(cmnd.equals("Nuevo Viaje Especifico"))
+				new AddScheduleDialog(_ctrl, 0);
+			else if(cmnd.equals("Viaje Especifico Existente"))
+				new AddScheduleDialog(_ctrl, 1);
 			else
 				new AddStationDialog(_ctrl);
 		}

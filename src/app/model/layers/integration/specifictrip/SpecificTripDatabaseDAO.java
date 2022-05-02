@@ -2,8 +2,11 @@ package app.model.layers.integration.specifictrip;
 
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 import app.model.business.trip.DTOSpecificTrip;
+import app.model.layers.integration.Conectar;
 
 public class SpecificTripDatabaseDAO implements SpecificTripDAO {
 	
@@ -67,8 +70,8 @@ public class SpecificTripDatabaseDAO implements SpecificTripDAO {
 	}
 
 	private Connection getConnection() {
-		// TODO Auto-generated method stub
-		return null;
+		Conectar conectar = new Conectar();
+		return conectar.getConnection();
 	}
 
 	@Override
@@ -154,5 +157,42 @@ public class SpecificTripDatabaseDAO implements SpecificTripDAO {
 		}
 		
 		return sTrip;
+	}
+	
+	@Override
+	public List<String> findCalendarIds() {
+		List<String> ls = new ArrayList<>();
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		try {
+			con = getConnection();
+			ps = con.prepareStatement("SELECT calendar_id "
+									+ "FROM citis_calendar;");
+			
+			rs = ps.executeQuery();
+			while(rs.next())
+				ls.add(rs.getString("calendar_id"));
+			
+			ps.close();
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		finally {
+			try {
+				if (ps != null)
+					ps.close();
+				
+				if (con != null)
+					con.close();
+			}
+			catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return ls;
 	}
 }

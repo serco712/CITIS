@@ -30,6 +30,8 @@ public class ControllerChoices {
 	
 	// Find Commands
 	public static final int Find_User = 1;
+	public static final int Find_Calendar_Ids = 2;
+	public static final int Find_Last_Sequence_Id = 3;
 	
 	// Update Commands
 	public static final int Update_User = 1;

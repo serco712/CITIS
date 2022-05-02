@@ -19,6 +19,7 @@ import app.model.business.line.DTOLine;
 import app.model.business.station.ASStation;
 import app.model.business.station.DTOStation;
 import app.model.business.transport.ASTransport;
+import app.model.business.trip.ASSpecificTrip;
 import app.model.business.trip.ASTrip;
 import app.model.business.trip.DTOTrip;
 import app.model.business.user.ASUser;
@@ -176,9 +177,15 @@ public class Controller {
 	}
 	
 	public Object findData(int opt, String key) {
+		ASSpecificTrip as = new ASSpecificTrip();
+		ASTrip at = new ASTrip();
 		switch (opt) {
 		case ControllerChoices.Find_User:
 			return ASUser.getInstance().findUser(key);
+		case ControllerChoices.Find_Calendar_Ids:
+			return as.findCalendarIds();
+		case ControllerChoices.Find_Last_Sequence_Id:
+			return at.findTrip(key);
 		}
 		return null;
 	}

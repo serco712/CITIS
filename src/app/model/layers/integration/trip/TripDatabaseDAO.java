@@ -193,4 +193,49 @@ public class TripDatabaseDAO implements TripDAO {
 		}
 		return trip;
 	}
+	
+	@Override
+	public int findLastSequence_Id(String trip) {
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		int seq_id = 0;
+		
+		try {
+			con = getConnection();
+			ps = con.prepareStatement("SELECT MAX(stop_sequence) AS seq "
+									+ "FROM citis_stop_time "
+									+ "WHERE trip_id = ?;");
+			
+			ps.setString(1, trip);
+			rs = ps.executeQuery();
+			
+			if (!rs.next())
+				return 0;
+			
+			seq_id = rs.getInt("seq");
+			ps.close();
+			rs.close();
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		finally {
+			try {
+				if (rs != null)
+					rs.close();
+				
+				if (ps != null)
+					ps.close();
+				
+				if (con != null)
+					con.close();
+			}
+			catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return seq_id;
+	}
 }

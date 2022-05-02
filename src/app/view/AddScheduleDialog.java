@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -40,29 +41,41 @@ public class AddScheduleDialog extends JDialog {
 	private static final long serialVersionUID = 1L;
 	
 	private Controller _ctrl;
+	private int _mode;
+	
 	private JTextField trip_id;
 	private JComboBox<ASStation> stop_id;
 	private DefaultComboBoxModel<ASStation> stop_id_model;
 	private JSpinner hours;
 	private JSpinner minutes;
 	private JSpinner seconds;
-	private JSpinner stop_sequence;
 	private JTextField st_notes;
 	private JComboBox<ASLine> route_id;
 	private DefaultComboBoxModel<ASLine> route_id_model;
+	private JSpinner dhours;
+	private JSpinner dminutes;
+	private JSpinner dseconds;
+	private JTextField st_id;
+	private JComboBox<String> calendar_id;
+	private DefaultComboBoxModel<String> calendar_id_model;
 	private JTextField trip_long_name;
 	private JTextField trip_notes;
 	private JButton aniadir;
 	private Border _defaultBorder = BorderFactory.createLineBorder(Color.black, 2);
 	
-	public AddScheduleDialog(Controller ctrl) {
+	public AddScheduleDialog(Controller ctrl, int mode) {
 		super(new JFrame(), "Anadir Horario", true);
+		_mode = mode;
 		_ctrl = ctrl;
 		InitGUI();
 	}
 
 	private void InitGUI() {
-		this.setMinimumSize(new Dimension(500, 300));
+		if(_mode == 1)
+			this.setMinimumSize(new Dimension(500, 300));
+		else
+			this.setMinimumSize(new Dimension(500, 400));
+		
 		JPanel mainPanel = new JPanel(new BorderLayout());
 		this.add(mainPanel);
 		
@@ -127,7 +140,7 @@ public class AddScheduleDialog extends JDialog {
 		hourPanel.setBackground(Color.WHITE);
 		hourPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
 		
-		hourPanel.add(new JLabel("Hora de salida: "));
+		hourPanel.add(new JLabel("Hora de parada: "));
 		hourPanel.add(Box.createRigidArea(new Dimension(5, 0)));
 		hourPanel.add(new JLabel("HH: "));
 		hours = new JSpinner(new SpinnerNumberModel(0, 0, 23, 1));
@@ -162,13 +175,11 @@ public class AddScheduleDialog extends JDialog {
 		sequ_notesPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
 		sequ_notesPanel.setBackground(Color.WHITE);
 		
-		sequ_notesPanel.add(new JLabel("Secuencia Parada: "));
-		stop_sequence = new JSpinner(new SpinnerNumberModel(0, 0, 1000, 1));
-		stop_sequence.setMaximumSize(new Dimension(70, 20));
-		stop_sequence.setMinimumSize(new Dimension(70, 20));
-		stop_sequence.setPreferredSize(new Dimension(70, 20));
-		stop_sequence.setBorder(_defaultBorder);
-		sequ_notesPanel.add(stop_sequence);
+		sequ_notesPanel.add(new JLabel("Notas viaje: "));
+		trip_notes = new JTextField();
+		trip_notes.setPreferredSize(new Dimension(100, 20));
+		trip_notes.setBorder(_defaultBorder);
+		sequ_notesPanel.add(trip_notes);
 		
 		sequ_notesPanel.add(Box.createRigidArea(new Dimension(15, 0)));
 		
@@ -196,16 +207,58 @@ public class AddScheduleDialog extends JDialog {
 		idNamePanel.add(trip_long_name);
 		secPanel.add(idNamePanel);
 		
-		JPanel notesPanel = new JPanel();
-		notesPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-		notesPanel.setBackground(Color.WHITE);
-		
-		notesPanel.add(new JLabel("Notas viaje: "));
-		trip_notes = new JTextField();
-		trip_notes.setPreferredSize(new Dimension(100, 20));
-		trip_notes.setBorder(_defaultBorder);
-		notesPanel.add(trip_notes);
-		secPanel.add(notesPanel);
+		if(_mode == 0) {
+			JPanel departurePanel = new JPanel();
+			departurePanel.setBackground(Color.WHITE);
+			departurePanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+			
+			departurePanel.add(new JLabel("Hora de salida: "));
+			departurePanel.add(Box.createRigidArea(new Dimension(5, 0)));
+			departurePanel.add(new JLabel("HH: "));
+			dhours = new JSpinner(new SpinnerNumberModel(0, 0, 23, 1));
+			dhours.setMaximumSize(new Dimension(70, 20));
+			dhours.setMinimumSize(new Dimension(70, 20));
+			dhours.setPreferredSize(new Dimension(70, 20));
+			dhours.setBorder(_defaultBorder);
+			departurePanel.add(dhours);
+			
+			departurePanel.add(Box.createRigidArea(new Dimension(10, 0)));
+			
+			departurePanel.add(new JLabel("MM: "));
+			dminutes = new JSpinner(new SpinnerNumberModel(0, 0, 59, 1));
+			dminutes.setMaximumSize(new Dimension(70, 20));
+			dminutes.setMinimumSize(new Dimension(70, 20));
+			dminutes.setPreferredSize(new Dimension(70, 20));
+			dminutes.setBorder(_defaultBorder);
+			departurePanel.add(dminutes);
+			
+			departurePanel.add(Box.createRigidArea(new Dimension(10, 0)));
+			
+			departurePanel.add(new JLabel("SS: "));
+			dseconds = new JSpinner(new SpinnerNumberModel(0, 0, 59, 1));
+			dseconds.setMaximumSize(new Dimension(70, 20));
+			dseconds.setMinimumSize(new Dimension(70, 20));
+			dseconds.setPreferredSize(new Dimension(70, 20));
+			dseconds.setBorder(_defaultBorder);
+			departurePanel.add(dseconds);
+			secPanel.add(departurePanel);
+			
+			JPanel st_panel = new JPanel();
+			st_panel.setBackground(Color.WHITE);
+			st_panel.setLayout(new FlowLayout(FlowLayout.CENTER));
+			
+			st_panel.add(new JLabel("Id Viaje Especifico: "));
+			st_id = new JTextField();
+			st_id.setPreferredSize(new Dimension(100, 20));
+			st_id.setBorder(_defaultBorder);
+			st_panel.add(st_id);
+			st_panel.add(Box.createRigidArea(new Dimension(10, 0)));
+			
+			loadCalendar();
+			st_panel.add(new JLabel("Calendario: "));
+			st_panel.add(calendar_id);
+			secPanel.add(st_panel);
+		}
 		
 		aniadir = new JButton("Anadir");
 		formatButton(aniadir);
@@ -220,7 +273,7 @@ public class AddScheduleDialog extends JDialog {
 		this.setVisible(true);
 	}
 	
-	private void createSchedule() {
+	private void createExistingSchedule() {
 		if(!trip_id.getText().equals("") && !trip_long_name.getText().equals("")) {
 			TimeADT t = new TimeADT((Integer) hours.getValue(), (Integer) minutes.getValue(), 
 					(Integer) seconds.getValue());
@@ -252,7 +305,7 @@ public class AddScheduleDialog extends JDialog {
 				dto.set_id(str.toString());
 				dto.set_stop_id(((ASStation)stop_id.getSelectedItem()).getId());
 				dto.set_departureTime(t.toString());
-				dto.set_stop_sequence((Integer) stop_sequence.getValue());
+				dto.set_stop_sequence((Integer) _ctrl.findData(3, str.toString()));
 				dto.set_stop_notes(st_notes.getText());
 				dto.set_route_id(((ASLine)route_id.getSelectedItem()).getId());
 				dto.set_name(trip_long_name.getText());
@@ -266,6 +319,10 @@ public class AddScheduleDialog extends JDialog {
 			JOptionPane.showMessageDialog(null, "Faltan algunos datos requeridos", 
 	        		"Anadir Horario", JOptionPane.DEFAULT_OPTION, icon);
 		}
+	}
+	
+	private void createNewSchedule() {
+		
 	}
 	
 	private void loadRoutes() {
@@ -288,6 +345,18 @@ public class AddScheduleDialog extends JDialog {
 		stop_id.setBorder(_defaultBorder);
 	}
 	
+	private void loadCalendar() {
+		calendar_id_model = new DefaultComboBoxModel<>();
+		calendar_id_model.removeAllElements();
+		@SuppressWarnings("unchecked")
+		List<String> ls = (List<String>) _ctrl.findData(2, null);
+		for(String s : ls)
+			calendar_id_model.addElement(s);
+		calendar_id = new JComboBox<>(calendar_id_model);
+		calendar_id.setPreferredSize(new Dimension(150, 20));
+		calendar_id.setBorder(_defaultBorder);
+	}
+	
 	private void formatButton(JButton b) {
 		b.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED, Color.BLACK, Color.LIGHT_GRAY));
 		b.setPreferredSize(new Dimension(50, 25));
@@ -306,7 +375,10 @@ public class AddScheduleDialog extends JDialog {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				AddScheduleDialog.this.createSchedule();
+				if(_mode == 0)
+					AddScheduleDialog.this.createNewSchedule();
+				else
+					AddScheduleDialog.this.createExistingSchedule();
 			}
 			
 		});

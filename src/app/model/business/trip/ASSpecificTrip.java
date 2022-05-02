@@ -1,6 +1,9 @@
 package app.model.business.trip;
 
+import java.util.List;
+
 import app.misc.TimeADT;
+import app.model.layers.integration.specifictrip.SpecificTripDatabaseDAO;
 
 public class ASSpecificTrip extends ASTrip {
 
@@ -11,6 +14,10 @@ public class ASSpecificTrip extends ASTrip {
 		_sTripId = st.get_st_id();
 	}
 	
+	public ASSpecificTrip() {
+		
+	}
+
 	private static DTOTrip createTransfer(DTOSpecificTrip trip) {
 		DTOTrip dto = new DTOTrip();
 		dto.set_id(trip.get_id());
@@ -22,5 +29,9 @@ public class ASSpecificTrip extends ASTrip {
 		dto.set_stop_sequence(trip.get_stop_sequence());
 		dto.set_stop_notes(trip.get_stop_notes());
 		return dto;
+	}
+	
+	public List<String> findCalendarIds() {
+		return SpecificTripDatabaseDAO.getInstance().findCalendarIds();
 	}
 }
