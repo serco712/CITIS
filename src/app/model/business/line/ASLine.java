@@ -109,27 +109,22 @@ public class ASLine extends CITISObject {
 	}
 	
 	public List<ASLine> searchLines() {
-		LineDatabaseDAO dao = new LineDatabaseDAO();
-		return dao.searchLines();
+		return LineDatabaseDAO.getInstance().searchLines();
 	}
 
 	public DTOLine createLine(DTOLine line) {
-		LineDatabaseDAO dao = new LineDatabaseDAO();
-		return dao.createLine(line);
+		return LineDatabaseDAO.getInstance().createLine(line);
 	}
 
 	public boolean findLine (String id) {
-		LineDatabaseDAO dao = new LineDatabaseDAO();
-		return dao.findLine(id) != null;
+		return LineDatabaseDAO.getInstance().findLine(id) != null;
 	}
 
 	public List<Triplet<ASLine, TimeADT, String>> searchDepartureTimes(String stop_id) {
-		LineDatabaseDAO dao = new LineDatabaseDAO();
-		return dao.findDepartures(stop_id);
+		return LineDatabaseDAO.getInstance().findDepartures(stop_id);
 	}
 	
 	public static void removeDepartureTime(ASLine as, TimeADT adt, String note) {
-		LineDatabaseDAO dao = new LineDatabaseDAO();
-		dao.removeDeparture(as, adt, note);
+		LineDatabaseDAO.getInstance().removeDeparture(as, adt, note);
 	}
 }

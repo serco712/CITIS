@@ -24,7 +24,6 @@ public class ASAgency {
 	}
 
 	public boolean findAgency(String name) {
-		AgencyDatabaseDAO dao = new AgencyDatabaseDAO();
-		return dao.findAgency(name) != null;
+		return AgencyDatabaseDAO.getInstance().findAgency(name) != null;
 	}
 }

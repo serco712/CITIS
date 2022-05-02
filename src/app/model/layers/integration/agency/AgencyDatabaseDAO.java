@@ -1,6 +1,5 @@
 package app.model.layers.integration.agency;
 
-import java.awt.Color;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,16 +9,28 @@ import app.model.business.agency.DTOAgency;
 import app.model.layers.integration.Conectar;
 
 public class AgencyDatabaseDAO implements AgencyDAO {
+	
+	private static AgencyDAO instance;
+	private Connection con;
+	
+	private AgencyDatabaseDAO() {
+		con = getConnection();
+	}
+	
+	public static AgencyDAO getInstance() {
+		if (instance == null)
+			instance = new AgencyDatabaseDAO();
+		
+		return instance;
+	}
 
 	@Override
 	public DTOAgency findAgency(String id) {
-		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		DTOAgency da = null;
 		
 		try {
-			con = getConnection();
 			ps = con.prepareStatement("SELECT * "
 									+ "FROM citis_agency "
 									+ "WHERE agency_name = ?;");

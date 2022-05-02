@@ -101,27 +101,23 @@ public class ASStation extends CITISObject {
 	}
 	
 	public List<ASStation> searchStations() {
-		StationDatabaseDAO sd = new StationDatabaseDAO();
-		List<ASStation> as = sd.searchStations();
+		List<ASStation> as = StationDatabaseDAO.getInstance().searchStations();
 		for(ASStation s : as)
-			s.setLineList(sd.searchLines(s.getId()));
+			s.setLineList(StationDatabaseDAO.getInstance().searchLines(s.getId()));
 		
 		return as;
 	}
 
 	public DTOStation createStation(DTOStation station) {
-		StationDatabaseDAO dao = new StationDatabaseDAO();
-		return dao.createStation(station);
+		return StationDatabaseDAO.getInstance().createStation(station);
 	}
 	
 	public List<ASLine> searchLines(String id) {
-		StationDatabaseDAO dao = new StationDatabaseDAO();
-		return dao.searchLines(id);
+		return StationDatabaseDAO.getInstance().searchLines(id);
 	}
 	
 	public boolean findStation(String id) {
-		StationDatabaseDAO dao = new StationDatabaseDAO();
-		return dao.findStation(id) != null;
+		return StationDatabaseDAO.getInstance().findStation(id) != null;
 	}
 	
 	public ASStation searchStation(String id) {

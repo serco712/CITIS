@@ -6,16 +6,28 @@ import app.model.business.TransportType;
 import app.model.business.transport.DTOTransport;
 
 public class TransportDatabaseDAO implements TransportDAO {
+	
+	private static TransportDAO instance;
+	private Connection con;
+	
+	private TransportDatabaseDAO() {
+		con = getConnection();
+	}
+	
+	public static TransportDAO getInstance() {
+		if (instance == null)
+			instance = new TransportDatabaseDAO();
+		
+		return instance;
+	}
 
 	@Override
 	public DTOTransport findTransport(String id) {
-		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		DTOTransport transport = null;
 		
 		try {
-			con = getConnection();
 			ps = con.prepareStatement("SELECT * "
 									+ "FROM transport "
 									+ "WHERE id = ?");

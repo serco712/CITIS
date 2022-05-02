@@ -1,3 +1,4 @@
+/*
 package app.model.layers.integration.factories;
 
 import app.model.layers.integration.line.LineDAO;
@@ -17,7 +18,7 @@ public class DAOFactoryImp extends DAOFactory {
 
 	@Override
 	public LineDAO createLineDAO() {
-		return new LineDatabaseDAO();
+		return LineDatabaseDAO.getInstance();
 	}
 
 	@Override
@@ -46,3 +47,4 @@ public class DAOFactoryImp extends DAOFactory {
 	}
 
 }
+*/

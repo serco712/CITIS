@@ -7,15 +7,27 @@ import app.model.business.trip.DTOSpecificTrip;
 
 public class SpecificTripDatabaseDAO implements SpecificTripDAO {
 	
+	private static SpecificTripDAO instance;
+	private Connection con;
+	
+	private SpecificTripDatabaseDAO() {
+		con = getConnection();
+	}
+	
+	public static SpecificTripDAO getInstance() {
+		if (instance == null)
+			instance = new SpecificTripDatabaseDAO();
+		
+		return instance;
+	}
+	
 	@Override
 	public DTOSpecificTrip findSpecificTrip(String id) {
-		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		DTOSpecificTrip sTrip = null;
 		
 		try {
-			con = getConnection();
 			ps = con.prepareStatement("SELECT * "
 									+ "FROM citis_specific_trip "
 									+ "WHERE specific_trip_id = ?");

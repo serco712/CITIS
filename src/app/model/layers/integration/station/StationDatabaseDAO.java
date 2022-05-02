@@ -18,16 +18,28 @@ import app.model.business.station.DTOStation;
 import app.model.layers.integration.Conectar;
 
 public class StationDatabaseDAO implements StationDAO {
+	
+	private static StationDAO instance;
+	private Connection con;
+	
+	private StationDatabaseDAO() {
+		con = getConnection();
+	}
+	
+	public static StationDAO getInstance() {
+		if (instance == null)
+			instance = new StationDatabaseDAO();
+		
+		return instance;
+	}
 
 	@Override
 	public DTOStation findStation(String id) {
-		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		DTOStation st = null;
 		
 		try {
-			con = getConnection();
 			ps = con.prepareStatement("SELECT * "
 									+ "FROM citis_stop "
 									+ "WHERE stop_id = ?;");

@@ -9,16 +9,28 @@ import app.model.business.user.DTOUser;
 import app.model.layers.integration.Conectar;
 
 public class UserDatabaseDAO implements UserDAO {
+	
+	private static UserDAO instance;
+	private Connection con;
+	
+	private UserDatabaseDAO() {
+		con = getConnection();
+	}
+	
+	public static UserDAO getInstance() {
+		if (instance == null)
+			instance = new UserDatabaseDAO();
+		
+		return instance;
+	}
 
 	@Override
 	public DTOUser findUser(String mail) {
-		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		DTOUser user = null;
 		
 		try {
-			con = getConnection();
 			ps = con.prepareStatement("SELECT * "
 									+ "FROM citis_users "
 									+ "WHERE email = ?;");

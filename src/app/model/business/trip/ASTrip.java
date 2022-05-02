@@ -29,13 +29,11 @@ public class ASTrip {
 	}
 
 	public void createTrip(DTOTrip as) {
-		TripDatabaseDAO dao = new TripDatabaseDAO();
-		dao.createTrip(as);
-		dao.createStopTime(as);
+		TripDatabaseDAO.getInstance().createTrip(as);
+		TripDatabaseDAO.getInstance().createStopTime(as);
 	}
 	
 	public DTOTrip findTrip(String id) {
-		TripDatabaseDAO dao = new TripDatabaseDAO();
-		return dao.findTrip(id);
+		return TripDatabaseDAO.getInstance().findTrip(id);
 	}
 }

@@ -141,28 +141,23 @@ public class ASUser {
 	}
 	
 	public DTOUser findUser (String key) {
-		UserDatabaseDAO dao = new UserDatabaseDAO();
-		return dao.findUser(key);
+		return UserDatabaseDAO.getInstance().findUser(key);
 	}
 	
 	public boolean checkUserDataExists(String email, String password) {
-		UserDatabaseDAO dao = new UserDatabaseDAO();
-		return dao.checkUserData(email, password);
+		return UserDatabaseDAO.getInstance().checkUserData(email, password);
 	}
 	
 	public DTOUser createUser(DTOUser user) {
-		UserDatabaseDAO dao = new UserDatabaseDAO();
-		return dao.createUser(user);
+		return UserDatabaseDAO.getInstance().createUser(user);
 	}
 
 	public boolean checkUserExists(String userEmail) {
-		UserDatabaseDAO dao = new UserDatabaseDAO();
-		return dao.checkUserExists(userEmail);
+		return UserDatabaseDAO.getInstance().checkUserExists(userEmail);
 	}
 	
 	public void updateData(DTOUser transfer) {
-		UserDatabaseDAO dao = new UserDatabaseDAO();
-		dao.saveUser(transfer);
+		UserDatabaseDAO.getInstance().saveUser(transfer);
 	}
 	
 	private enum Role {

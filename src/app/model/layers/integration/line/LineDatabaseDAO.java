@@ -5,9 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Time;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 import app.misc.TimeADT;
@@ -18,16 +16,28 @@ import app.model.business.line.DTOLine;
 import app.model.layers.integration.Conectar;
 
 public class LineDatabaseDAO implements LineDAO {
+	
+	private static LineDAO instance;
+	private Connection con;
+	
+	private LineDatabaseDAO() {
+		con = getConnection();
+	}
+	
+	public static LineDAO getInstance() {
+		if (instance == null)
+			instance = new LineDatabaseDAO();
+		
+		return instance;
+	}
 
 	@Override
 	public DTOLine findLine(String id) {
-		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		DTOLine line = null;
 		
 		try {
-			con = getConnection();
 			ps = con.prepareStatement("SELECT * "
 									+ "FROM citis_route "
 									+ "WHERE route_id = ?;");

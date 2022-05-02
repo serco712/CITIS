@@ -6,16 +6,28 @@ import app.model.business.trip.DTOTrip;
 import app.model.layers.integration.Conectar;
 
 public class TripDatabaseDAO implements TripDAO {
+	
+	private static TripDAO instance;
+	private Connection con;
+	
+	private TripDatabaseDAO() {
+		con = getConnection();
+	}
+	
+	public static TripDAO getInstance() {
+		if (instance == null)
+			instance = new TripDatabaseDAO();
+		
+		return instance;
+	}
 
 	@Override
 	public DTOTrip findTrip(String id) {
-		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		DTOTrip trip = null;
 		
 		try {
-			con = getConnection();
 			ps = con.prepareStatement("SELECT * "
 									+ "FROM citis_trip "
 									+ "WHERE trip_id = ?;");
