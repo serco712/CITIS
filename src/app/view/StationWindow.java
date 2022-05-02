@@ -30,8 +30,8 @@ import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 
 import app.control.Controller;
+import app.misc.Pair;
 import app.misc.TimeADT;
-import app.misc.Triplet;
 import app.model.business.line.ASLine;
 import app.model.business.station.ASStation;
 
@@ -51,8 +51,6 @@ public class StationWindow extends JDialog {
 	
 	private Border _defaultBorder = BorderFactory.createLineBorder(Color.black, 2);
 
-	
-	// ICONOS DE ELIMINAR SERAN LAS OPCIONES NUEVAS!!!
 	public StationWindow (ASStation st, Controller ctrl, boolean config) {
 		super(new JFrame(), "Estacion " + st.getName(), true);
 		_st = st;
@@ -128,7 +126,7 @@ public class StationWindow extends JDialog {
 		lineTablePanel.setForeground(Color.WHITE);
 		p1.add(lineTablePanel);
 		
-		List<Triplet<ASLine, TimeADT, String>> lc = _ctrl.getScheduleList(_st.getId());
+		List<Pair<Pair<ASLine, TimeADT>, Pair<String, String>>> lc = _ctrl.getScheduleList(_st.getId());
 		sch = new ScheduleTable(lc);
 		schedule = new JTable(sch);
 		schedule.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -149,8 +147,11 @@ public class StationWindow extends JDialog {
 						ImageIcon icon = new ImageIcon("resources/error.png");
 						JOptionPane.showMessageDialog(null, "No se ha seleccionado el horario",
 								"Error", JOptionPane.DEFAULT_OPTION, icon);
-					} else
+					} else {
 						sch.operations(_ctrl, 2, schedule.getSelectedRow());
+						sch = new ScheduleTable(lc);
+						schedule = new JTable(sch);
+					}
 				}			
 			});
 			
@@ -177,9 +178,12 @@ public class StationWindow extends JDialog {
 						ImageIcon icon = new ImageIcon("resources/error.png");
 						JOptionPane.showMessageDialog(null, "No se ha seleccionado el horario",
 								"Error", JOptionPane.DEFAULT_OPTION, icon);
-					} else
+					} else {
 						sch.operations(_ctrl, 3, schedule.getSelectedRow());
-					}			
+						sch = new ScheduleTable(lc);
+						schedule = new JTable(sch);
+					}
+				}		
 			});
 			
 			modifyButton.addMouseListener(new MouseAdapter() {

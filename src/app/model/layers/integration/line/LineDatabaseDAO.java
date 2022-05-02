@@ -8,8 +8,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import app.misc.Pair;
 import app.misc.TimeADT;
-import app.misc.Triplet;
 import app.model.business.TransportType;
 import app.model.business.line.ASLine;
 import app.model.business.line.DTOLine;
@@ -306,12 +306,12 @@ public class LineDatabaseDAO implements LineDAO {
 	}
 
 	@Override
-	public List<Triplet<ASLine, TimeADT, String>> findDepartures(String stop_id) {
+	public List<Pair<Pair<ASLine, TimeADT>, Pair<String, String>>> findDepartures(String stop_id) {
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		
-		List<Triplet<ASLine, TimeADT, String>> as = new ArrayList<>();
+		List<Pair<Pair<ASLine, TimeADT>, Pair<String, String>>> as = new ArrayList<>();
 		
 		try {
 			con = getConnection();
@@ -340,11 +340,11 @@ public class LineDatabaseDAO implements LineDAO {
     			TimeADT time = new TimeADT(Integer.parseInt(s[0]), Integer.parseInt(s[1]),
     					Integer.parseInt(s[2]));
     			
-    			StringBuilder str = new StringBuilder();
-    			str.append(rs.getString("trip_long_name") + ' ');
-    			str.append('(' + rs.getString("calendar_id") + ')');
+    			String s1 = rs.getString("trip_long_name");
+    			String s2 = rs.getString("calendar_id");
     			
-    			Triplet<ASLine, TimeADT, String> p = new Triplet<ASLine, TimeADT, String>(new ASLine(dt), time, str.toString());
+    			Pair<Pair<ASLine, TimeADT>, Pair<String, String>> p = new Pair<Pair<ASLine, TimeADT>, Pair<String, String>>(
+    					new Pair<ASLine, TimeADT>(new ASLine(dt), time), new Pair<String, String>(s1, s2));
     			as.add(p);
             }
 		}
@@ -370,7 +370,7 @@ public class LineDatabaseDAO implements LineDAO {
 	}
 
 	@Override
-	public void removeDeparture(ASLine as, TimeADT adt, String notes) {
+	public void removeDeparture(ASLine as, TimeADT adt, String destiny, String calend_id) {
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -379,15 +379,26 @@ public class LineDatabaseDAO implements LineDAO {
 			con = getConnection();
 			ps = con.prepareStatement("DELETE "
 									+ "FROM citis_stop_time "
-									+ "WHERE departure_time = ? AND notes = ? AND "
+									+ "WHERE departure_time = ? AND "
 									+ 		"trip_id = (SELECT ct.trip_id "
 									+ 				   "FROM citis_trip ct "
 									+ 				   		"INNER JOIN citis_route cr ON ct.route_id = cr.route_id "
-									+ 				   "WHERE ct.route_id = ?);");
+									+ 						"INNER JOIN citis_specific_trip cst ON cst.route_id = ct.route_id"
+									+ 				   "WHERE ct.route_id = ? AND cst.calendar_id = ? AND ct.trip_long_name = ?)"
+									+ 		"AND "
+									+ 		"notes = (SELECT ct.notes "
+									+ 				   "FROM citis_trip ct "
+									+ 				   		"INNER JOIN citis_route cr ON ct.route_id = cr.route_id "
+									+ 						"INNER JOIN citis_specific_trip cst ON cst.route_id = ct.route_id"
+									+ 				   "WHERE ct.route_id = ? AND cst.calendar_id = ? AND ct.trip_long_name = ?);");
 			
-			ps.setString(1, as.getId());
-			ps.setString(2, adt.toString());
-			ps.setString(3, notes);
+			ps.setString(1, adt.toString());
+			ps.setString(2, as.getId());
+			ps.setString(3, calend_id);
+			ps.setString(4, destiny);
+			ps.setString(5, as.getId());
+			ps.setString(6, calend_id);
+			ps.setString(7, destiny);
 			
 			ps.executeUpdate();
 			ps.close();
