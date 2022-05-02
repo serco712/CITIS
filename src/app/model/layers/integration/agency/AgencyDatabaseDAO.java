@@ -57,9 +57,6 @@ public class AgencyDatabaseDAO implements AgencyDAO {
 				
 				if (ps != null)
 					ps.close();
-				
-				if (con != null)
-					con.close();
 			}
 			catch (SQLException e) {
 				e.printStackTrace();

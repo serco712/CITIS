@@ -295,7 +295,7 @@ public class LineDatabaseDAO implements LineDAO {
 		List<Pair<Pair<ASLine, TimeADT>, Pair<String, String>>> as = new ArrayList<>();
 		
 		try {
-			ps = con.prepareStatement("SELECT ct.route_id, route_short_name, calendar_id, trip_long_name, sec_to_time((cst.departure + csti.departure_time) % 86400) AS schedule " + 
+			ps = con.prepareStatement("SELECT ct.route_id, route_short_name, calendar_id, trip_long_name, sec_to_time((cst.departure DIV 10000*60*60+(cst.departure-cst.departure DIV 10000*10000) DIV 100*60+(cst.departure-cst.departure DIV 100*100))+(csti.departure_time DIV 10000*60*60+(csti.departure_time-csti.departure_time DIV 10000*10000) DIV 100*60+(csti.departure_time-csti.departure_time DIV 100*100)) % 86400) AS schedule " + 
 					                  "FROM citis_route cr " + 
 					                  "INNER JOIN citis_trip ct ON cr.route_id = ct.route_id " + 
 					                  "INNER JOIN citis_specific_trip cst ON cst.trip_id = ct.trip_id " + 

@@ -329,6 +329,7 @@ public class AddScheduleDialog extends JDialog {
 				dtos.set_id(str.toString());
 				dtos.set_departureTime(t1.toString());
 				dtos.set_st_id(st_id.getText());
+				dtos.setCalendarId((String) calendar_id.getSelectedItem()); 
 				_ctrl.addData(5, dto);
 				_ctrl.addData(7, dtos);
 				dispose();
@@ -347,6 +348,7 @@ public class AddScheduleDialog extends JDialog {
 				dtos.set_id(str.toString());
 				dtos.set_departureTime(t1.toString());
 				dtos.set_st_id(st_id.getText());
+				dtos.setCalendarId((String) calendar_id.getSelectedItem()); 
 				_ctrl.addData(5, dto);
 				_ctrl.addData(6, dto);
 				_ctrl.addData(7, dtos);

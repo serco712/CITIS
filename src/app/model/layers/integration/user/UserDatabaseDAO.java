@@ -151,9 +151,6 @@ public class UserDatabaseDAO implements UserDAO {
 			try {
 				if (ps != null)
 					ps.close();
-				
-				if (con != null)
-					con.close();
 			}
 			catch (SQLException e) {
 				e.printStackTrace();
