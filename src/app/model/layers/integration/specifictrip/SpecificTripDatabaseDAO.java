@@ -37,13 +37,14 @@ public class SpecificTripDatabaseDAO implements SpecificTripDAO {
 			ps.setString(1, id);
 			rs = ps.executeQuery();
 			
+			if(!rs.next())
+				return null;
+			
 			sTrip = new DTOSpecificTrip();
-			/*
-			sTrip.setId(id);
-			sTrip.setTime(rs.getTimestamp("departure"));
-			sTrip.setCalendar(rs.getString("calendar"));
-			sTrip.setTripId(rs.getString("trip_id"));
-			*/
+			sTrip.set_st_id(id);
+			sTrip.set_departureTime(rs.getString("departure").toString());
+			sTrip.setCalendarId(rs.getString("calendar"));
+			sTrip.set_id(rs.getString("trip_id"));
 			ps.close();
 			rs.close();
 		}
@@ -57,9 +58,6 @@ public class SpecificTripDatabaseDAO implements SpecificTripDAO {
 				
 				if (ps != null)
 					ps.close();
-				
-				if (con != null)
-					con.close();
 			}
 			catch (SQLException e) {
 				e.printStackTrace();

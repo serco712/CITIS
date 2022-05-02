@@ -38,4 +38,8 @@ public class ASSpecificTrip extends ASTrip {
 	public void createSpecificTrip(DTOSpecificTrip transfer) {
 		SpecificTripDatabaseDAO.getInstance().createSpecificTrip(transfer);
 	}
+
+	public boolean findSpecificTrip(String key) {
+		return SpecificTripDatabaseDAO.getInstance().findSpecificTrip(key) != null;
+	}
 }
