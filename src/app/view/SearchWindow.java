@@ -148,7 +148,10 @@ public class SearchWindow extends JFrame implements CITISObserver {
 		miUser.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				new UserWindow(_cm, _ctrl);
+				if(_ctrl.checkData(10, null))
+					new RegisterWindow(_ctrl);
+				else
+					new UserWindow(_cm, _ctrl);
 			}
 		});
 		jmb.add(miUser);

@@ -138,6 +138,7 @@ public class SearchPanel extends JPanel {
 		});	
 	}	
 	
+	@SuppressWarnings("unchecked")
 	private void searchSchedule() {
 		ASStation ass = (ASStation) asbox.getSelectedItem();
 		List<Pair<TimeADT, String>> times = (List<Pair<TimeADT, String>>) _ctrl.findData(ControllerChoices.Find_Next_Time, ass.getId()); 

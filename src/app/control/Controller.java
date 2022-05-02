@@ -149,6 +149,8 @@ public class Controller {
 			return ASUser.getInstance().modify_permissions();
 		case ControllerChoices.Check_Specific_Trip_Exists:
 			return astr.findSpecificTrip(data[0]);
+		case ControllerChoices.Check_User_Guest:
+			return ASUser.getInstance().getRol() == 2;
 		}
 		return true;
 	}

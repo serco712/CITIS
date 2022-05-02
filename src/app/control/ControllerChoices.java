@@ -18,6 +18,7 @@ public class ControllerChoices {
 	public static final int Check_ScheduleCoincidences = 7;
 	public static final int Check_Permission_MenuOperations = 8;
 	public static final int Check_Specific_Trip_Exists = 9;
+	public static final int Check_User_Guest = 10;
 	
 	// Add Commands
 	public static final int Add_User = 1;
