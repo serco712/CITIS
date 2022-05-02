@@ -35,4 +35,9 @@ public class ControllerChoices {
 	
 	// Update Commands
 	public static final int Update_User = 1;
+	
+	// Administrator Commands
+	public static final int Admin_Consult = 1;
+	public static final int Admin_Delete = 2;
+	public static final int Admin_Modify = 3;
 }

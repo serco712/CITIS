@@ -7,32 +7,32 @@ import javax.swing.JOptionPane;
 import javax.swing.table.AbstractTableModel;
 
 import app.control.Controller;
+import app.control.ControllerChoices;
+import app.misc.Pair;
 import app.misc.TimeADT;
-import app.misc.Triplet;
 import app.model.business.line.ASLine;
 
 public class ScheduleTable extends AbstractTableModel {
 	private static final long serialVersionUID = 1L;	
-	private List<Triplet<ASLine, TimeADT, String>> _schedule;
-	private String[] cols = {"Linea", "Tipo de transporte", "Hora salida", "Notas"};
+	private List<Pair<Pair<ASLine, TimeADT>, Pair<String, String>>> _schedule;
+	private String[] cols = {"Linea", "Tipo de transporte", "Hora salida", "Destino", "Calendario"};
 
-	public ScheduleTable(List<Triplet<ASLine, TimeADT, String>> schedule) {
+	public ScheduleTable(List<Pair<Pair<ASLine, TimeADT>, Pair<String, String>>> schedule) {
 		_schedule = schedule;
 	}
 	
 	public void operations(Controller ctrl, int option, int row) {
 		switch(option) {
-		case AdminOperations.Consult:
+		case ControllerChoices.Admin_Consult:
 			break;
-		case AdminOperations.Delete:
-				Triplet<ASLine, TimeADT, String> obj = _schedule.get(row);
-				ctrl.adminOperation(2, obj.getFirst(), obj.getSecond(), obj.getThird());
+		case ControllerChoices.Admin_Delete:
+				Pair<Pair<ASLine, TimeADT>, Pair<String, String>> obj = _schedule.get(row);
+				ctrl.adminOperation(2, obj.getFirst().getFirst(), obj.getFirst().getSecond(), obj.getSecond().getFirst(), obj.getSecond().getSecond());
 				ImageIcon icon = new ImageIcon("resources/success.png");
 				JOptionPane.showMessageDialog(null, "Se ha eliminado con exito",
 						"Eliminar horario", JOptionPane.DEFAULT_OPTION, icon);
-			
 			break;
-		case AdminOperations.Modify:
+		case ControllerChoices.Admin_Modify:
 			
 			break;
 		}	
@@ -65,13 +65,15 @@ public class ScheduleTable extends AbstractTableModel {
 		
 		switch (y) {
 		case 0:
-			return _schedule.get(x).getFirst().getShortName();
+			return _schedule.get(x).getFirst().getFirst().getShortName();
 		case 1:
-			return _schedule.get(x).getFirst().getTransport().toString();
+			return _schedule.get(x).getFirst().getFirst().getTransport().toString();
 		case 2:
-			return _schedule.get(x).getSecond().toString();
+			return _schedule.get(x).getFirst().getSecond().toString();
 		case 3:
-			return _schedule.get(x).getThird().toString();
+			return _schedule.get(x).getSecond().getFirst().toString();
+		case 4:
+			return _schedule.get(x).getSecond().getSecond().toString();
 		default:
 			return null;
 		}

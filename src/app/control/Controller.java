@@ -9,6 +9,7 @@ import java.util.List;
 
 import app.factories.Factory;
 import app.factories.MainFactory;
+import app.misc.Pair;
 import app.misc.TimeADT;
 import app.misc.Triplet;
 import app.model.business.CITISMap;
@@ -202,10 +203,10 @@ public class Controller {
 		ASUser.getInstance(user);
 	}
 	
-	public void adminOperation(int option, Object t1, Object t2, Object t3) {
+	public void adminOperation(int option, Object t1, Object t2, Object t3, Object t4) {
 		switch(option) {
 		case ControllerChoices.Delete_Trip:
-			ASLine.removeDepartureTime((ASLine) t1, (TimeADT) t2, (String) t3);
+			ASLine.removeDepartureTime((ASLine) t1, (TimeADT) t2, (String) t3, (String) t4);
 			break;
 		}			
 	}
@@ -225,7 +226,7 @@ public class Controller {
 		return as.searchLines(id);
 	}
 	
-	public List<Triplet<ASLine, TimeADT, String>> getScheduleList(String stop_id) {
+	public List<Pair<Pair<ASLine, TimeADT>, Pair<String, String>>> getScheduleList(String stop_id) {
 		ASLine al = new ASLine();
 		return al.searchDepartureTimes(stop_id);
 	}
