@@ -4,6 +4,7 @@ import java.sql.*;
 
 import app.model.business.TransportType;
 import app.model.business.transport.DTOTransport;
+import app.model.layers.integration.Conectar;
 
 public class TransportDatabaseDAO implements TransportDAO {
 	
@@ -56,9 +57,6 @@ public class TransportDatabaseDAO implements TransportDAO {
 				
 				if (ps != null)
 					ps.close();
-				
-				if (con != null)
-					con.close();
 			}
 			catch (SQLException e) {
 				e.printStackTrace();
@@ -69,8 +67,8 @@ public class TransportDatabaseDAO implements TransportDAO {
 	}
 
 	private Connection getConnection() {
-		// TODO Auto-generated method stub
-		return null;
+		Conectar c = new Conectar();
+		return c.getConnection();
 	}
 
 	@Override

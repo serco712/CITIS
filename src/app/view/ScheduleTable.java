@@ -94,17 +94,15 @@ public class ScheduleTable extends AbstractTableModel {
 		
 		switch (y) {
 		case 0:
-			_schedule.get(x).getFirst().getFirst().getShortName();
+			obj = _schedule.get(x).getFirst().getFirst().getShortName();
 		case 1:
-			return _schedule.get(x).getFirst().getFirst().getTransport().toString();
+			obj = _schedule.get(x).getFirst().getFirst().getTransport().toString();
 		case 2:
-			return _schedule.get(x).getFirst().getSecond().toString();
+			obj = _schedule.get(x).getFirst().getSecond().toString();
 		case 3:
-			return _schedule.get(x).getSecond().getFirst().toString();
+			obj = _schedule.get(x).getSecond().getFirst().toString();
 		case 4:
-			return _schedule.get(x).getSecond().getSecond().toString();
-		default:
-			return null;
+			obj = _schedule.get(x).getSecond().getSecond().toString();
 		}
 	}
 }

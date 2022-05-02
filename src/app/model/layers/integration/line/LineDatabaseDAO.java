@@ -84,9 +84,6 @@ public class LineDatabaseDAO implements LineDAO {
 				
 				if (ps != null)
 					ps.close();
-				
-				if (con != null)
-					con.close();
 			}
 			catch (SQLException e) {
 				e.printStackTrace();
@@ -150,11 +147,9 @@ public class LineDatabaseDAO implements LineDAO {
 		if(dl != null)
 			return dl;
 
-		Connection con = null;
 		PreparedStatement ps = null;
 		
 		try {
-			con = getConnection();
 			ps = con.prepareStatement("INSERT INTO citis_route "
 									+ "VALUES (?, ?, ?, ?, ?, ?);");
 			
@@ -181,9 +176,6 @@ public class LineDatabaseDAO implements LineDAO {
 			try {
 				if (ps != null)
 					ps.close();
-				
-				if (con != null)
-					con.close();
 			}
 			catch (SQLException e) {
 				e.printStackTrace();
@@ -195,14 +187,12 @@ public class LineDatabaseDAO implements LineDAO {
 
 	@Override
 	public List<String> findRouteStations(String line_id) {
-		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		
 		List<String> as = new ArrayList<>();
 		
 		try {
-			con = getConnection();
 			ps = con.prepareStatement("SELECT cs.stop_id "
 									+ "FROM citis_route cr"
 									+ 	"INNER JOIN citis_trip ct ON cr.route_id = ct.route_id"
@@ -226,9 +216,6 @@ public class LineDatabaseDAO implements LineDAO {
 				
 				if (ps != null)
 					ps.close();
-				
-				if (con != null)
-					con.close();
 			}
 			catch (SQLException e) {
 				e.printStackTrace();
@@ -240,13 +227,11 @@ public class LineDatabaseDAO implements LineDAO {
 
 	@Override
 	public List<ASLine> searchLines() {
-		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		List<ASLine> l = new ArrayList<>();
 		
 		try {
-			con = getConnection();
 			ps = con.prepareStatement("SELECT * "
 									+ "FROM citis_route;");
 			
@@ -289,9 +274,6 @@ public class LineDatabaseDAO implements LineDAO {
 			try {
 				if (ps != null)
 					ps.close();
-				
-				if (con != null)
-					con.close();
 			}
 			catch (SQLException e) {
 				e.printStackTrace();
@@ -307,14 +289,12 @@ public class LineDatabaseDAO implements LineDAO {
 
 	@Override
 	public List<Pair<Pair<ASLine, TimeADT>, Pair<String, String>>> findDepartures(String stop_id) {
-		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		
 		List<Pair<Pair<ASLine, TimeADT>, Pair<String, String>>> as = new ArrayList<>();
 		
 		try {
-			con = getConnection();
 			ps = con.prepareStatement("SELECT ct.route_id, route_short_name, calendar_id, trip_long_name, sec_to_time((cst.departure + csti.departure_time) % 86400) AS schedule " + 
 					                  "FROM citis_route cr " + 
 					                  "INNER JOIN citis_trip ct ON cr.route_id = ct.route_id " + 
@@ -358,9 +338,6 @@ public class LineDatabaseDAO implements LineDAO {
 				
 				if (ps != null)
 					ps.close();
-				
-				if (con != null)
-					con.close();
 			}
 			catch (SQLException e) {
 				e.printStackTrace();
@@ -371,7 +348,6 @@ public class LineDatabaseDAO implements LineDAO {
 
 	@Override
 	public void removeDeparture(ASLine as, TimeADT adt, String destiny, String calend_id) {
-		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		
@@ -414,9 +390,6 @@ public class LineDatabaseDAO implements LineDAO {
 				
 				if (ps != null)
 					ps.close();
-				
-				if (con != null)
-					con.close();
 			}
 			catch (SQLException e) {
 				e.printStackTrace();

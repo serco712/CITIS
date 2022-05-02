@@ -98,7 +98,7 @@ public class ASLine extends CITISObject {
 	
 	public void setShortName(String shname) {
 		shortName = shname;
-		LineDatabaseDAO.getInstance().
+		LineDatabaseDAO.getInstance().updateShortName(shname);
 	}
 	
 	public String getLongName() {
