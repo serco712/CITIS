@@ -26,6 +26,7 @@ import app.model.business.trip.DTOSpecificTrip;
 import app.model.business.trip.DTOTrip;
 import app.model.business.user.ASUser;
 import app.model.business.user.DTOUser;
+import app.model.layers.integration.station.StationDatabaseDAO;
 import app.view.LineTable;
 import app.view.StationTable;
 import app.view.TableWindow;
@@ -119,6 +120,8 @@ public class Controller {
 			stationList = as.searchStations();
 			new TableWindow(new StationTable(stationList, this, null, false), "Listado de Estaciones");
 			break;
+		case ControllerChoices.Table_Times:
+			
 		//case ControllerChoices.Table_Transports:
 			//ASTransport at = new ASTransport();
 			//break;
@@ -195,9 +198,15 @@ public class Controller {
 		case ControllerChoices.Find_Calendar_Ids:
 			return as.findCalendarIds();
 		case ControllerChoices.Find_Last_Sequence_Id:
+<<<<<<< Updated upstream
 			return at.findLastSequenceId(key);
 		case ControllerChoices.Find_Trips:
 			return at.findListTrips();
+=======
+			return at.findTrip(key);
+		case ControllerChoices.Find_Next_Time:
+			return StationDatabaseDAO.getInstance().searchTimes(key);
+>>>>>>> Stashed changes
 		}
 		return null;
 	}

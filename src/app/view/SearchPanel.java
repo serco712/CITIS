@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -19,8 +20,12 @@ import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
 
 import app.control.Controller;
+import app.control.ControllerChoices;
+import app.misc.Pair;
+import app.misc.TimeADT;
 import app.model.business.TransportType;
 import app.model.business.station.ASStation;
+import app.model.layers.integration.station.StationDatabaseDAO;
 
 public class SearchPanel extends JPanel {
 	
@@ -79,6 +84,13 @@ public class SearchPanel extends JPanel {
 		this.add(Box.createRigidArea(new Dimension(0, 25)));
 		
 		JButton searchButton = new JButton("Buscar proximos transportes");
+		searchButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				searchSchedule();
+			}			
+		});
 		formatButton(searchButton);
 		
 		JPanel buttonsPanel = new JPanel();
@@ -125,4 +137,11 @@ public class SearchPanel extends JPanel {
 			}
 		});	
 	}	
+	
+	private void searchSchedule() {
+		ASStation ass = (ASStation) asbox.getSelectedItem();
+		List<Pair<TimeADT, String>> times = (List<Pair<TimeADT, String>>) _ctrl.findData(ControllerChoices.Find_Next_Time, ass.getId()); 
+		
+		new TableWindow(new TimeTable(times), "Horarios de " + ass.getName());
+	}
 }

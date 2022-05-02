@@ -6,6 +6,7 @@ public class ControllerChoices {
 	public static final int Table_Stations = 2;
 	public static final int Table_Transports = 3;
 	public static final int Table_Agencies = 4;
+	public static final int Table_Times = 5;
 	
 	// Check Data Commands
 	public static final int Check_UserData = 1;
@@ -35,7 +36,11 @@ public class ControllerChoices {
 	public static final int Find_User = 1;
 	public static final int Find_Calendar_Ids = 2;
 	public static final int Find_Last_Sequence_Id = 3;
+<<<<<<< Updated upstream
 	public static final int Find_Trips = 4;
+=======
+	public static final int Find_Next_Time = 4;
+>>>>>>> Stashed changes
 	
 	// Update Commands
 	public static final int Update_User = 1;
