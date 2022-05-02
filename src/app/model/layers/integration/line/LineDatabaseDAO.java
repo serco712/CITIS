@@ -296,13 +296,14 @@ public class LineDatabaseDAO implements LineDAO {
 		List<Triplet<Pair<ASLine, TimeADT>, Pair<String, String>, String>> as = new ArrayList<>();
 		
 		try {
-			ps = con.prepareStatement("SELECT ct.route_id, route_short_name, calendar_id, trip_long_name, sec_to_time((cst.departure DIV 10000*60*60+(cst.departure-cst.departure DIV 10000*10000) DIV 100*60+(cst.departure-cst.departure DIV 100*100))+(csti.departure_time DIV 10000*60*60+(csti.departure_time-csti.departure_time DIV 10000*10000) DIV 100*60+(csti.departure_time-csti.departure_time DIV 100*100)) % 86400) AS schedule, cst.specific_trip_id AS strip_id " + 
-					                  "FROM citis_route cr " + 
-					                  "INNER JOIN citis_trip ct ON cr.route_id = ct.route_id " + 
-					                  "INNER JOIN citis_specific_trip cst ON cst.trip_id = ct.trip_id " + 
-				                      "INNER JOIN citis_stop_time csti ON ct.trip_id = csti.trip_id " + 
-					                  "WHERE stop_id = ? " + 
-					                  "ORDER BY schedule ASC;");
+			ps = con.prepareStatement("SELECT specific_trip_id, ct.route_id, route_short_name, calendar_id, trip_long_name, sec_to_time(MOD ((cst.departure DIV 10000*60*60+(cst.departure-cst.departure DIV 10000*10000) DIV 100*60+(cst.departure-cst.departure DIV 100*100))+(csti.departure_time DIV 10000*60*60+(csti.departure_time-csti.departure_time DIV 10000*10000) DIV 100*60+(csti.departure_time-csti.departure_time DIV 100*100)), 86400)) AS schedule " +
+	                 "FROM citis_route cr " +
+	                 "INNER JOIN citis_trip ct ON cr.route_id = ct.route_id " +
+	                 "INNER JOIN citis_specific_trip cst ON cst.trip_id = ct.trip_id " +
+	                     "INNER JOIN citis_stop_time csti ON ct.trip_id = csti.trip_id " +
+	                 "WHERE stop_id = ? " +
+	                 "ORDER BY schedule ASC;");
+			
 			ps.setString(1, stop_id);
 			rs = ps.executeQuery();
 			
@@ -323,7 +324,7 @@ public class LineDatabaseDAO implements LineDAO {
     			
     			String s1 = rs.getString("trip_long_name");
     			String s2 = rs.getString("calendar_id");
-    			String s3 = rs.getString("strip_id");
+    			String s3 = rs.getString("specific_trip_id");
     			
     			Triplet<Pair<ASLine, TimeADT>, Pair<String, String>, String> p = new Triplet<Pair<ASLine, TimeADT>, Pair<String, String>, String>(
     					new Pair<ASLine, TimeADT>(new ASLine(dt), time), new Pair<String, String>(s1, s2), s3);
