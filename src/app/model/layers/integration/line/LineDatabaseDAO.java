@@ -378,10 +378,12 @@ public class LineDatabaseDAO implements LineDAO {
 		try {
 			con = getConnection();
 			ps = con.prepareStatement("DELETE "
-									+ "FROM citis_stop_time cst "
-									+ 	"INNER JOIN citis_trip ct ON cst.trip_id = ct.trip_id "
-									+ 	"INNER JOIN citis_route cr ON ct.route_id = cr.route_id "
-									+ "WHERE cr.route_id = ? AND cst.departure_time = ? AND cst.notes = ?;");
+									+ "FROM citis_stop_time "
+									+ "WHERE departure_time = ? AND notes = ? AND "
+									+ 		"trip_id = (SELECT ct.trip_id "
+									+ 				   "FROM citis_trip ct "
+									+ 				   		"INNER JOIN citis_route cr ON ct.route_id = cr.route_id "
+									+ 				   "WHERE ct.route_id = ?);");
 			
 			ps.setString(1, as.getId());
 			ps.setString(2, adt.toString());

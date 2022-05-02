@@ -28,7 +28,6 @@ import javax.swing.border.Border;
 
 import app.control.Controller;
 import app.model.business.TransportType;
-import app.model.business.line.DTOLine;
 import app.model.business.station.DTOStation;
 
 public class AddStationDialog extends JDialog {

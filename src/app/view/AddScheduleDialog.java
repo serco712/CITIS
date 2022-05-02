@@ -33,7 +33,6 @@ import app.control.Controller;
 import app.misc.TimeADT;
 import app.model.business.TransportType;
 import app.model.business.line.ASLine;
-import app.model.business.line.DTOLine;
 import app.model.business.station.ASStation;
 import app.model.business.trip.DTOTrip;
 

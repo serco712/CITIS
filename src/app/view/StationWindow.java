@@ -5,7 +5,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.util.ArrayList;
 import java.util.List;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -21,10 +20,12 @@ import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JToolBar;
+import javax.swing.ListSelectionModel;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 
@@ -39,18 +40,24 @@ public class StationWindow extends JDialog {
 	private static final long serialVersionUID = 1L;
 	
 	private ASStation _st;
-	
-	private int _option;
-	
+		
 	private Controller _ctrl;
+	
+	private boolean _config;
+	
+	private JTable schedule;
+	
+	private ScheduleTable sch;
 	
 	private Border _defaultBorder = BorderFactory.createLineBorder(Color.black, 2);
 
-	public StationWindow (ASStation st, Controller ctrl, int option) {
+	
+	// ICONOS DE ELIMINAR SERAN LAS OPCIONES NUEVAS!!!
+	public StationWindow (ASStation st, Controller ctrl, boolean config) {
 		super(new JFrame(), "Estacion " + st.getName(), true);
 		_st = st;
-		_option = option;
 		_ctrl = ctrl;
+		_config = config;
 		initGUI();
 	}
 
@@ -122,12 +129,76 @@ public class StationWindow extends JDialog {
 		p1.add(lineTablePanel);
 		
 		List<Triplet<ASLine, TimeADT, String>> lc = _ctrl.getScheduleList(_st.getId());
-		JTable t2 = new ScheduleTable(lc, _ctrl, _option);
-		t2.setBackground(Color.WHITE);
-		JPanel p2 = createViewPanel(t2, "Horarios");
+		sch = new ScheduleTable(lc);
+		schedule = new JTable(sch);
+		schedule.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		
+		if (_config) {
+			toolBar.add(Box.createHorizontalGlue());
+			
+			JButton deleteButton = new JButton();
+			deleteButton.setBorder(null);
+			deleteButton.setToolTipText("Eliminar");
+			deleteButton.setIcon(new ImageIcon("resources/delete_v2.png")); 
+			deleteButton.setBackground(Color.WHITE);
+			deleteButton.setAlignmentX(LEFT_ALIGNMENT);
+			deleteButton.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					if (schedule.getSelectedRow() == -1) {
+						ImageIcon icon = new ImageIcon("resources/error.png");
+						JOptionPane.showMessageDialog(null, "No se ha seleccionado el horario",
+								"Error", JOptionPane.DEFAULT_OPTION, icon);
+					} else
+						sch.operations(_ctrl, 2, schedule.getSelectedRow());
+				}			
+			});
+			
+			deleteButton.addMouseListener(new MouseAdapter() {
+				public void mouseEntered(MouseEvent e) {
+					deleteButton.setIcon(new ImageIcon("resources/delete_clickv2.png"));
+				}
+				public void mouseExited(MouseEvent e) {
+					deleteButton.setIcon(new ImageIcon("resources/delete_v2.png"));
+				}
+			});	
+			toolBar.add(deleteButton);
+			
+			JButton modifyButton = new JButton();
+			modifyButton.setBorder(null);
+			modifyButton.setToolTipText("Modificar");
+			modifyButton.setIcon(new ImageIcon("resources/edit.png")); 
+			modifyButton.setBackground(Color.WHITE);
+			modifyButton.setAlignmentX(LEFT_ALIGNMENT);
+			modifyButton.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					if (schedule.getSelectedRow() == -1) {
+						ImageIcon icon = new ImageIcon("resources/error.png");
+						JOptionPane.showMessageDialog(null, "No se ha seleccionado el horario",
+								"Error", JOptionPane.DEFAULT_OPTION, icon);
+					} else
+						sch.operations(_ctrl, 3, schedule.getSelectedRow());
+					}			
+			});
+			
+			modifyButton.addMouseListener(new MouseAdapter() {
+				public void mouseEntered(MouseEvent e) {
+					modifyButton.setIcon(new ImageIcon("resources/edit_click.png"));
+				}
+				public void mouseExited(MouseEvent e) {
+					modifyButton.setIcon(new ImageIcon("resources/edit.png"));
+				}
+			});	
+			toolBar.add(modifyButton);
+		}
+		
+		schedule.setBackground(Color.WHITE);
+		JPanel p2 = createViewPanel(schedule, "Horarios");
 		p2.setBackground(Color.WHITE);
 		centerPanel.add(p2);
 		
+		this.pack();
 		this.setLocationRelativeTo(null);
 		this.setVisible(true);
 	}

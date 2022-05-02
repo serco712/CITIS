@@ -115,7 +115,7 @@ public class Controller {
 		case ControllerChoices.Table_Stations:
 			ASStation as = new ASStation();
 			stationList = as.searchStations();
-			new TableWindow(new StationTable(stationList, this, null, 1), "Listado de Estaciones");
+			new TableWindow(new StationTable(stationList, this, null, false), "Listado de Estaciones");
 			break;
 		//case ControllerChoices.Table_Transports:
 			//ASTransport at = new ASTransport();

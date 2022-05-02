@@ -27,8 +27,6 @@ import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
 
 import app.control.Controller;
-import app.model.business.CITISMap;
-import app.model.business.user.ASUser;
 import app.model.business.user.DTOUser;
 
 public class RegisterWindow extends JDialog {
@@ -224,7 +222,7 @@ public class RegisterWindow extends JDialog {
 							du.setEmail(emaT.getText());
 							du.setPassword(str1);
 							_ctrl.addData(1, du);
-							ImageIcon icon = new ImageIcon("resources/check.jpg");
+							ImageIcon icon = new ImageIcon("resources/success.png");
 					        JOptionPane.showMessageDialog(null, "Los datos introducidos son validos", 
 					        		"Registrarse", JOptionPane.DEFAULT_OPTION, icon);
 					        RegisterWindow.this.setVisible(false);

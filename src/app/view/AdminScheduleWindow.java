@@ -35,17 +35,14 @@ public class AdminScheduleWindow extends JDialog {
 	
 	private JTable table;
 	private JTable tableFiltred;
-	
-	private int _option;
-		
+			
 	private List<ASStation> _list = new ArrayList<ASStation>();
 		
-	public AdminScheduleWindow(List<ASStation> list, Controller ctrl, int option, String name) {
+	public AdminScheduleWindow(List<ASStation> list, Controller ctrl, String name) {
 		super(new JFrame(), name, true);
 		_ctrl = ctrl;
 		_list = list;
-		_option = option;
-		table = new StationTable(list, _ctrl, null, option);
+		table = new StationTable(list, _ctrl, null, true);
 		initGUI(name);
 	}
 	
@@ -102,7 +99,7 @@ public class AdminScheduleWindow extends JDialog {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String _id = search.getText();
-				tableFiltred = new StationTable(_list, _ctrl, _id, _option);
+				tableFiltred = new StationTable(_list, _ctrl, _id, true);
 			}		
 		});
 		

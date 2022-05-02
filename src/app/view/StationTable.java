@@ -18,7 +18,7 @@ public class StationTable extends JTable {
 	
 	private Controller _ctrl;
 	
-	public StationTable(List<ASStation> stations, Controller ctrl, String id, int option) {
+	public StationTable(List<ASStation> stations, Controller ctrl, String id, boolean config) {
 		super(new StationTableModel(stations, id));
 		_ctrl = ctrl;
 		this.addMouseListener(new MouseListener() {
@@ -26,7 +26,7 @@ public class StationTable extends JTable {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if(e.getClickCount() == 2) {
-					new StationWindow(stations.get(StationTable.this.getSelectedRow()), _ctrl, option);
+					new StationWindow(stations.get(StationTable.this.getSelectedRow()), _ctrl, config);
 				}
 			}
 

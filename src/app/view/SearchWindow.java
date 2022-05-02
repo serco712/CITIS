@@ -111,8 +111,7 @@ public class SearchWindow extends JFrame implements CITISObserver {
 		}
 		
 		JMenu map_menu = new JMenu("Mapas");
-		if(_ctrl.checkData(8, new String[1])) map_menu.setBorder(BorderFactory.createMatteBorder(2,1,2,0,Color.black));
-		else map_menu.setBorder(BorderFactory.createMatteBorder(2,1,2,2,Color.black));
+		map_menu.setBorder(BorderFactory.createMatteBorder(2,1,2,2,Color.black));
 		JMenuItem map_train = new JMenuItem("Trenes");
 		JMenuItem map_bus = new JMenuItem("Autobuses");
 		JMenuItem map_subway = new JMenuItem("Metro");
@@ -126,38 +125,21 @@ public class SearchWindow extends JFrame implements CITISObserver {
 		map_bus.addActionListener(new MapListener());
 		map_subway.addActionListener(new MapListener());
 		
-		if(_ctrl.checkData(8, new String[1])) {
-			JMenu remove_menu = new JMenu("Eliminar");
-			remove_menu.setBorder(BorderFactory.createMatteBorder(2,1,2,0,Color.black));
-			JMenuItem rem_train = new JMenuItem("Horario");
-		
-			remove_menu.add(rem_train);
-			jmb.add(remove_menu);
-			
-			rem_train.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent arg0) {
-					new AdminScheduleWindow(_ctrl.listStations(), _ctrl, 2, "Eliminar horario");
-				}
-			
-			});
-			
-			JMenu modify_menu = new JMenu("Modificar");
-			modify_menu.setBorder(BorderFactory.createMatteBorder(2,1,2,2,Color.black));
-			JMenuItem mod_train = new JMenuItem("Horario");
-		
-			modify_menu.add(mod_train);
-			jmb.add(modify_menu);
-			
-			mod_train.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent arg0) {
-					new AdminScheduleWindow(_ctrl.listStations(), _ctrl, 3, "Modificar horario");
-				}
-			
-			});
-		}
 		jmb.add(Box.createHorizontalGlue());
+		
+		if(_ctrl.checkData(8, new String[1])) {
+			JButton adminConfig = new JButton();
+			adminConfig.setPreferredSize(new Dimension(32,32));
+			adminConfig.setToolTipText("Configurar horario(s)");
+			adminConfig.setIcon(loadImage("resources/config.png")); 
+			adminConfig.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					new AdminScheduleWindow(_ctrl.listStations(), _ctrl, "Configurar horario(s)");
+				}
+			});
+			jmb.add(adminConfig);
+		}
 		
 		JButton miUser = new JButton();
 		miUser.setPreferredSize(new Dimension(32,32));

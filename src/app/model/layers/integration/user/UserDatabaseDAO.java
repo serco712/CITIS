@@ -146,7 +146,7 @@ public class UserDatabaseDAO implements UserDAO {
 				ps.setInt(6, 0);
 			
 			try {
-				ps.setBlob(7, new FileInputStream("resources/profile.jpg"));
+				ps.setBlob(7, new FileInputStream("resources/profileImg.png"));
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			}

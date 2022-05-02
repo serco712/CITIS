@@ -1,10 +1,9 @@
 package app.view;
 
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.List;
 
-import javax.swing.JTable;
+import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import javax.swing.table.AbstractTableModel;
 
 import app.control.Controller;
@@ -12,60 +11,31 @@ import app.misc.TimeADT;
 import app.misc.Triplet;
 import app.model.business.line.ASLine;
 
-public class ScheduleTable extends JTable {
+public class ScheduleTable extends AbstractTableModel {
 	private static final long serialVersionUID = 1L;	
-
-	public ScheduleTable(List<Triplet<ASLine, TimeADT, String>> schedule, Controller ctrl, int option) {
-		super(new ScheduleTableModel(schedule));
-		
-		this.addMouseListener(new MouseListener() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				switch(option) {
-				case AdminOperations.Consult:
-					break;
-				case AdminOperations.Delete:
-					if(e.getClickCount() == 2) {
-						Triplet<ASLine, TimeADT, String> obj = schedule.get(ScheduleTable.this.getSelectedRow());
-						ctrl.adminOperation(2, obj.getFirst(), obj.getSecond(), obj.getThird());
-					}
-					break;
-				case AdminOperations.Modify:
-					if(e.getClickCount() == 1) {
-										
-					}
-					break;
-				}	
-			}
-			
-			@Override
-			public void mouseEntered(MouseEvent arg0) {
-			}
-
-			@Override
-			public void mouseExited(MouseEvent arg0) {
-			}
-
-			@Override
-			public void mousePressed(MouseEvent arg0) {
-			}
-
-			@Override
-			public void mouseReleased(MouseEvent arg0) {
-			}
-			
-		});
-	}		
-}
-
-class ScheduleTableModel extends AbstractTableModel {
-	private static final long serialVersionUID = 1L;
-	
 	private List<Triplet<ASLine, TimeADT, String>> _schedule;
 	private String[] cols = {"Linea", "Tipo de transporte", "Hora salida", "Notas"};
-	
-	public ScheduleTableModel(List<Triplet<ASLine, TimeADT, String>> schedule) {
+
+	public ScheduleTable(List<Triplet<ASLine, TimeADT, String>> schedule) {
 		_schedule = schedule;
+	}
+	
+	public void operations(Controller ctrl, int option, int row) {
+		switch(option) {
+		case AdminOperations.Consult:
+			break;
+		case AdminOperations.Delete:
+				Triplet<ASLine, TimeADT, String> obj = _schedule.get(row);
+				ctrl.adminOperation(2, obj.getFirst(), obj.getSecond(), obj.getThird());
+				ImageIcon icon = new ImageIcon("resources/success.png");
+				JOptionPane.showMessageDialog(null, "Se ha eliminado con exito",
+						"Eliminar horario", JOptionPane.DEFAULT_OPTION, icon);
+			
+			break;
+		case AdminOperations.Modify:
+			
+			break;
+		}	
 	}
 	
 	@Override
