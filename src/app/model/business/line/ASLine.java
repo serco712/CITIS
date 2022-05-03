@@ -54,20 +54,6 @@ public class ASLine extends CITISObject {
 		return shortName;
 	}
 	
-	@Override
-	public int getAmount() {
-		return numLines;
-	}
-	
-	@Override
-	public void onEnter() {
-		numLines++;
-	}
-	
-	public void onDelete() {
-		numLines--;
-	}
-	
 	public void addToLine(ASStation s) {
 		stops.add(s.getId());
 	}
@@ -107,11 +93,6 @@ public class ASLine extends CITISObject {
 	
 	public String getAgency() {
 		return agency;
-	}
-	
-	@Override
-	public String getTypeId() {
-		return TYPE_ID;
 	}
 	
 	public List<ASLine> searchLines() {

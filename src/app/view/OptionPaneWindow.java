@@ -56,13 +56,6 @@ public class OptionPaneWindow extends JDialog {
 		btnYes.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				try {
-					_ctrl.saveData();
-				}
-				catch(Exception a) {
-					System.out.println(a.getMessage());
-				}
-				
 				System.exit(0);
 			}
 		});

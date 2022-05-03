@@ -2,11 +2,11 @@ package app.model.business.line;
 
 import java.awt.Color;
 
+
 import java.util.List;
 
 import app.model.business.TransportType;
 import app.model.business.station.ASStation;
-import app.model.business.transport.ASTransport;
 
 public class DTOLine {
 	

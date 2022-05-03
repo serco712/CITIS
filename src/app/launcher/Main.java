@@ -2,28 +2,21 @@ package app.launcher;
 
 import javax.swing.SwingUtilities;
 
+
 import app.control.Controller;
-import app.factories.MainFactory;
-import app.model.business.CITISMap;
 import app.view.InitWindow;
 
 public class Main {
 	
-	private static MainFactory ft;
-	
-	private static CITISMap cm;
-	
-	private static Controller df;
+	private static Controller ctrl;
 	
 	public static void start() {
 		try {
-			ft = new MainFactory();
-			cm = new CITISMap();
-			df = new Controller(ft, cm);
+			ctrl = new Controller();
 			SwingUtilities.invokeLater(new Runnable() {
 				@Override
 				public void run() {
-					new InitWindow(cm, df);
+					new InitWindow(ctrl);
 				}
 				
 			});

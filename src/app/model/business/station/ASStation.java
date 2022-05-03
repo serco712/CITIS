@@ -13,9 +13,6 @@ import app.model.layers.integration.station.StationDatabaseDAO;
 
 public class ASStation extends CITISObject {
 	
-	private static final String TYPE_ID = "station";
-	
-	private static int numStations;
 	private String _name;
 	private String _parent;
 	private int xCoor, yCoor;
@@ -72,26 +69,6 @@ public class ASStation extends CITISObject {
 	@Override
 	public String toString() {
 		return _name;
-	}
-
-	@Override
-	public void onEnter() {
-		numStations++;
-	}
-
-	@Override
-	public void onDelete() {
-		numStations--;
-	}
-
-	@Override
-	public int getAmount() {
-		return numStations;
-	}
-
-	@Override
-	public String getTypeId() {
-		return TYPE_ID;
 	}
 	
 	public void setLineList(List<ASLine> ls) {
