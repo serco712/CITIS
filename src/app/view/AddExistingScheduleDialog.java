@@ -189,8 +189,8 @@ private static final long serialVersionUID = 1L;
 			dto.set_stop_id(((ASStation) stop_id.getSelectedItem()).getId());
 			dto.set_departureTime(t.toString());
 			dto.set_stop_notes(st_notes.getText());
-			// ADD TO MARIA DB
-			//_ctrl.addData(5, dto);
+			dto.set_stop_sequence((Integer) _ctrl.findData(3, dto.get_id()) + 1);
+			_ctrl.addData(5, dto);
 			dispose();
 		}
 		else {
@@ -200,10 +200,13 @@ private static final long serialVersionUID = 1L;
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
 	private void loadTrips() {
 		trip_id_model = new DefaultComboBoxModel<>();
 		trip_id_model.removeAllElements();
-		// Take data from MariaDB
+		List<ASTrip> ls = (List<ASTrip>) _ctrl.findData(4, null);
+		for(ASTrip as : ls)
+			trip_id_model.addElement(as);
 		trip_id = new JComboBox<>(trip_id_model);
 		trip_id.setPreferredSize(new Dimension(150, 20));
 		trip_id.setBorder(_defaultBorder);

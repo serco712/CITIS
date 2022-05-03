@@ -65,9 +65,6 @@ public class UserDatabaseDAO implements UserDAO {
 				
 				if (ps != null)
 					ps.close();
-				
-				if (con != null)
-					con.close();
 			}
 			catch (SQLException e) {
 				e.printStackTrace();
@@ -83,11 +80,9 @@ public class UserDatabaseDAO implements UserDAO {
 		if(u == null)
 			createUser(user);
 
-		Connection con = null;
 		PreparedStatement ps = null;
 		
 		try {
-			con = getConnection();
 			ps = con.prepareStatement("UPDATE citis_users "
 									+ "SET name = ?, surname = ?, email = ?, password = ?, rol = ?, photo = ? "
 									+ "WHERE id = ?;");
@@ -110,9 +105,6 @@ public class UserDatabaseDAO implements UserDAO {
 			try {
 				if (ps != null)
 					ps.close();
-				
-				if (con != null)
-					con.close();
 			}
 			catch (SQLException e) {
 				e.printStackTrace();
@@ -126,11 +118,9 @@ public class UserDatabaseDAO implements UserDAO {
 		if(u != null)
 			return u;
 		
-		Connection con = null;
 		PreparedStatement ps = null;
 		
 		try {
-			con = getConnection();
 			ps = con.prepareStatement("INSERT INTO citis_users "
 									+ "VALUES (?, ?, ?, ?, ?, ?, ?);");
 			
@@ -161,9 +151,6 @@ public class UserDatabaseDAO implements UserDAO {
 			try {
 				if (ps != null)
 					ps.close();
-				
-				if (con != null)
-					con.close();
 			}
 			catch (SQLException e) {
 				e.printStackTrace();
@@ -180,13 +167,11 @@ public class UserDatabaseDAO implements UserDAO {
 
 	@Override
 	public boolean checkUserData(String email, String password) {
-		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		String pas = "";
 		
 		try {
-			con = getConnection();
 			ps = con.prepareStatement("SELECT password "
 									+ "FROM citis_users "
 									+ "WHERE email = ?;");
@@ -211,9 +196,6 @@ public class UserDatabaseDAO implements UserDAO {
 				
 				if (ps != null)
 					ps.close();
-				
-				if (con != null)
-					con.close();
 			}
 			catch (SQLException e) {
 				e.printStackTrace();
@@ -225,12 +207,10 @@ public class UserDatabaseDAO implements UserDAO {
 
 	@Override
 	public boolean checkUserExists(String email) {
-		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		
 		try {
-			con = getConnection();
 			ps = con.prepareStatement("SELECT * "
 									+ "FROM citis_users "
 									+ "WHERE email = ?;");
@@ -253,9 +233,6 @@ public class UserDatabaseDAO implements UserDAO {
 				
 				if (ps != null)
 					ps.close();
-				
-				if (con != null)
-					con.close();
 			}
 			catch (SQLException e) {
 				e.printStackTrace();

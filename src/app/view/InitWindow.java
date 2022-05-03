@@ -1,6 +1,7 @@
 package app.view;
 
 import java.awt.BorderLayout;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagLayout;
@@ -24,29 +25,18 @@ import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
 
 import app.control.Controller;
-import app.model.business.CITISMap;
 
 public class InitWindow extends JFrame {
 	
 	private static final long serialVersionUID = 1L;
 	
-	private CITISMap cm;
-	
 	private Border _defaultBorder = BorderFactory.createLineBorder(Color.black, 2);
 	
 	private Controller _ctrl;
 	
-	public InitWindow (CITISMap cm, Controller ctrl) {
+	public InitWindow (Controller ctrl) {
 		super("CITIS");
 		_ctrl = ctrl;
-		try {
-			_ctrl.loadData();
-		}
-		catch(Exception e) {
-			System.out.println(e.getMessage());
-		}
-		
-		this.cm = cm;
 		this.setLayout(new BorderLayout());
 		InitGUI();
 		this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);

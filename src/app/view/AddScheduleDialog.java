@@ -275,6 +275,10 @@ public class AddScheduleDialog extends JDialog {
 		if(!trip_id.getText().equals("") && !trip_long_name.getText().equals("")) {
 			TimeADT t = new TimeADT((Integer) hours.getValue(), (Integer) minutes.getValue(), 
 					(Integer) seconds.getValue());
+			
+			TimeADT t1 = new TimeADT((Integer) dhours.getValue(), (Integer) dminutes.getValue(), 
+					(Integer) dseconds.getValue());
+			
 			int ttype;
 			if(((ASStation) stop_id.getSelectedItem()).getTransport().equals(TransportType.SUBWAY))
 				ttype = 4;
@@ -287,14 +291,48 @@ public class AddScheduleDialog extends JDialog {
 			str.append("_");
 			str.append(trip_id.getText());
 			String[] dat = {str.toString()};
+			
+			int stype;
+			if(((ASStation) stop_id.getSelectedItem()).getTransport().equals(TransportType.SUBWAY))
+				stype = 4;
+			else if(((ASStation) stop_id.getSelectedItem()).getTransport().equals(TransportType.TRAIN))
+				stype = 5;
+			else
+				stype = 8;
+			StringBuilder stra = new StringBuilder();
+			stra.append(stype);
+			stra.append("_");
+			stra.append(st_id.getText());
+			String[] data = {stra.toString()};
 			if(((ASStation) stop_id.getSelectedItem()).getTransport() != 
 					((ASLine) route_id.getSelectedItem()).getTransport()) {
 				ImageIcon icon = new ImageIcon("resources/error.png");
 				JOptionPane.showMessageDialog(null, "La estacion y la linea no son del mismo tipo", 
 		        		"Anadir Horario", JOptionPane.DEFAULT_OPTION, icon);
 			}
+			else if(_ctrl.checkData(9, data)) {
+				ImageIcon icon = new ImageIcon("resources/error.png");
+				JOptionPane.showMessageDialog(null, "El id de viaje especifico ya existe", 
+		        		"Anadir Horario", JOptionPane.DEFAULT_OPTION, icon);
+			}
 			else if (_ctrl.checkData(3, dat)) {
-				// Trip exists so with this id creates a new specific trip
+				DTOTrip dto = new DTOTrip();
+				dto.set_id(str.toString());
+				dto.set_stop_id(((ASStation)stop_id.getSelectedItem()).getId());
+				dto.set_departureTime(t.toString());
+				dto.set_stop_sequence((Integer) _ctrl.findData(3, str.toString()));
+				dto.set_stop_notes(st_notes.getText());
+				dto.set_route_id(((ASLine)route_id.getSelectedItem()).getId());
+				dto.set_name(trip_long_name.getText());
+				dto.set_trip_notes(trip_notes.getText());
+				DTOSpecificTrip dtos = new DTOSpecificTrip();
+				dtos.set_id(str.toString());
+				dtos.set_departureTime(t1.toString());
+				dtos.set_st_id(st_id.getText());
+				dtos.setCalendarId((String) calendar_id.getSelectedItem()); 
+				_ctrl.addData(5, dto);
+				_ctrl.addData(7, dtos);
+				dispose();
 			}
 			else {
 				DTOTrip dto = new DTOTrip();
@@ -308,9 +346,12 @@ public class AddScheduleDialog extends JDialog {
 				dto.set_trip_notes(trip_notes.getText());
 				DTOSpecificTrip dtos = new DTOSpecificTrip();
 				dtos.set_id(str.toString());
-				dtos.set_departureTime("");
+				dtos.set_departureTime(t1.toString());
 				dtos.set_st_id(st_id.getText());
+				dtos.setCalendarId((String) calendar_id.getSelectedItem()); 
 				_ctrl.addData(5, dto);
+				_ctrl.addData(6, dto);
+				_ctrl.addData(7, dtos);
 				dispose();
 			}
 		}

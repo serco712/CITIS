@@ -14,4 +14,5 @@ public interface StationDAO {
 	public DTOStation createStation(DTOStation station);
 	public List<ASStation> searchStations();
 	public List<ASLine> searchLines(String id);
+	public List<Pair<TimeADT, String>> searchTimes(String id);
 }

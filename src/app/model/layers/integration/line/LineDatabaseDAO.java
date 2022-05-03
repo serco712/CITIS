@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import app.misc.Pair;
 import app.misc.TimeADT;
 import app.misc.Triplet;
 import app.model.business.TransportType;
@@ -84,9 +85,6 @@ public class LineDatabaseDAO implements LineDAO {
 				
 				if (ps != null)
 					ps.close();
-				
-				if (con != null)
-					con.close();
 			}
 			catch (SQLException e) {
 				e.printStackTrace();
@@ -150,11 +148,9 @@ public class LineDatabaseDAO implements LineDAO {
 		if(dl != null)
 			return dl;
 
-		Connection con = null;
 		PreparedStatement ps = null;
 		
 		try {
-			con = getConnection();
 			ps = con.prepareStatement("INSERT INTO citis_route "
 									+ "VALUES (?, ?, ?, ?, ?, ?);");
 			
@@ -181,9 +177,6 @@ public class LineDatabaseDAO implements LineDAO {
 			try {
 				if (ps != null)
 					ps.close();
-				
-				if (con != null)
-					con.close();
 			}
 			catch (SQLException e) {
 				e.printStackTrace();
@@ -195,14 +188,12 @@ public class LineDatabaseDAO implements LineDAO {
 
 	@Override
 	public List<String> findRouteStations(String line_id) {
-		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		
 		List<String> as = new ArrayList<>();
 		
 		try {
-			con = getConnection();
 			ps = con.prepareStatement("SELECT cs.stop_id "
 									+ "FROM citis_route cr"
 									+ 	"INNER JOIN citis_trip ct ON cr.route_id = ct.route_id"
@@ -226,9 +217,6 @@ public class LineDatabaseDAO implements LineDAO {
 				
 				if (ps != null)
 					ps.close();
-				
-				if (con != null)
-					con.close();
 			}
 			catch (SQLException e) {
 				e.printStackTrace();
@@ -240,13 +228,11 @@ public class LineDatabaseDAO implements LineDAO {
 
 	@Override
 	public List<ASLine> searchLines() {
-		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		List<ASLine> l = new ArrayList<>();
 		
 		try {
-			con = getConnection();
 			ps = con.prepareStatement("SELECT * "
 									+ "FROM citis_route;");
 			
@@ -289,9 +275,6 @@ public class LineDatabaseDAO implements LineDAO {
 			try {
 				if (ps != null)
 					ps.close();
-				
-				if (con != null)
-					con.close();
 			}
 			catch (SQLException e) {
 				e.printStackTrace();
@@ -306,22 +289,21 @@ public class LineDatabaseDAO implements LineDAO {
 	}
 
 	@Override
-	public List<Triplet<ASLine, TimeADT, String>> findDepartures(String stop_id) {
-		Connection con = null;
+	public List<Triplet<Pair<ASLine, TimeADT>, Pair<String, String>, String>> findDepartures(String stop_id) {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		
-		List<Triplet<ASLine, TimeADT, String>> as = new ArrayList<>();
+		List<Triplet<Pair<ASLine, TimeADT>, Pair<String, String>, String>> as = new ArrayList<>();
 		
 		try {
-			con = getConnection();
-			ps = con.prepareStatement("SELECT ct.route_id, route_short_name, calendar_id, trip_long_name, sec_to_time((cst.departure + csti.departure_time) % 86400) AS schedule " + 
-					                  "FROM citis_route cr " + 
-					                  "INNER JOIN citis_trip ct ON cr.route_id = ct.route_id " + 
-					                  "INNER JOIN citis_specific_trip cst ON cst.trip_id = ct.trip_id " + 
-				                      "INNER JOIN citis_stop_time csti ON ct.trip_id = csti.trip_id " + 
-					                  "WHERE stop_id = ? " + 
-					                  "ORDER BY schedule ASC;");
+			ps = con.prepareStatement("SELECT specific_trip_id, ct.route_id, route_short_name, calendar_id, trip_long_name, sec_to_time(MOD ((cst.departure DIV 10000*60*60+(cst.departure-cst.departure DIV 10000*10000) DIV 100*60+(cst.departure-cst.departure DIV 100*100))+(csti.departure_time DIV 10000*60*60+(csti.departure_time-csti.departure_time DIV 10000*10000) DIV 100*60+(csti.departure_time-csti.departure_time DIV 100*100)), 86400)) AS schedule " +
+	                 "FROM citis_route cr " +
+	                 "INNER JOIN citis_trip ct ON cr.route_id = ct.route_id " +
+	                 "INNER JOIN citis_specific_trip cst ON cst.trip_id = ct.trip_id " +
+	                     "INNER JOIN citis_stop_time csti ON ct.trip_id = csti.trip_id " +
+	                 "WHERE stop_id = ? " +
+	                 "ORDER BY schedule ASC;");
+			
 			ps.setString(1, stop_id);
 			rs = ps.executeQuery();
 			
@@ -340,11 +322,12 @@ public class LineDatabaseDAO implements LineDAO {
     			TimeADT time = new TimeADT(Integer.parseInt(s[0]), Integer.parseInt(s[1]),
     					Integer.parseInt(s[2]));
     			
-    			StringBuilder str = new StringBuilder();
-    			str.append(rs.getString("trip_long_name") + ' ');
-    			str.append('(' + rs.getString("calendar_id") + ')');
+    			String s1 = rs.getString("trip_long_name");
+    			String s2 = rs.getString("calendar_id");
+    			String s3 = rs.getString("specific_trip_id");
     			
-    			Triplet<ASLine, TimeADT, String> p = new Triplet<ASLine, TimeADT, String>(new ASLine(dt), time, str.toString());
+    			Triplet<Pair<ASLine, TimeADT>, Pair<String, String>, String> p = new Triplet<Pair<ASLine, TimeADT>, Pair<String, String>, String>(
+    					new Pair<ASLine, TimeADT>(new ASLine(dt), time), new Pair<String, String>(s1, s2), s3);
     			as.add(p);
             }
 		}
@@ -358,9 +341,6 @@ public class LineDatabaseDAO implements LineDAO {
 				
 				if (ps != null)
 					ps.close();
-				
-				if (con != null)
-					con.close();
 			}
 			catch (SQLException e) {
 				e.printStackTrace();
@@ -370,8 +350,7 @@ public class LineDatabaseDAO implements LineDAO {
 	}
 
 	@Override
-	public void removeDeparture(ASLine as, TimeADT adt, String notes) {
-		Connection con = null;
+	public void removeDeparture(ASLine as, TimeADT adt, String destiny, String calend_id, String st_id, String strip_id) {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		
@@ -379,15 +358,15 @@ public class LineDatabaseDAO implements LineDAO {
 			con = getConnection();
 			ps = con.prepareStatement("DELETE "
 									+ "FROM citis_stop_time "
-									+ "WHERE departure_time = ? AND notes = ? AND "
-									+ 		"trip_id = (SELECT ct.trip_id "
+									+ "WHERE trip_id = (SELECT DISTINCT ct.trip_id "
 									+ 				   "FROM citis_trip ct "
-									+ 				   		"INNER JOIN citis_route cr ON ct.route_id = cr.route_id "
-									+ 				   "WHERE ct.route_id = ?);");
+									+ 						"INNER JOIN citis_specific_trip cst ON cst.trip_id = ct.trip_id "
+									+ 				   "WHERE cst.specific_trip_id = ?) "
+									+ 		"AND "
+									+ 		"stop_id = ?;");
 			
-			ps.setString(1, as.getId());
-			ps.setString(2, adt.toString());
-			ps.setString(3, notes);
+			ps.setString(1, strip_id);
+			ps.setString(2, st_id);
 			
 			ps.executeUpdate();
 			ps.close();
@@ -403,6 +382,37 @@ public class LineDatabaseDAO implements LineDAO {
 				
 				if (ps != null)
 					ps.close();
+			}
+			catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	@Override
+	public void updateShortName(String oldName, String newName) {
+		Connection con = null;
+		PreparedStatement ps = null;
+		
+		try {
+			con = getConnection();
+			ps = con.prepareStatement("UPDATE citis_route "
+									  + "SET route_short_name = ? "
+									  + "WHERE route_short_name = ?;");
+			
+			ps.setString(1, newName);
+			ps.setString(2, oldName);
+			
+			ps.executeUpdate();
+			ps.close();
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		finally {
+			try {
+				if (ps != null)
+					ps.close();
 				
 				if (con != null)
 					con.close();
@@ -412,5 +422,5 @@ public class LineDatabaseDAO implements LineDAO {
 			}
 		}
 	}
-
+	
 }

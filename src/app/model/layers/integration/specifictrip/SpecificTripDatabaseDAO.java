@@ -37,13 +37,14 @@ public class SpecificTripDatabaseDAO implements SpecificTripDAO {
 			ps.setString(1, id);
 			rs = ps.executeQuery();
 			
+			if(!rs.next())
+				return null;
+			
 			sTrip = new DTOSpecificTrip();
-			/*
-			sTrip.setId(id);
-			sTrip.setTime(rs.getTimestamp("departure"));
-			sTrip.setCalendar(rs.getString("calendar"));
-			sTrip.setTripId(rs.getString("trip_id"));
-			*/
+			sTrip.set_st_id(id);
+			sTrip.set_departureTime(rs.getString("departure").toString());
+			sTrip.setCalendarId(rs.getString("calendar"));
+			sTrip.set_id(rs.getString("trip_id"));
 			ps.close();
 			rs.close();
 		}
@@ -57,9 +58,6 @@ public class SpecificTripDatabaseDAO implements SpecificTripDAO {
 				
 				if (ps != null)
 					ps.close();
-				
-				if (con != null)
-					con.close();
 			}
 			catch (SQLException e) {
 				e.printStackTrace();
@@ -73,46 +71,6 @@ public class SpecificTripDatabaseDAO implements SpecificTripDAO {
 		Conectar conectar = new Conectar();
 		return conectar.getConnection();
 	}
-
-	@Override
-	public void saveSpecificTrip(DTOSpecificTrip sTrip) {
-		if (!createSpecificTrip(sTrip).equals(sTrip)) {
-			Connection con = null;
-			PreparedStatement ps = null;
-			
-			try {
-				con = getConnection();
-				ps = con.prepareStatement("UPDATE citis_trip "
-										+ "SET calendar_id = ?, route_id = ?, departure = ?, n_route = ?, trip_id = ? "
-										+ "WHERE specific_trip_id = ?");
-				/*
-				ps.setString(1, sTrip.getCalendar());
-				ps.setTimestamp(2, sTrip.getDepartureTime());
-				ps.setString(3, sTrip.getLineName());
-				ps.setString(4, sTrip.getTripId());
-				*/
-				ps.executeUpdate();
-				ps.close();
-			}
-			catch (SQLException e) {
-				e.printStackTrace();
-			}
-			finally {
-				try {
-					if (ps != null)
-						ps.close();
-					
-					if (con != null)
-						con.close();
-				}
-				catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-	}
-
-	
 	
 	@Override
 	public DTOSpecificTrip createSpecificTrip(DTOSpecificTrip sTrip) {
@@ -126,15 +84,17 @@ public class SpecificTripDatabaseDAO implements SpecificTripDAO {
 		try {
 			con = getConnection();
 			ps = con.prepareStatement("INSERT INTO citis_specific_trip "
-									+ "(?, ?, ?, ?, ?)");
-			
-			/*
-			ps.setString(1, sTrip.getCalendar());
-			ps.setTimestamp(2, sTrip.getDepartureTime());
-			ps.setString(3, sTrip.getLineName());
-			ps.setString(4, sTrip.getId());
-			ps.setString(5, sTrip.getTripId());
-			*/
+									+ "VALUES (?, ?, ?, ?, ?);");
+
+
+			ps.setString(1, sTrip.get_st_id());
+			String[] s = sTrip.get_departureTime().split(":");
+			int milis = Integer.parseInt(s[0])*3600 + Integer.parseInt(s[1]) * 60 +
+					Integer.parseInt(s[2]);
+			ps.setTime(2, new Time(milis * 1000));
+			ps.setString(3, "");
+			ps.setString(4, sTrip.get_id());
+			ps.setString(5, sTrip.getCalendarId());
 			
 			
 			ps.executeUpdate();

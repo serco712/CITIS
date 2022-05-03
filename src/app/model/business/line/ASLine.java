@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import app.misc.Pair;
 import app.misc.TimeADT;
 import app.misc.Triplet;
 import app.model.business.CITISObject;
@@ -53,20 +54,6 @@ public class ASLine extends CITISObject {
 		return shortName;
 	}
 	
-	@Override
-	public int getAmount() {
-		return numLines;
-	}
-	
-	@Override
-	public void onEnter() {
-		numLines++;
-	}
-	
-	public void onDelete() {
-		numLines--;
-	}
-	
 	public void addToLine(ASStation s) {
 		stops.add(s.getId());
 	}
@@ -95,17 +82,17 @@ public class ASLine extends CITISObject {
 		return shortName;
 	}
 	
+	public void setShortName(String oldName, String newName) {
+		shortName = newName;
+		LineDatabaseDAO.getInstance().updateShortName(oldName, newName);
+	}
+	
 	public String getLongName() {
 		return longName;
 	}
 	
 	public String getAgency() {
 		return agency;
-	}
-	
-	@Override
-	public String getTypeId() {
-		return TYPE_ID;
 	}
 	
 	public List<ASLine> searchLines() {
@@ -120,11 +107,11 @@ public class ASLine extends CITISObject {
 		return LineDatabaseDAO.getInstance().findLine(id) != null;
 	}
 
-	public List<Triplet<ASLine, TimeADT, String>> searchDepartureTimes(String stop_id) {
+	public List<Triplet<Pair<ASLine, TimeADT>, Pair<String, String>, String>> searchDepartureTimes(String stop_id) {
 		return LineDatabaseDAO.getInstance().findDepartures(stop_id);
 	}
 	
-	public static void removeDepartureTime(ASLine as, TimeADT adt, String note) {
-		LineDatabaseDAO.getInstance().removeDeparture(as, adt, note);
+	public static void removeDepartureTime(ASLine as, TimeADT adt, String destiny, String calend_id, String st_id, String strip_id) {
+		LineDatabaseDAO.getInstance().removeDeparture(as, adt, destiny, calend_id, st_id, strip_id);
 	}
 }

@@ -5,7 +5,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import app.misc.Pair;
@@ -15,6 +18,7 @@ import app.model.business.line.ASLine;
 import app.model.business.line.DTOLine;
 import app.model.business.station.ASStation;
 import app.model.business.station.DTOStation;
+import app.model.business.trip.ASSpecificTrip;
 import app.model.layers.integration.Conectar;
 
 public class StationDatabaseDAO implements StationDAO {
@@ -78,9 +82,6 @@ public class StationDatabaseDAO implements StationDAO {
 				
 				if (ps != null)
 					ps.close();
-				
-				if (con != null)
-					con.close();
 			}
 			catch (SQLException e) {
 				e.printStackTrace();
@@ -96,11 +97,9 @@ public class StationDatabaseDAO implements StationDAO {
 		if(dt == null)
 			createStation(station);
 
-		Connection con = null;
 		PreparedStatement ps = null;
 		
 		try {
-			con = getConnection();
 			ps = con.prepareStatement("UPDATE citis_stop"
 									+ "SET stop_name = ?, x_coor = ?, y_coor = ?, stop_city = ?, parent_id = ?"
 									+ "WHERE stop_id = ?;");
@@ -122,9 +121,6 @@ public class StationDatabaseDAO implements StationDAO {
 			try {
 				if (ps != null)
 					ps.close();
-				
-				if (con != null)
-					con.close();
 			}
 			catch (SQLException e) {
 				e.printStackTrace();
@@ -138,11 +134,9 @@ public class StationDatabaseDAO implements StationDAO {
 		if(dt != null)
 			return dt;
 
-		Connection con = null;
 		PreparedStatement ps = null;
 		
 		try {
-			con = getConnection();
 			ps = con.prepareStatement("INSERT INTO citis_stop "
 									+ "VALUES (?, ?, ?, ?, ?, ?);");
 			
@@ -163,9 +157,6 @@ public class StationDatabaseDAO implements StationDAO {
 			try {
 				if (ps != null)
 					ps.close();
-				
-				if (con != null)
-					con.close();
 			}
 			catch (SQLException e) {
 				e.printStackTrace();
@@ -183,13 +174,11 @@ public class StationDatabaseDAO implements StationDAO {
 	@Override
 	public List<ASStation> searchStations() {
 		List<ASStation> ls = new ArrayList<>();
-		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		DTOStation st = null;
 		
 		try {
-			con = getConnection();
 			ps = con.prepareStatement("SELECT * "
 									+ "FROM citis_stop;");
 			rs = ps.executeQuery();
@@ -226,9 +215,6 @@ public class StationDatabaseDAO implements StationDAO {
 				
 				if (ps != null)
 					ps.close();
-				
-				if (con != null)
-					con.close();
 			}
 			catch (SQLException e) {
 				e.printStackTrace();
@@ -240,12 +226,10 @@ public class StationDatabaseDAO implements StationDAO {
 
 	@Override
 	public List<ASLine> searchLines(String id) {
-		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		List<ASLine> al = new ArrayList<>();
 		try {
-			con = getConnection();
 			ps = con.prepareStatement("SELECT cr.route_id, route_short_name, route_long_name, route_color, route_text_color, agency_name "
 							+   "FROM citis_route cr "
 							+ 	"INNER JOIN citis_trip ct ON cr.route_id = ct.route_id "
@@ -294,7 +278,6 @@ public class StationDatabaseDAO implements StationDAO {
 			
 			ps.close();
 			rs.close();
-			con.close();
 		}
 		catch (SQLException e) {
 			e.printStackTrace();
@@ -303,9 +286,6 @@ public class StationDatabaseDAO implements StationDAO {
 			try {
 				if (ps != null)
 					ps.close();
-				
-				if (con != null)
-					con.close();
 			}
 			catch (SQLException e) {
 				e.printStackTrace();
@@ -313,5 +293,61 @@ public class StationDatabaseDAO implements StationDAO {
 		}
 		
 		return al;
+	}
+	
+	@Override
+	public List<Pair<TimeADT, String>> searchTimes(String id) {
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		List<Pair<TimeADT, String>> time = new ArrayList<>();
+		
+		try {
+			Calendar calendario = new GregorianCalendar();
+			int hora =calendario.get(Calendar.HOUR_OF_DAY);
+			int minutos = calendario.get(Calendar.MINUTE);
+			int segundos = calendario.get(Calendar.SECOND);
+			Time t = new Time((hora * 3600 + minutos * 60 + segundos - 3600) * 1000);
+			
+			System.out.println(t.toString());
+			ps = con.prepareStatement("SELECT sec_to_time(MOD ((cst.departure DIV 10000*60*60+(cst.departure-cst.departure DIV 10000*10000) DIV 100*60+(cst.departure-cst.departure DIV 100*100))+(csti.departure_time DIV 10000*60*60+(csti.departure_time-csti.departure_time DIV 10000*10000) DIV 100*60+(csti.departure_time-csti.departure_time DIV 100*100)), 86400)) AS schedule, notes "
+									+ "FROM citis_stop_time csti "
+									+ "INNER JOIN citis_specific_trip cst ON csti.trip_id = cst.trip_id "
+									+ "WHERE stop_id = ? AND sec_to_time(MOD ((cst.departure DIV 10000*60*60+(cst.departure-cst.departure DIV 10000*10000) DIV 100*60+(cst.departure-cst.departure DIV 100*100))+(csti.departure_time DIV 10000*60*60+(csti.departure_time-csti.departure_time DIV 10000*10000) DIV 100*60+(csti.departure_time-csti.departure_time DIV 100*100)), 86400)) >= ? "
+									+ "ORDER BY schedule;");
+			
+			ps.setString(1, id);
+			ps.setTime(2, t);
+			rs = ps.executeQuery();
+			
+			while (rs.next() && time.size() < 10) {
+				Time ti = rs.getTime("schedule");
+				String s = rs.getString("notes");
+				String[] s1 = ti.toString().split(":");
+				TimeADT t1 = new TimeADT(Integer.parseInt(s1[0]), Integer.parseInt(s1[1]),
+						Integer.parseInt(s1[2]));
+				time.add(new Pair<TimeADT, String>(t1, s));
+			}
+			
+			ps.close();
+			rs.close();
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
+		finally {
+			try {
+				if (ps != null)
+					ps.close();
+				
+				if (rs != null)
+					rs.close();
+			}
+			catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		
+		return time;
 	}
 }

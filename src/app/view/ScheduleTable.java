@@ -7,32 +7,36 @@ import javax.swing.JOptionPane;
 import javax.swing.table.AbstractTableModel;
 
 import app.control.Controller;
+import app.control.ControllerChoices;
+import app.misc.Pair;
 import app.misc.TimeADT;
 import app.misc.Triplet;
 import app.model.business.line.ASLine;
 
 public class ScheduleTable extends AbstractTableModel {
 	private static final long serialVersionUID = 1L;	
-	private List<Triplet<ASLine, TimeADT, String>> _schedule;
-	private String[] cols = {"Linea", "Tipo de transporte", "Hora salida", "Notas"};
+	private List<Triplet<Pair<ASLine, TimeADT>, Pair<String, String>, String>> _schedule;
+	private String _st;
+	
+	private String[] cols = {"Linea", "Tipo de transporte", "Hora salida", "Destino", "Calendario"};
 
-	public ScheduleTable(List<Triplet<ASLine, TimeADT, String>> schedule) {
+	public ScheduleTable(List<Triplet<Pair<ASLine, TimeADT>, Pair<String, String>, String>> schedule, String station) {
 		_schedule = schedule;
+		_st = station;
 	}
 	
 	public void operations(Controller ctrl, int option, int row) {
 		switch(option) {
-		case AdminOperations.Consult:
+		case ControllerChoices.Admin_Consult:
 			break;
-		case AdminOperations.Delete:
-				Triplet<ASLine, TimeADT, String> obj = _schedule.get(row);
-				ctrl.adminOperation(2, obj.getFirst(), obj.getSecond(), obj.getThird());
-				ImageIcon icon = new ImageIcon("resources/success.png");
-				JOptionPane.showMessageDialog(null, "Se ha eliminado con exito",
-						"Eliminar horario", JOptionPane.DEFAULT_OPTION, icon);
-			
+		case ControllerChoices.Admin_Delete:
+			Triplet<Pair<ASLine, TimeADT>, Pair<String, String>, String> obj = _schedule.get(row);
+			ctrl.adminOperation(2, obj.getFirst().getFirst(), obj.getFirst().getSecond(), obj.getSecond().getFirst(), obj.getSecond().getSecond(), _st, obj.getThird());
+			ImageIcon icon = new ImageIcon("resources/success.png");
+			JOptionPane.showMessageDialog(null, "Se ha eliminado con exito",
+					"Eliminar horario", JOptionPane.DEFAULT_OPTION, icon);
 			break;
-		case AdminOperations.Modify:
+		case ControllerChoices.Admin_Modify:
 			
 			break;
 		}	
@@ -65,15 +69,45 @@ public class ScheduleTable extends AbstractTableModel {
 		
 		switch (y) {
 		case 0:
-			return _schedule.get(x).getFirst().getShortName();
+			return _schedule.get(x).getFirst().getFirst().getShortName();
 		case 1:
-			return _schedule.get(x).getFirst().getTransport().toString();
+			return _schedule.get(x).getFirst().getFirst().getTransport().toString();
 		case 2:
-			return _schedule.get(x).getSecond().toString();
+			return _schedule.get(x).getFirst().getSecond().toString();
 		case 3:
-			return _schedule.get(x).getThird().toString();
+			return _schedule.get(x).getSecond().getFirst().toString();
+		case 4:
+			return _schedule.get(x).getSecond().getSecond().toString();
 		default:
 			return null;
+		}
+	}
+	
+	@Override
+	public boolean isCellEditable(int x, int y) {
+		if (y == 1) return false;
+		return true;
+	}
+	
+	@Override
+	public void setValueAt(Object obj, int x, int y) {
+		if (y < 0 || y >= cols.length)
+			throw new IllegalArgumentException("The column is not valid");
+		
+		if (x < 0 || x >= _schedule.size())
+			throw new IllegalArgumentException("The row is not found");
+		
+		switch (y) {
+		case 0:
+			_schedule.get(x).getFirst().getFirst().setShortName(_schedule.get(x).getFirst().getFirst().getShortName(), (String) obj);
+		case 1:
+			
+		case 2:
+			//_schedule.get(x).getFirst().getSecond().toString();
+		case 3:
+			//return _schedule.get(x).getSecond().getFirst().toString();
+		case 4:
+			//return _schedule.get(x).getSecond().getSecond().toString();
 		}
 	}
 }

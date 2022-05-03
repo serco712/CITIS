@@ -14,8 +14,6 @@ import app.model.layers.integration.user.UserDatabaseDAO;
 
 public class ASUser {
 	
-	private static final String TYPE_ID = "customer";
-	
 	private static ASUser instance;
 	
 	private int _id;
@@ -47,6 +45,9 @@ public class ASUser {
     			e.printStackTrace();
     		}
         }
+        else
+        	photo = new ImageIcon("resources/profileImg.png");
+        
 		switch(user.getRole()) {
 		case 0:
 			rol = Role.USER;
@@ -101,10 +102,6 @@ public class ASUser {
 	
 	public String getSurname() {
 		return surname;
-	}
-
-	public String getTypeId() {
-		return TYPE_ID;
 	}
 	
 	public ImageIcon getPhoto() {

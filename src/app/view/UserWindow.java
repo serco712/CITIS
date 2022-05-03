@@ -1,6 +1,7 @@
 package app.view;
 
 import java.awt.BorderLayout;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -40,20 +41,15 @@ import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
 
 import app.control.Controller;
-import app.model.business.CITISMap;
 import app.model.business.user.ASUser;
 import app.model.business.user.DTOUser;
 
-// HAY QUE ANADIR CARGAR FOTO Y MOSTRARLA
-// MOSTRAR EL NOMBRE, APELLIDO Y CORREO
 
 public class UserWindow extends JDialog {
 
 	private static final long serialVersionUID = 1L;
 
 	private Border _defaultBorder = BorderFactory.createLineBorder(Color.black, 2);
-
-	private CITISMap cm;
 	
 	private ImageIcon profilePhoto = ASUser.getInstance().getPhoto();
 	
@@ -67,11 +63,10 @@ public class UserWindow extends JDialog {
 	private int _statusEditNom = 1;
 	private int _statusEditApe = 1;
 
-	public UserWindow(CITISMap cm, Controller ctrl) {
+	public UserWindow(Controller ctrl) {
 		super(new JFrame(), "Mi perfil", true);
 		_ctrl = ctrl;
 		InitGUI();
-		this.cm = cm;
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		this.setSize(new Dimension(470, 260));
 		this.setLocationRelativeTo(null);
