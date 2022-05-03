@@ -369,6 +369,7 @@ public class UserWindow extends JDialog {
 						JOptionPane.showMessageDialog(null, "Faltan algunos datos requeridos", "Cambiar contrasena",
 								JOptionPane.DEFAULT_OPTION, icon);
 					} else if (str1.contentEquals(str2)) {
+						ASUser.getInstance().setPassword(str1);
 						updateData();
 						ImageIcon icon = new ImageIcon("resources/check.jpg");
 						JOptionPane.showMessageDialog(null, "Los datos introducidos son correctos",
