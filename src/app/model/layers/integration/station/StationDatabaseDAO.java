@@ -7,6 +7,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import app.misc.Pair;
@@ -293,7 +295,6 @@ public class StationDatabaseDAO implements StationDAO {
 		return al;
 	}
 	
-	@SuppressWarnings("deprecation")
 	@Override
 	public List<Pair<TimeADT, String>> searchTimes(String id) {
 		PreparedStatement ps = null;
@@ -301,29 +302,30 @@ public class StationDatabaseDAO implements StationDAO {
 		List<Pair<TimeADT, String>> time = new ArrayList<>();
 		
 		try {
-			ps = con.prepareStatement("SELECT departure_time, notes "
-									+ "FROM citis_stop_time "
-									+ "WHERE stop_id = ? "
-									+ "ORDER BY departure_time;");
+			Calendar calendario = new GregorianCalendar();
+			int hora =calendario.get(Calendar.HOUR_OF_DAY);
+			int minutos = calendario.get(Calendar.MINUTE);
+			int segundos = calendario.get(Calendar.SECOND);
+			Time t = new Time((hora * 3600 + minutos * 60 + segundos - 3600) * 1000);
+			
+			System.out.println(t.toString());
+			ps = con.prepareStatement("SELECT sec_to_time(MOD ((cst.departure DIV 10000*60*60+(cst.departure-cst.departure DIV 10000*10000) DIV 100*60+(cst.departure-cst.departure DIV 100*100))+(csti.departure_time DIV 10000*60*60+(csti.departure_time-csti.departure_time DIV 10000*10000) DIV 100*60+(csti.departure_time-csti.departure_time DIV 100*100)), 86400)) AS schedule, notes "
+									+ "FROM citis_stop_time csti "
+									+ "INNER JOIN citis_specific_trip cst ON csti.trip_id = cst.trip_id "
+									+ "WHERE stop_id = ? AND sec_to_time(MOD ((cst.departure DIV 10000*60*60+(cst.departure-cst.departure DIV 10000*10000) DIV 100*60+(cst.departure-cst.departure DIV 100*100))+(csti.departure_time DIV 10000*60*60+(csti.departure_time-csti.departure_time DIV 10000*10000) DIV 100*60+(csti.departure_time-csti.departure_time DIV 100*100)), 86400)) >= ? "
+									+ "ORDER BY schedule;");
 			
 			ps.setString(1, id);
+			ps.setTime(2, t);
 			rs = ps.executeQuery();
 			
-			List<Pair<Time, String>> aux = new ArrayList<>();
-			while (rs.next()) {
-				Time t = rs.getTime("departure_time");
+			while (rs.next() && time.size() < 10) {
+				Time ti = rs.getTime("schedule");
 				String s = rs.getString("notes");
-				aux.add(new Pair<Time, String>(t, s));
-			}
-			
-			for (Pair<Time, String> p : aux) {
-				if (p.getFirst().getTime() > System.currentTimeMillis())
-					time.add(new Pair<TimeADT, String>(new TimeADT(p.getFirst().getHours(), p.getFirst().getMinutes(), p.getFirst().getSeconds()), p.getSecond()));
-			}
-			
-			for (Pair<Time, String> p : aux) {
-				if (p.getFirst().getTime() < System.currentTimeMillis())
-					time.add(new Pair<TimeADT, String>(new TimeADT(p.getFirst().getHours(), p.getFirst().getMinutes(), p.getFirst().getSeconds()), p.getSecond()));
+				String[] s1 = ti.toString().split(":");
+				TimeADT t1 = new TimeADT(Integer.parseInt(s1[0]), Integer.parseInt(s1[1]),
+						Integer.parseInt(s1[2]));
+				time.add(new Pair<TimeADT, String>(t1, s));
 			}
 			
 			ps.close();
