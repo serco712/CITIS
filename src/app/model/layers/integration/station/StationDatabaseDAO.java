@@ -303,13 +303,13 @@ public class StationDatabaseDAO implements StationDAO {
 		
 		try {
 			Calendar calendario = new GregorianCalendar();
-			int hora =calendario.get(Calendar.HOUR_OF_DAY);
+			int hora = calendario.get(Calendar.HOUR_OF_DAY);
 			int minutos = calendario.get(Calendar.MINUTE);
 			int segundos = calendario.get(Calendar.SECOND);
 			Time t = new Time((hora * 3600 + minutos * 60 + segundos - 3600) * 1000);
 			
 			System.out.println(t.toString());
-			ps = con.prepareStatement("SELECT sec_to_time(MOD ((cst.departure DIV 10000*60*60+(cst.departure-cst.departure DIV 10000*10000) DIV 100*60+(cst.departure-cst.departure DIV 100*100))+(csti.departure_time DIV 10000*60*60+(csti.departure_time-csti.departure_time DIV 10000*10000) DIV 100*60+(csti.departure_time-csti.departure_time DIV 100*100)), 86400)) AS schedule, notes "
+			ps = con.prepareStatement("SELECT DISTINCT sec_to_time(MOD ((cst.departure DIV 10000*60*60+(cst.departure-cst.departure DIV 10000*10000) DIV 100*60+(cst.departure-cst.departure DIV 100*100))+(csti.departure_time DIV 10000*60*60+(csti.departure_time-csti.departure_time DIV 10000*10000) DIV 100*60+(csti.departure_time-csti.departure_time DIV 100*100)), 86400)) AS schedule, notes "
 									+ "FROM citis_stop_time csti "
 									+ "INNER JOIN citis_specific_trip cst ON csti.trip_id = cst.trip_id "
 									+ "WHERE stop_id = ? AND sec_to_time(MOD ((cst.departure DIV 10000*60*60+(cst.departure-cst.departure DIV 10000*10000) DIV 100*60+(cst.departure-cst.departure DIV 100*100))+(csti.departure_time DIV 10000*60*60+(csti.departure_time-csti.departure_time DIV 10000*10000) DIV 100*60+(csti.departure_time-csti.departure_time DIV 100*100)), 86400)) >= ? "
@@ -325,6 +325,7 @@ public class StationDatabaseDAO implements StationDAO {
 				String[] s1 = ti.toString().split(":");
 				TimeADT t1 = new TimeADT(Integer.parseInt(s1[0]), Integer.parseInt(s1[1]),
 						Integer.parseInt(s1[2]));
+			
 				time.add(new Pair<TimeADT, String>(t1, s));
 			}
 			
