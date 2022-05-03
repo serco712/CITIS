@@ -20,6 +20,7 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
@@ -207,11 +208,9 @@ public class SearchWindow extends JFrame {
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			String cmnd = e.getActionCommand();
-			if(cmnd.equals("Autobuses"))
-				new MapWindow(_ctrl, TransportType.BUS);
-			else
-				new MapWindow(_ctrl, TransportType.SUBWAY);
+			ImageIcon icon = new ImageIcon("resources/error.png");
+			JOptionPane.showMessageDialog(null, "Esta funcion no esta disponible todavia. Continua atento a nuestras redes sociales para estar al tanto de las novedades!", 
+	        		"Mapas", JOptionPane.DEFAULT_OPTION, icon);
 		}
 	}
 	
